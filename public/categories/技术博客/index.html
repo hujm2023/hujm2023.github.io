@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>技术博客 | hujm2023&#39;s blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="map[comments:false defaulttheme:auto description:个人技术博客，分享编程经验和技术心得 disablescrolltotop:false disablespecial1stpost:false hidemeta:false hidesummary:false keywords:编程, 技术, 博客, Golang, Python name:hujm.net@gmail.com showbreadcrumbs:true showcodecopybuttons:true showpostnavlinks:true showreadingtime:true showrssbuttonintermstermlist:true showtoc:true showwordcount:true tocopen:false usehugotoc:true]">
+<link rel="canonical" href="http://localhost:1313/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.a090830a421002426baafbd314e38f149d77b4c48a12ee9312700d770b27fb26.css" integrity="sha256-oJCDCkIQAkJrqvvTFOOPFJ13tMSKEu6TEnANdwsn&#43;yY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="hujm2023&#39;s blog (Alt + H)">hujm2023&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="首页">
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    技术博客
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f77e088160a154a67ede68f.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">最小堆以及优先级队列的Golang实现
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>前言 堆，是计算机科学中的一种特别的完全二叉树。若父节点的值恒小于等于子节点的值，此堆称为最小堆（min heap）；反之，若母节点的值恒大于等于子节点的值，此堆称为最大堆（max heap）。在堆中最顶端的那一个节点，称作 根节点（root node），根节点本身没有 父节点（parent node）。堆通常是一个可以被看做一棵树的数组对象。在队列中，调度程序反复提取队列中第一个作业并运行，因为实际情况中某些时间较短的任务将等待很长时间才能结束，或者某些不短小，但具有重要性的作业，同样应当具有优先权。堆即为解决此类问题设计的一种数据结构。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-05-13 21:08:09 +0800 CST'>May 13, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to 最小堆以及优先级队列的Golang实现" href="http://localhost:1313/posts/%E6%9C%80%E5%B0%8F%E5%A0%86%E4%BB%A5%E5%8F%8A%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97%E7%9A%84golang%E5%AE%9E%E7%8E%B0/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f61dc63160a154a6777224d.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">I/O多路复用之 epoll
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>select 的缺陷 目前对于高并发的解决方案是 一个线程处理所有连接，在这一点上 select 和 epoll 是一样的。但 当大量的并发连接存在、但短时间内只有少数活跃的连接时，select 的表现就显得捉襟见肘了。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-05-10 20:57:47 +0800 CST'>May 10, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to I/O多路复用之 epoll" href="http://localhost:1313/posts/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B9%8B-epoll/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f61dc63160a154a6777224d.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">彻底理解Linux Select中的FD_SET
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>看 select 源码，fd_set 这个结构体实际上是一个 long 型的数组，但是数组的长度依赖于系统中 typedef long int __fd_mask 的长度。当我去调试的时候，经常打印出一些很奇怪的值，有时候还会溢出。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-05-08 21:00:42 +0800 CST'>May 8, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to 彻底理解Linux Select中的FD_SET" href="http://localhost:1313/posts/%E5%BD%BB%E5%BA%95%E7%90%86%E8%A7%A3linux-select%E4%B8%AD%E7%9A%84fd_set/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f73fbb3160a154a67b4ff7e.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">MySQL中InnoDB底层存储原理
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一、简述 下图大致描述了 InnoDB 的存储结构：
+从上图来看，所有的数据都被逻辑地存放到 表空间(Tablespace) 中，表空间由 Segment(段)、Block(块) 和 Page(页) 等组成。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-05-05 16:53:51 +0800 CST'>May 5, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to MySQL中InnoDB底层存储原理" href="http://localhost:1313/posts/mysql%E4%B8%ADinnodb%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%E5%8E%9F%E7%90%86/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f61dc63160a154a6777224d.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Linux面试汇总
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>进程调度 进程调度算法 也称 CPU 调度算法，毕竟进程是有 CPU 进行调度的。当 CPU 空闲时，操作系统就会选择内存中某个处在 就绪状态 的进程，分配给其 CPU 开始运行。
+进程一般有三种基本状态：运行、就绪 和 阻塞，还有一种说法，还包括 新建 和 终止。它们叫做 五态模型。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-05-03 21:00:42 +0800 CST'>May 3, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Linux面试汇总" href="http://localhost:1313/posts/linux%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f61dc63160a154a6777224d.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang面试汇总
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 进程、线程 和 协程</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-05-01 20:57:42 +0800 CST'>May 1, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Golang面试汇总" href="http://localhost:1313/posts/golang%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f73fbb3160a154a67b4ff7e.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">MySQL面试汇总
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>关于事务 事务的特性 原子性(Atomic, A)：要么全部执行，要么全部不执行； 一致性(Consistent, C)：事务的执行，使得数据库由一种正确状态转变为另一种正确的状态； 隔离性(Isolation, I)：在事务正确提交之前，不应该把该事务对数据的改变提供给其他事务； 持久性(Durability, D)：事务提交后，其结果永久保存在数据库中。 事务ACID特性的实现思想
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-04-16 19:56:29 +0800 CST'>April 16, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to MySQL面试汇总" href="http://localhost:1313/posts/mysql%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f76adca160a154a674bc4da.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Redis 面试汇总
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>当我们谈论 Redis 时，应该谈论什么？ Redis 基本数据类型有哪些？以及他们各自的使用场景是什么？ 常见的有五种：字符串、哈希、列表、集合、有序集合。5.0 版本中新添加了 Stream 类型。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-04-15 12:11:24 +0800 CST'>April 15, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Redis 面试汇总" href="http://localhost:1313/posts/redis-%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f61dc63160a154a6777224d.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang Channel详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一、原理 0. 简介 channel 分为有缓冲和无缓冲，或者阻塞和非阻塞，主要区别就在于是否有 容量capacity。
+在 runtime 中是通过 hchan 这个结构体来表示的，它里面的主要成员可以理解成包含两个大部分：环形队列相关 和 sudog等待队列 相关。
+对于有缓冲的 channel，会设置环形队列相关的参数，如已有的元素数量、容量、指向队列的指针等；
+等待队列有发送等待队列和接受等待队列，他们分别在发送时 channel 已满、接收时 channel 为空的情况下，会将当前 goroutine 打包成一个 sudog 结构，添加到对应的队列中，直到条件符合时再被唤醒工作。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-04-09 11:57:42 +0800 CST'>April 9, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Golang Channel详解" href="http://localhost:1313/posts/golang-channel%E8%AF%A6%E8%A7%A3/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f6b97cf160a154a67054cc8.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Redis(二): 什么是 Redis 中的事件
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> Redis 设计与实现–事件 中有很清晰的说明。
+redis 要处理的事件有两种类型：
+文件事件：网络连接套接字。服务器与多个客户端通过网络套接字连接，当对应套接字上出现“读”或“写”需求时，对应的事件就会触发； 时间事件：在指定时间点运行的事件。如持续运行的服务器为了维持一个健康稳定的状态，需要定期对自身的资源和状态进行检查和整理。 一、时间事件 时间事件记录着那些要在指定时间点运行的事件， 多个时间事件以无序链表的形式保存在服务器状态中。
+每个时间事件主要由三个属性组成：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-04-08 22:31:17 +0800 CST'>April 8, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Redis(二): 什么是 Redis 中的事件" href="http://localhost:1313/posts/redis%E4%BA%8C-%E4%BB%80%E4%B9%88%E6%98%AF-redis-%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="http://localhost:1313/categories/%E6%8A%80%E6%9C%AF%E5%8D%9A%E5%AE%A2/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">hujm2023&#39;s blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

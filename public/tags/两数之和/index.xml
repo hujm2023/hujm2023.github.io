@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>两数之和 on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/</link>
+    <description>Recent content in 两数之和 on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 19 Sep 2020 13:22:24 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode-两数之和问题</title>
+      <link>http://localhost:1313/posts/leetcode-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 19 Sep 2020 13:22:24 +0000</pubDate>
+      <guid>http://localhost:1313/posts/leetcode-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;&lt;code&gt;leetcode&lt;/code&gt; 上 &lt;code&gt;twoSum&lt;/code&gt; 相关的问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/two-sum/&#34;&gt;1. 两数之和&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/&#34;&gt;167. 两数之和 II - 输入有序数组&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/two-sum-iii-data-structure-design/&#34;&gt;170. 两数之和 III .数据结构设计&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;1-问题描述&#34;&gt;1. 问题描述&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

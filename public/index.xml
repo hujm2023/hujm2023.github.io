@@ -13,7 +13,396 @@
       <link>http://localhost:1313/posts/hello/</link>
       <pubDate>Tue, 07 Oct 2025 14:23:06 +0800</pubDate>
       <guid>http://localhost:1313/posts/hello/</guid>
-      <description>&lt;p&gt;this is my first post&lt;/p&gt;</description>
+      <description>&lt;!-- @format --&gt;
+&lt;p&gt;this is my first post&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#34;http://localhost:1313/images/4.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>最小堆以及优先级队列的Golang实现</title>
+      <link>http://localhost:1313/posts/%E6%9C%80%E5%B0%8F%E5%A0%86%E4%BB%A5%E5%8F%8A%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97%E7%9A%84golang%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Thu, 13 May 2021 21:08:09 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E6%9C%80%E5%B0%8F%E5%A0%86%E4%BB%A5%E5%8F%8A%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97%E7%9A%84golang%E5%AE%9E%E7%8E%B0/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://zh.wikipedia.org/wiki/%E5%A0%86%E7%A9%8D&#34;&gt;堆&lt;/a&gt;，是计算机科学中的一种特别的完全二叉树。若父节点的值恒小于等于子节点的值，此堆称为&lt;strong&gt;最小堆（min heap）&lt;/strong&gt;；反之，若母节点的值恒大于等于子节点的值，此堆称为&lt;strong&gt;最大堆（max heap）&lt;/strong&gt;。在堆中最顶端的那一个节点，称作 &lt;strong&gt;根节点（root node）&lt;/strong&gt;，根节点本身没有 &lt;strong&gt;父节点（parent node）&lt;/strong&gt;。堆通常是一个可以被看做一棵树的数组对象。在队列中，调度程序反复提取队列中第一个作业并运行，因为实际情况中某些时间较短的任务将等待很长时间才能结束，或者某些不短小，但具有重要性的作业，同样应当具有优先权。堆即为解决此类问题设计的一种数据结构。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>I/O多路复用之 epoll</title>
+      <link>http://localhost:1313/posts/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B9%8B-epoll/</link>
+      <pubDate>Mon, 10 May 2021 20:57:47 +0800</pubDate>
+      <guid>http://localhost:1313/posts/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B9%8B-epoll/</guid>
+      <description>&lt;h2 id=&#34;select-的缺陷&#34;&gt;select 的缺陷&lt;/h2&gt;
+&lt;p&gt;目前对于高并发的解决方案是 &lt;strong&gt;一个线程处理所有连接&lt;/strong&gt;，在这一点上 &lt;code&gt;select&lt;/code&gt; 和 &lt;code&gt;epoll&lt;/code&gt; 是一样的。但 &lt;strong&gt;当大量的并发连接存在、但短时间内只有少数活跃的连接时，&lt;code&gt;select&lt;/code&gt; 的表现就显得捉襟见肘了。&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>彻底理解Linux Select中的FD_SET</title>
+      <link>http://localhost:1313/posts/%E5%BD%BB%E5%BA%95%E7%90%86%E8%A7%A3linux-select%E4%B8%AD%E7%9A%84fd_set/</link>
+      <pubDate>Sat, 08 May 2021 21:00:42 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E5%BD%BB%E5%BA%95%E7%90%86%E8%A7%A3linux-select%E4%B8%AD%E7%9A%84fd_set/</guid>
+      <description>&lt;p&gt;看 &lt;code&gt;select&lt;/code&gt; 源码，&lt;code&gt;fd_set&lt;/code&gt; 这个结构体实际上是一个 &lt;code&gt;long&lt;/code&gt; 型的数组，但是数组的长度依赖于系统中 &lt;code&gt;typedef long int __fd_mask&lt;/code&gt; 的长度。当我去调试的时候，经常打印出一些很奇怪的值，有时候还会溢出。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>MySQL中InnoDB底层存储原理</title>
+      <link>http://localhost:1313/posts/mysql%E4%B8%ADinnodb%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Wed, 05 May 2021 16:53:51 +0800</pubDate>
+      <guid>http://localhost:1313/posts/mysql%E4%B8%ADinnodb%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%E5%8E%9F%E7%90%86/</guid>
+      <description>&lt;h2 id=&#34;一简述&#34;&gt;一、简述&lt;/h2&gt;
+&lt;p&gt;下图大致描述了 &lt;code&gt;InnoDB&lt;/code&gt; 的存储结构：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;InnoDB 底层存储结构&#34; loading=&#34;lazy&#34; src=&#34;https://image.hujm.net/blog/images/20210829175155.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;从上图来看，所有的数据都被逻辑地存放到 &lt;strong&gt;表空间(Tablespace)&lt;/strong&gt; 中，表空间由 &lt;code&gt;Segment(段)&lt;/code&gt;、&lt;code&gt;Block(块)&lt;/code&gt; 和 &lt;code&gt;Page(页)&lt;/code&gt; 等组成。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Linux面试汇总</title>
+      <link>http://localhost:1313/posts/linux%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Mon, 03 May 2021 21:00:42 +0800</pubDate>
+      <guid>http://localhost:1313/posts/linux%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</guid>
+      <description>&lt;h2 id=&#34;进程调度&#34;&gt;进程调度&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;进程调度算法&lt;/strong&gt; 也称 &lt;strong&gt;CPU 调度算法&lt;/strong&gt;，毕竟进程是有 &lt;code&gt;CPU&lt;/code&gt; 进行调度的。当 &lt;code&gt;CPU&lt;/code&gt; 空闲时，操作系统就会选择内存中某个处在 &lt;code&gt;就绪状态&lt;/code&gt; 的进程，分配给其 &lt;code&gt;CPU&lt;/code&gt; 开始运行。&lt;/p&gt;
+&lt;p&gt;进程一般有三种基本状态：&lt;code&gt;运行&lt;/code&gt;、&lt;code&gt;就绪&lt;/code&gt; 和 &lt;code&gt;阻塞&lt;/code&gt;，还有一种说法，还包括 &lt;code&gt;新建&lt;/code&gt; 和 &lt;code&gt;终止&lt;/code&gt;。它们叫做 &lt;strong&gt;五态模型&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang面试汇总</title>
+      <link>http://localhost:1313/posts/golang%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Sat, 01 May 2021 20:57:42 +0800</pubDate>
+      <guid>http://localhost:1313/posts/golang%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</guid>
+      <description>&lt;!-- @format --&gt;
+&lt;h2 id=&#34;进程线程-和-协程&#34;&gt;进程、线程 和 协程&lt;/h2&gt;</description>
+    </item>
+    <item>
+      <title>MySQL面试汇总</title>
+      <link>http://localhost:1313/posts/mysql%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Fri, 16 Apr 2021 19:56:29 +0800</pubDate>
+      <guid>http://localhost:1313/posts/mysql%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</guid>
+      <description>&lt;h3 id=&#34;关于事务&#34;&gt;关于事务&lt;/h3&gt;
+&lt;h4 id=&#34;事务的特性&#34;&gt;事务的特性&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;原子性(Atomic, A)&lt;/code&gt;：要么全部执行，要么全部不执行；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;一致性(Consistent, C)&lt;/code&gt;：事务的执行，使得数据库由一种正确状态转变为另一种正确的状态；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;隔离性(Isolation, I)&lt;/code&gt;：在事务正确提交之前，不应该把该事务对数据的改变提供给其他事务；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;持久性(Durability, D)&lt;/code&gt;：事务提交后，其结果永久保存在数据库中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;事务ACID特性的实现思想&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis 面试汇总</title>
+      <link>http://localhost:1313/posts/redis-%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Thu, 15 Apr 2021 12:11:24 +0800</pubDate>
+      <guid>http://localhost:1313/posts/redis-%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</guid>
+      <description>&lt;h2 id=&#34;当我们谈论-redis-时应该谈论什么&#34;&gt;当我们谈论 Redis 时，应该谈论什么？&lt;/h2&gt;
+&lt;h3 id=&#34;redis-基本数据类型有哪些以及他们各自的使用场景是什么&#34;&gt;Redis 基本数据类型有哪些？以及他们各自的使用场景是什么？&lt;/h3&gt;
+&lt;p&gt;常见的有五种：&lt;code&gt;字符串&lt;/code&gt;、&lt;code&gt;哈希&lt;/code&gt;、&lt;code&gt;列表&lt;/code&gt;、&lt;code&gt;集合&lt;/code&gt;、&lt;code&gt;有序集合&lt;/code&gt;。&lt;code&gt;5.0&lt;/code&gt; 版本中新添加了 &lt;code&gt;Stream&lt;/code&gt; 类型。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang Channel详解</title>
+      <link>http://localhost:1313/posts/golang-channel%E8%AF%A6%E8%A7%A3/</link>
+      <pubDate>Fri, 09 Apr 2021 11:57:42 +0800</pubDate>
+      <guid>http://localhost:1313/posts/golang-channel%E8%AF%A6%E8%A7%A3/</guid>
+      <description>&lt;h2 id=&#34;一原理&#34;&gt;一、原理&lt;/h2&gt;
+&lt;h3 id=&#34;0-简介&#34;&gt;0. 简介&lt;/h3&gt;
+&lt;p&gt;channel 分为有缓冲和无缓冲，或者阻塞和非阻塞，主要区别就在于是否有 &lt;code&gt;容量capacity&lt;/code&gt;。&lt;br /&gt;
+在 &lt;code&gt;runtime&lt;/code&gt; 中是通过 &lt;code&gt;hchan&lt;/code&gt; 这个结构体来表示的，它里面的主要成员可以理解成包含两个大部分：环形队列相关 和 sudog等待队列 相关。&lt;br /&gt;
+对于有缓冲的 channel，会设置环形队列相关的参数，如已有的元素数量、容量、指向队列的指针等；&lt;br /&gt;
+等待队列有发送等待队列和接受等待队列，他们分别在发送时 channel 已满、接收时 channel 为空的情况下，会将当前 goroutine 打包成一个 sudog 结构，添加到对应的队列中，直到条件符合时再被唤醒工作。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis(二): 什么是 Redis 中的事件</title>
+      <link>http://localhost:1313/posts/redis%E4%BA%8C-%E4%BB%80%E4%B9%88%E6%98%AF-redis-%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6/</link>
+      <pubDate>Thu, 08 Apr 2021 22:31:17 +0800</pubDate>
+      <guid>http://localhost:1313/posts/redis%E4%BA%8C-%E4%BB%80%E4%B9%88%E6%98%AF-redis-%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://redisbook.readthedocs.io/en/latest/internal/ae.html&#34;&gt;Redis 设计与实现&amp;ndash;事件&lt;/a&gt; 中有很清晰的说明。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;redis 要处理的事件有两种类型：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文件事件：网络连接套接字。服务器与多个客户端通过网络套接字连接，当对应套接字上出现“读”或“写”需求时，对应的事件就会触发；&lt;/li&gt;
+&lt;li&gt;时间事件：在指定时间点运行的事件。如持续运行的服务器为了维持一个健康稳定的状态，需要定期对自身的资源和状态进行检查和整理。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;一时间事件&#34;&gt;一、时间事件&lt;/h3&gt;
+&lt;p&gt;时间事件记录着那些要在指定时间点运行的事件， 多个时间事件以无序链表的形式保存在服务器状态中。&lt;br /&gt;
+每个时间事件主要由三个属性组成：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis系列(一): Redis 单线程事件循环</title>
+      <link>http://localhost:1313/posts/redis%E4%B8%80-redis-%E5%8D%95%E7%BA%BF%E7%A8%8B%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/</link>
+      <pubDate>Mon, 05 Apr 2021 23:08:37 +0800</pubDate>
+      <guid>http://localhost:1313/posts/redis%E4%B8%80-redis-%E5%8D%95%E7%BA%BF%E7%A8%8B%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/</guid>
+      <description>&lt;h2 id=&#34;一前言&#34;&gt;一、前言&lt;/h2&gt;
+&lt;p&gt;在关注 &lt;strong&gt;redis 单线程/多线程&lt;/strong&gt; 时，有几个重要的时间节点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Before &lt;code&gt;Redis v4.0&lt;/code&gt;，真正的单线程；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Redis v4.0&lt;/code&gt;，引入多线程处理 &lt;code&gt;AOF&lt;/code&gt; 等任务，但&lt;strong&gt;核心的网络模型中依旧使用单线程&lt;/strong&gt;；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Redis v6.0&lt;/code&gt;，正式在网络模型中实现 &lt;code&gt;I/O多线程&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;从 &lt;code&gt;Redis v1.0&lt;/code&gt; 到 &lt;code&gt;Redis v6.0以前&lt;/code&gt;，Redis 的核心网络模型一直都是一个典型的 &lt;strong&gt;单Reactor模型&lt;/strong&gt;，所有的事件都在这个线程内处理完成。本 issue 旨在解释清楚这个 &lt;strong&gt;单Reactor模型&lt;/strong&gt; 的所有运作细节，为以后更好地理解新的 &lt;strong&gt;Multi-Reactors/Master-Workers&lt;/strong&gt; 模型做准备。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>面试题:交替打印数字和字符串</title>
+      <link>http://localhost:1313/posts/%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0%E6%95%B0%E5%AD%97%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Wed, 31 Mar 2021 00:24:19 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0%E6%95%B0%E5%AD%97%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>&lt;h3 id=&#34;题目描述&#34;&gt;题目描述&lt;/h3&gt;
+&lt;p&gt;使用两个 goroutine 交替打印序列，一个 goroutine 打印数字， 另外一个 goroutine 打印字母， 最终效果如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1A2B3C4D5E6F7G8H9I10J11K12L13M14N15O16P17Q18R19S20T21U22V23W24X25Y26Z
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;思路&#34;&gt;思路&lt;/h3&gt;
+&lt;p&gt;使用 channel 来控制打印的进度。使用两个 channel，来分别控制数字和字母的打印进度，数字打印完通过 channel 通知数字打印，数字打印完通过 channel 通知字母打印。如此周而复始，直到终止条件。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang中使用RSA进行加解密</title>
+      <link>http://localhost:1313/posts/golang%E4%B8%AD%E4%BD%BF%E7%94%A8rsa%E8%BF%9B%E8%A1%8C%E5%8A%A0%E8%A7%A3%E5%AF%86/</link>
+      <pubDate>Thu, 14 Jan 2021 11:45:06 +0800</pubDate>
+      <guid>http://localhost:1313/posts/golang%E4%B8%AD%E4%BD%BF%E7%94%A8rsa%E8%BF%9B%E8%A1%8C%E5%8A%A0%E8%A7%A3%E5%AF%86/</guid>
+      <description>&lt;!-- @format --&gt;
+&lt;p&gt;本文对 RSA 加密算法 的细节不做深究，仅描述大致用法。具体算法原理请阅读参考文献中的 2 和 4。&lt;/p&gt;
+&lt;h2 id=&#34;一介绍&#34;&gt;一、介绍&lt;/h2&gt;
+&lt;p&gt;当我们谈论加解密方式时，通常有两种情形：&lt;strong&gt;对称加密&lt;/strong&gt; 和 &lt;strong&gt;非对称加密&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Boltdb使用(一)基本用法</title>
+      <link>http://localhost:1313/posts/boltdb%E4%BD%BF%E7%94%A8%E4%B8%80%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95/</link>
+      <pubDate>Tue, 05 Jan 2021 16:28:43 +0800</pubDate>
+      <guid>http://localhost:1313/posts/boltdb%E4%BD%BF%E7%94%A8%E4%B8%80%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95/</guid>
+      <description>&lt;h2 id=&#34;介绍&#34;&gt;介绍&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/boltdb/bolt&#34;&gt;boltdb&lt;/a&gt; 是一个使用 Go 编写的键值对数据库，它的目标是 &lt;strong&gt;简单、快速和稳定的轻型数据库&lt;/strong&gt;，适用于那些不需要使用像 MySQL 一样的完整的数据库系统的项目。&lt;/p&gt;
+&lt;h2 id=&#34;使用&#34;&gt;使用&lt;/h2&gt;
+&lt;h3 id=&#34;1-安装&#34;&gt;1. 安装&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;go get github.com/boltdb/bolt/...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;2-打开open一个数据库文件连接&#34;&gt;2. 打开(Open)一个数据库文件连接&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;dbPath&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;./data.db&amp;#34;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// 指定你的数据库文件要存储的地方&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;db&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;bolt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Open&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;dbPath&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;os&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ModePerm&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		panic(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;bolt&lt;/code&gt; 打开一个文件之后，会一直获得此文件的锁，在这期间，其他的进程无法再次打开此文件，直到最开始的进程释放锁。打开一个已经打开的 bolt文件 会导致当前进程无限制地等待下去，直到另一个已经打开的进程结束这个文件的使&amp;gt; 用。为了避免这种无限制的等待，可以给 &lt;code&gt;Open&lt;/code&gt; 操作添加超时：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>虚拟网络设备tuntap</title>
+      <link>http://localhost:1313/posts/%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87tuntap/</link>
+      <pubDate>Mon, 16 Nov 2020 20:25:50 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87tuntap/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;实验机器：&lt;code&gt;MacBook Pro (Retina, 15-inch, Mid 2015)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Golang 版本：&lt;code&gt;go version go1.14.6 darwin/amd64&lt;/code&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;一前言&#34;&gt;一、前言&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;网卡&lt;/strong&gt; 也称 &lt;strong&gt;网络适配器&lt;/strong&gt;，是电脑与局域网进行相互连接的设备，在 &lt;code&gt;OSI&lt;/code&gt; 七层模型中，工作在 &lt;strong&gt;物理层&lt;/strong&gt; 和 &lt;strong&gt;数据链路层&lt;/strong&gt;，其作用可以简单描述为：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>使用ghz压测GRPC接口</title>
+      <link>http://localhost:1313/posts/%E4%BD%BF%E7%94%A8ghz%E5%8E%8B%E6%B5%8Bgrpc%E6%8E%A5%E5%8F%A3/</link>
+      <pubDate>Mon, 09 Nov 2020 19:35:34 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E4%BD%BF%E7%94%A8ghz%E5%8E%8B%E6%B5%8Bgrpc%E6%8E%A5%E5%8F%A3/</guid>
+      <description>&lt;h2 id=&#34;一前言&#34;&gt;一、前言&lt;/h2&gt;
+&lt;p&gt;公司后端服务已经全部微服务化，想要调试某个服务可以使用 &lt;a href=&#34;https://github.com/fullstorydev/grpcui&#34;&gt;&lt;code&gt;grpcui&lt;/code&gt;&lt;/a&gt;，但要对某个接口进行压测，&lt;code&gt;grpcui&lt;/code&gt; 还做不到。诸多努力之后找到本次主角：&lt;a href=&#34;https://github.com/bojand/ghz&#34;&gt;https://github.com/bojand/ghz&lt;/a&gt;，官网：&lt;a href=&#34;https://ghz.sh&#34;&gt;ghz.sh&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;推荐理由：简洁！可以一次性解决掉 &lt;code&gt;proto&lt;/code&gt; 文件相互之间引用的烦心事！&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Git 详解</title>
+      <link>http://localhost:1313/posts/git%E8%AF%A6%E8%A7%A3/</link>
+      <pubDate>Thu, 05 Nov 2020 11:01:28 +0800</pubDate>
+      <guid>http://localhost:1313/posts/git%E8%AF%A6%E8%A7%A3/</guid>
+      <description>&lt;h2 id=&#34;一git-底层存储原理&#34;&gt;一、Git 底层存储原理&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Git&lt;/code&gt; 是一个 &lt;strong&gt;内容寻址文件系统&lt;/strong&gt;。其底层存储从本质上讲是一个基于文件系统实现的 &lt;code&gt;Key-Value&lt;/code&gt; 数据库，这里的 &lt;code&gt;Value&lt;/code&gt; 是指 &lt;code&gt;git&lt;/code&gt; 中三种不同的对象，而 &lt;code&gt;Key&lt;/code&gt; 是该对象对应的哈希值。你可以向 &lt;code&gt;git&lt;/code&gt; 仓库中插入任何类型的文件，它会返回给你一个唯一的键，通过该键你可以在任何时刻再次取回该文件。其中 &lt;code&gt;Key&lt;/code&gt; 会被存储为目录加文件名(&lt;code&gt;hash&lt;/code&gt; 值前两位作为目录名，剩下部分作为文件名，这样做的目的是为了 &lt;strong&gt;加快文件的定位&lt;/strong&gt;， 在查找文件时先找到对应的目录,，再遍历目录中的文件进行查找)，&lt;code&gt;Value&lt;/code&gt; 则被存储为文件内容，默认使用 &lt;code&gt;zlib&lt;/code&gt; 压缩。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>优秀数据结构--默克尔树</title>
+      <link>http://localhost:1313/posts/%E4%BC%98%E7%A7%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%BB%98%E5%85%8B%E5%B0%94%E6%A0%91/</link>
+      <pubDate>Thu, 22 Oct 2020 15:21:59 +0000</pubDate>
+      <guid>http://localhost:1313/posts/%E4%BC%98%E7%A7%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%BB%98%E5%85%8B%E5%B0%94%E6%A0%91/</guid>
+      <description>&lt;h2 id=&#34;一简介&#34;&gt;一、简介&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Merkle_tree&#34;&gt;默克尔树&lt;/a&gt;是一种典型的二叉树结构，由&lt;strong&gt;一个根节点&lt;/strong&gt;、&lt;strong&gt;一组中间节点&lt;/strong&gt; 和 &lt;strong&gt;一组叶节点&lt;/strong&gt; 组成。默克尔树最早由 &lt;code&gt;Merkle Ralf &lt;/code&gt;在 1980 年提出，曾广泛用于 &lt;strong&gt;文件系统&lt;/strong&gt; 和 &lt;strong&gt;P2P&lt;/strong&gt; 系统中，比如 &lt;code&gt;Git&lt;/code&gt;、区块链、&lt;code&gt;IPFS&lt;/code&gt; 等大名鼎鼎的项目或技术。&lt;/p&gt;
+&lt;p&gt;他又被称为 &lt;strong&gt;哈希树&lt;/strong&gt;，即存储哈希值的树。树的叶子结点是 &lt;strong&gt;数据块&lt;/strong&gt;(文件或者对象)的哈希值，而非叶子结点保存的是其子节点连接起来后的哈希值。简单来说，它有以下特点：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>优秀组件-布隆过滤器</title>
+      <link>http://localhost:1313/posts/%E4%BC%98%E7%A7%80%E7%BB%84%E4%BB%B6-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/</link>
+      <pubDate>Wed, 07 Oct 2020 20:57:20 +0000</pubDate>
+      <guid>http://localhost:1313/posts/%E4%BC%98%E7%A7%80%E7%BB%84%E4%BB%B6-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/</guid>
+      <description>&lt;h2 id=&#34;一前言&#34;&gt;一、前言&lt;/h2&gt;
+&lt;p&gt;前段时间辞职骑完川藏线后回来找工作，面试 贝尔科教后端开发工程师 岗位时，遇到这样一个面试题：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;有一个几十亿的白名单，每天白天需要高并发查询，晚上需要更新一次，如何设计这个功能。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>跳表原理以及Golang实现</title>
+      <link>http://localhost:1313/posts/%E8%B7%B3%E8%A1%A8/</link>
+      <pubDate>Mon, 05 Oct 2020 05:32:24 +0000</pubDate>
+      <guid>http://localhost:1313/posts/%E8%B7%B3%E8%A1%A8/</guid>
+      <description>&lt;h2 id=&#34;一前言&#34;&gt;一、前言&lt;/h2&gt;
+&lt;p&gt;大家应该对 &lt;strong&gt;二分查找算法&lt;/strong&gt; 不陌生，二分查找之所以能达到 &lt;code&gt;O(logN)&lt;/code&gt; 的时间复杂度，一个重要原因在于它所依赖的数据结构是数组，数组支持随机访问，可通过下标很容易地定位到中间的某个元素。但是链表就没有 &lt;strong&gt;随机访问数据&lt;/strong&gt; 这个特性，要判断是否包含某个元素，只能从头开始遍历对比。但是数组有数组的局限性，比如需要连续的内存空间，插入删除操作会引起数组的扩容和元素移动；链表有链表的优势，链表不需要先申请连续的空间，插入删除操作的效率非常高。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis源码阅读--1.基础数据结构与对象</title>
+      <link>http://localhost:1313/posts/redis%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-1-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1/</link>
+      <pubDate>Fri, 02 Oct 2020 12:31:41 +0000</pubDate>
+      <guid>http://localhost:1313/posts/redis%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-1-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1/</guid>
+      <description>&lt;p&gt;首先明确，&lt;code&gt;Redis&lt;/code&gt; 是一个&lt;strong&gt;使用 C 语言编写的键值对存储系统&lt;/strong&gt;。&lt;code&gt;Redis&lt;/code&gt; 是众所周知的 “&lt;strong&gt;快&lt;/strong&gt;”，一方面，它是一个内存数据库，所有的操作都是在&lt;strong&gt;内存&lt;/strong&gt;中完成的，内存的访问速度本身就很快；另一方面，得益于它&lt;strong&gt;底层的数据结构&lt;/strong&gt;。&lt;code&gt;Redis&lt;/code&gt; 的常见类型可在这个网页找到：&lt;a href=&#34;https://redis.readthedocs.io/en/2.4/index.html&#34;&gt;Redis 命令参考简体中文版&lt;/a&gt;，其使用到的底层数据结构有如下六种：&lt;strong&gt;简单动态字符串&lt;/strong&gt;、&lt;strong&gt;双向链表&lt;/strong&gt;、&lt;strong&gt;压缩列表&lt;/strong&gt;、&lt;strong&gt;哈希表&lt;/strong&gt;、&lt;strong&gt;跳表&lt;/strong&gt;和 &lt;strong&gt;整数数组&lt;/strong&gt;。本篇文章，将具体了解这些底层数据结构的实现。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>MySQL关于索引</title>
+      <link>http://localhost:1313/posts/mysql%E5%85%B3%E4%BA%8E%E7%B4%A2%E5%BC%95/</link>
+      <pubDate>Tue, 29 Sep 2020 20:57:29 +0000</pubDate>
+      <guid>http://localhost:1313/posts/mysql%E5%85%B3%E4%BA%8E%E7%B4%A2%E5%BC%95/</guid>
+      <description>&lt;h2 id=&#34;一常见的索引类型&#34;&gt;一、常见的索引类型&lt;/h2&gt;
+&lt;h3 id=&#34;1-哈希索引&#34;&gt;1. 哈希索引&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;哈希索引(Hash Index)&lt;/strong&gt; 基于哈希表实现，&lt;strong&gt;只适合精确匹配，不适合范围查找&lt;/strong&gt;。对于每一行数据，存储引擎都会使用一个哈希函数，对改行的对应索引列计算&lt;code&gt;哈希code&lt;/code&gt;，通过 &lt;strong&gt;K-V&lt;/strong&gt; 的形式保存起来，其中“K”为哈希 code，“V”是指向改行记录的指针。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>排序算法</title>
+      <link>http://localhost:1313/posts/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Thu, 24 Sep 2020 02:36:16 +0000</pubDate>
+      <guid>http://localhost:1313/posts/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</guid>
+      <description>&lt;h2 id=&#34;1-堆排序&#34;&gt;1. 堆排序&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;堆&lt;/strong&gt; 是一种数据结构，它具有如下特征：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;是一棵完全二叉树&lt;/li&gt;
+&lt;li&gt;父节点的值 &amp;gt; 子节点的值&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;11-完全二叉树&#34;&gt;1.1 完全二叉树&lt;/h3&gt;
+&lt;p&gt;若设二叉树的深度为&lt;code&gt;h&lt;/code&gt;，除第 &lt;code&gt;h&lt;/code&gt; 层外，其它各层 &lt;code&gt;(1～h-1)&lt;/code&gt; 的结点数都达到最大个数，第 &lt;code&gt;h&lt;/code&gt; 层所有的结点都连续集中在最左边，这就是 &lt;strong&gt;完全二叉树&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LeetCode-位运算</title>
+      <link>http://localhost:1313/posts/leetcode-%E4%BD%8D%E8%BF%90%E7%AE%97/</link>
+      <pubDate>Tue, 22 Sep 2020 00:25:09 +0000</pubDate>
+      <guid>http://localhost:1313/posts/leetcode-%E4%BD%8D%E8%BF%90%E7%AE%97/</guid>
+      <description>&lt;h1 id=&#34;位运算&#34;&gt;位运算&lt;/h1&gt;
+&lt;p&gt;位运算讲究技巧，需要多积累经验。&lt;/p&gt;
+&lt;h2 id=&#34;一背景知识&#34;&gt;一、背景知识&lt;/h2&gt;
+&lt;p&gt;Go 语言支持的 &lt;strong&gt;位运算符&lt;/strong&gt; 如下：&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;运算符&lt;/th&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;描述&lt;/th&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;规则&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;amp;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;按位 &lt;strong&gt;与&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;二者同为 1 时结果才为 1，否则为 0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;|&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;按位 &lt;strong&gt;或&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;二者同为 0 时结果才为 0，否则是 1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;^&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;按位 &lt;strong&gt;异或&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;相同为 0，相异为 1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;laquo;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;strong&gt;左移 n 位，相当于乘以 2 的 n 次方&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;后面补 0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;raquo;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;strong&gt;右移一位，相当于除以 2 的 n 次方&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;截掉最后一位&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;1-与&#34;&gt;1. 与&lt;/h3&gt;
+&lt;p&gt;将参与运算的两个数 各对应的二进制位 相与。只有当二者参与运算的&lt;strong&gt;对应位同为 1 时，该位才为 1，否则为 0&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LeetCode-三数之和问题</title>
+      <link>http://localhost:1313/posts/leetcode-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 19 Sep 2020 18:57:30 +0000</pubDate>
+      <guid>http://localhost:1313/posts/leetcode-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;&lt;code&gt;leetcode&lt;/code&gt; 上 &lt;code&gt;三数之和&lt;/code&gt; 问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/3sum/&#34;&gt;15. 三数之和&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/3sum-smaller/&#34;&gt;259. 较小的三数之和&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/3sum-closest/&#34;&gt;16. 最接近的三数之和&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;1-题目描述&#34;&gt;1. 题目描述&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你一个包含 &lt;code&gt;n&lt;/code&gt; 个整数的数组 &lt;code&gt;nums&lt;/code&gt;，判断 &lt;code&gt;nums&lt;/code&gt; 中是否存在三个元素&lt;code&gt;a，b，c&lt;/code&gt; ，使得 &lt;code&gt;a + b + c = 0&lt;/code&gt;？请你找出所有满足条件&lt;strong&gt;且不重复&lt;/strong&gt;的三元组。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LeetCode-两数之和问题</title>
+      <link>http://localhost:1313/posts/leetcode-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 19 Sep 2020 13:22:24 +0000</pubDate>
+      <guid>http://localhost:1313/posts/leetcode-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;&lt;code&gt;leetcode&lt;/code&gt; 上 &lt;code&gt;twoSum&lt;/code&gt; 相关的问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/two-sum/&#34;&gt;1. 两数之和&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/&#34;&gt;167. 两数之和 II - 输入有序数组&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/two-sum-iii-data-structure-design/&#34;&gt;170. 两数之和 III .数据结构设计&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;1-问题描述&#34;&gt;1. 问题描述&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang-map详解</title>
+      <link>http://localhost:1313/posts/golang-map%E8%AF%A6%E8%A7%A3/</link>
+      <pubDate>Fri, 18 Sep 2020 23:41:39 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang-map%E8%AF%A6%E8%A7%A3/</guid>
+      <description>&lt;h2 id=&#34;一设计原理&#34;&gt;一、设计原理&lt;/h2&gt;
+&lt;p&gt;哈希表(也就是我们说的&lt;code&gt;map&lt;/code&gt;)是计算机应用领域非常重要的数据结构之一，读写的时间复杂度均是&lt;code&gt;O(1)&lt;/code&gt;，是典型的 &lt;strong&gt;以空间换时间&lt;/strong&gt; 设计。它的优点除了读写性能优异，还在于它提供了键值之间的映射，为程序设计提供了极大的方便。要想实现一个性能优异的哈希表，需要关注两个关键点：&lt;strong&gt;哈希函数&lt;/strong&gt; 和 &lt;strong&gt;冲突解决方法&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang-GPM调度原理</title>
+      <link>http://localhost:1313/posts/golang-gpm%E8%B0%83%E5%BA%A6%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Fri, 18 Sep 2020 01:53:29 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang-gpm%E8%B0%83%E5%BA%A6%E5%8E%9F%E7%90%86/</guid>
+      <description>&lt;h2 id=&#34;一概述&#34;&gt;一、概述&lt;/h2&gt;
+&lt;h3 id=&#34;1-为什么在内核的线程调度器之外go-还需要实现一个自己的调度器&#34;&gt;1. 为什么在内核的线程调度器之外，Go 还需要实现一个自己的调度器&lt;/h3&gt;
+&lt;p&gt;主要解决&lt;strong&gt;系统线程太重&lt;/strong&gt;的问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建与切换线程 太重：都需要在用户态和内核态之间切换，开销较大；&lt;/li&gt;
+&lt;li&gt;系统线程内存使用 太重：一方面，创建系统线程时会分配一段大部分情况下都用不完的栈内存，造成浪费；另一方面，栈内存空间创建后其大小不会再变化，有溢出的风险。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;goroutine 是 Go 语言实现的用户态的线程，可以看做是对系统线程进行的一层抽象。有了这层抽象，Golang 程序员不会直接面对系统线程，直接使用 goroutine 就可以了，而操作系统不会 care 什么 goroutine，只是执行设定好的系统线程就好了。这层抽象，就是 Go 的调度器，后面会详细说明。Go 很精巧地解决了上述两个问题：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang-unsafe包详解</title>
+      <link>http://localhost:1313/posts/golang-unsafe%E5%8C%85%E8%AF%A6%E8%A7%A3/</link>
+      <pubDate>Thu, 17 Sep 2020 01:53:29 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang-unsafe%E5%8C%85%E8%AF%A6%E8%A7%A3/</guid>
+      <description>&lt;h2 id=&#34;1-go语言指针的限制&#34;&gt;1. &lt;code&gt;Go&lt;/code&gt;语言指针的限制&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;go&lt;/code&gt;语言中也有指针，但相对&lt;code&gt;C语言&lt;/code&gt;的指针来说，有了很多限制，但这也算是&lt;code&gt;go&lt;/code&gt;的成功之处：既可以享受指针带来的便利，又避免了指针过度使用带来的危险。主要的限制如下：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang-数组,切片和字符串</title>
+      <link>http://localhost:1313/posts/golang-%E6%95%B0%E7%BB%84-%E5%88%87%E7%89%87%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Wed, 16 Sep 2020 02:15:54 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang-%E6%95%B0%E7%BB%84-%E5%88%87%E7%89%87%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>&lt;p&gt;在主流的编程语言中数组及其相关的数据结构是使用得最为频繁的，只有在它(们)不能满足时才会考虑链表、hash 表（hash 表可以看作是数组和链表的混合体）和更复杂的自定义数据结构。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang-关于函数调用</title>
+      <link>http://localhost:1313/posts/golang-%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/</link>
+      <pubDate>Tue, 15 Sep 2020 02:05:36 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang-%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/</guid>
+      <description>&lt;h2 id=&#34;一-前言&#34;&gt;一、 前言&lt;/h2&gt;
+&lt;p&gt;我们完成程序的编写之后，经过编译，编译器会将我们的程序编译成一行行机器指令，放到一个可执行文件中；程序执行时，可执行文件被加载到内存，机器执行被放置到虚拟内存的“代码段”，并分配以及初始化程序运行过程中需要的堆栈。会形成如下的结构：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>MySQL数据类型与优化</title>
+      <link>http://localhost:1313/posts/mysql%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Mon, 14 Sep 2020 01:37:04 +0000</pubDate>
+      <guid>http://localhost:1313/posts/mysql%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E4%BC%98%E5%8C%96/</guid>
+      <description>&lt;h2 id=&#34;选择优化的数据类型&#34;&gt;选择优化的数据类型&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;MySQL&lt;/code&gt; 支持多种数据类型，但是每个类型都有自己适合的场景，选对类型对性能的提高至关重要。以下原则仅供参考：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;更小的通常更好&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;一般情况下，应该尽量选择可以存储数据的最小数据类型。如只需要存 &lt;code&gt;0 ~ 200&lt;/code&gt; ，那么字段类型设置为 &lt;code&gt;unsigned tinyint&lt;/code&gt; 更好。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>关于docker</title>
+      <link>http://localhost:1313/posts/%E5%85%B3%E4%BA%8Edocker/</link>
+      <pubDate>Sun, 13 Sep 2020 01:07:32 +0000</pubDate>
+      <guid>http://localhost:1313/posts/%E5%85%B3%E4%BA%8Edocker/</guid>
+      <description>这是你自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要</description>
     </item>
   </channel>
 </rss>

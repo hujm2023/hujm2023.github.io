@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>基础数据结构 on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
+    <description>Recent content in 基础数据结构 on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 15 Apr 2021 12:11:24 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Redis 面试汇总</title>
+      <link>http://localhost:1313/posts/redis-%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Thu, 15 Apr 2021 12:11:24 +0800</pubDate>
+      <guid>http://localhost:1313/posts/redis-%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</guid>
+      <description>&lt;h2 id=&#34;当我们谈论-redis-时应该谈论什么&#34;&gt;当我们谈论 Redis 时，应该谈论什么？&lt;/h2&gt;
+&lt;h3 id=&#34;redis-基本数据类型有哪些以及他们各自的使用场景是什么&#34;&gt;Redis 基本数据类型有哪些？以及他们各自的使用场景是什么？&lt;/h3&gt;
+&lt;p&gt;常见的有五种：&lt;code&gt;字符串&lt;/code&gt;、&lt;code&gt;哈希&lt;/code&gt;、&lt;code&gt;列表&lt;/code&gt;、&lt;code&gt;集合&lt;/code&gt;、&lt;code&gt;有序集合&lt;/code&gt;。&lt;code&gt;5.0&lt;/code&gt; 版本中新添加了 &lt;code&gt;Stream&lt;/code&gt; 类型。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis源码阅读--1.基础数据结构与对象</title>
+      <link>http://localhost:1313/posts/redis%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-1-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1/</link>
+      <pubDate>Fri, 02 Oct 2020 12:31:41 +0000</pubDate>
+      <guid>http://localhost:1313/posts/redis%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-1-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1/</guid>
+      <description>&lt;p&gt;首先明确，&lt;code&gt;Redis&lt;/code&gt; 是一个&lt;strong&gt;使用 C 语言编写的键值对存储系统&lt;/strong&gt;。&lt;code&gt;Redis&lt;/code&gt; 是众所周知的 “&lt;strong&gt;快&lt;/strong&gt;”，一方面，它是一个内存数据库，所有的操作都是在&lt;strong&gt;内存&lt;/strong&gt;中完成的，内存的访问速度本身就很快；另一方面，得益于它&lt;strong&gt;底层的数据结构&lt;/strong&gt;。&lt;code&gt;Redis&lt;/code&gt; 的常见类型可在这个网页找到：&lt;a href=&#34;https://redis.readthedocs.io/en/2.4/index.html&#34;&gt;Redis 命令参考简体中文版&lt;/a&gt;，其使用到的底层数据结构有如下六种：&lt;strong&gt;简单动态字符串&lt;/strong&gt;、&lt;strong&gt;双向链表&lt;/strong&gt;、&lt;strong&gt;压缩列表&lt;/strong&gt;、&lt;strong&gt;哈希表&lt;/strong&gt;、&lt;strong&gt;跳表&lt;/strong&gt;和 &lt;strong&gt;整数数组&lt;/strong&gt;。本篇文章，将具体了解这些底层数据结构的实现。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Golang-数组,切片和字符串 | hujm2023&#39;s blog</title>
+<meta name="keywords" content="Golang, 数组, 切片, 字符串">
+<meta name="description" content="在主流的编程语言中数组及其相关的数据结构是使用得最为频繁的，只有在它(们)不能满足时才会考虑链表、hash 表（hash 表可以看作是数组和链表的混合体）和更复杂的自定义数据结构。">
+<meta name="author" content="JemmyHu(hujm20151021@gmail.com)">
+<link rel="canonical" href="http://localhost:1313/posts/golang-%E6%95%B0%E7%BB%84-%E5%88%87%E7%89%87%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.a090830a421002426baafbd314e38f149d77b4c48a12ee9312700d770b27fb26.css" integrity="sha256-oJCDCkIQAkJrqvvTFOOPFJ13tMSKEu6TEnANdwsn&#43;yY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/golang-%E6%95%B0%E7%BB%84-%E5%88%87%E7%89%87%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="hujm2023&#39;s blog (Alt + H)">hujm2023&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="首页">
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Golang-数组,切片和字符串
+    </h1>
+    <div class="post-meta"><span title='2020-09-16 02:15:54 +0000 UTC'>September 16, 2020</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span>
+
+</div>
+  </header> 
+<figure class="entry-cover">
+        <img loading="eager" src="https://pic.downk.cc/item/5f5fa4a5160a154a67fdbc36.png" alt="">
+        
+</figure>
+  <div class="post-content"><p>在主流的编程语言中数组及其相关的数据结构是使用得最为频繁的，只有在它(们)不能满足时才会考虑链表、hash 表（hash 表可以看作是数组和链表的混合体）和更复杂的自定义数据结构。</p>
+<p>Go 语言中数组、字符串和切片三者是密切相关的数据结构。这三种数据类型，在底层原始数据有着相同的内存结构，在上层，因为语法的限制而有着不同的行为表现。</p>
+<h2 id="一-数组array">一、 数组(Array)<a hidden class="anchor" aria-hidden="true" href="#一-数组array">#</a></h2>
+<h3 id="1-概述">1. 概述<a hidden class="anchor" aria-hidden="true" href="#1-概述">#</a></h3>
+<p>数组是由相同类型元素的集合组成的数据结构，计算机会为数组分配一块连续的内存来保存其中的元素，我们可以利用数组中元素的索引快速访问元素对应的存储地址。</p>
+<p>数组作为一种基本的数据类型，我们通常都会从两个维度描述数组：类型 和 大小(能够存储的最大元素个数)：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// 源码位于 /usr/local/go/src/cmd/compile/internal/types/type.go</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Array contains Type fields specific to array types.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Array</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">Elem</span>  <span style="color:#f92672">*</span><span style="color:#a6e22e">Type</span> <span style="color:#75715e">// element type 元素类型</span>
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">Bound</span> <span style="color:#66d9ef">int64</span> <span style="color:#75715e">// number of elements; &lt;0 if unknown yet 最大元素个数，小于0表示未知</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// NewArray returns a new fixed-length array Type.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewArray</span>(<span style="color:#a6e22e">elem</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Type</span>, <span style="color:#a6e22e">bound</span> <span style="color:#66d9ef">int64</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">Type</span> {
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">bound</span> &lt; <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;NewArray: invalid bound %v&#34;</span>, <span style="color:#a6e22e">bound</span>)
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">t</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">TARRAY</span>)
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Extra</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Array</span>{<span style="color:#a6e22e">Elem</span>: <span style="color:#a6e22e">elem</span>, <span style="color:#a6e22e">Bound</span>: <span style="color:#a6e22e">bound</span>}
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">SetNotInHeap</span>(<span style="color:#a6e22e">elem</span>.<span style="color:#a6e22e">NotInHeap</span>())
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">t</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>从上述代码可以看出，类型<code>Array</code>包含两个属性，一个是数组类型<code>Elem</code>，另一个是数组大小<code>Bound</code>。另外需要注意的是：<strong>Go 语言中数组在初始化之后大小无法改变</strong>。</p>
+<h3 id="2-初始化">2. 初始化<a hidden class="anchor" aria-hidden="true" href="#2-初始化">#</a></h3>
+<p>有两种初始化方式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">array1</span> = [<span style="color:#ae81ff">5</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">array2</span> = [<span style="color:#f92672">...</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>}
+</span></span></code></pre></div><p>上述两种声明方式在运行期间得到的结果是完全相同的，后一种声明方式在编译期间就会被“转换”成为前一种，这也就是编译器对数组大小的推导。</p>
+<p>对第一种方式，那么变量的类型在编译进行到<strong>类型检查</strong>阶段就会被提取出来，随后会使用 <code>NewArray</code>函数创建包含数组大小的 <code>Array</code> 类型。</p>
+<p>对第二种方式，在第一步会创建一个<code>Array{Elem: elem, Bound: -1}</code>，即其大小会是<code>-1</code>，不过这里的<code>-1</code>只是一个占位符，编译器会在后面的 <code>/usr/local/go/src/cmd/compile/internal/gc/typecheck.go</code> 中对数组大小进行推导，并更新其 <code>Bound</code> 值：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// The result of typecheckcomplit MUST be assigned back to n, e.g.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//  n.Left = typecheckcomplit(n.Left)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">typecheckcomplit</span>(<span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) (<span style="color:#a6e22e">res</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Node</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#75715e">// Need to handle [...]T arrays specially.</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Right</span>.<span style="color:#a6e22e">Op</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">OTARRAY</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Right</span>.<span style="color:#a6e22e">Left</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Right</span>.<span style="color:#a6e22e">Left</span>.<span style="color:#a6e22e">Op</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">ODDD</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Right</span>.<span style="color:#a6e22e">Right</span> = <span style="color:#a6e22e">typecheck</span>(<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Right</span>.<span style="color:#a6e22e">Right</span>, <span style="color:#a6e22e">ctxType</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Right</span>.<span style="color:#a6e22e">Right</span>.<span style="color:#a6e22e">Type</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Type</span> = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">n</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">elemType</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Right</span>.<span style="color:#a6e22e">Right</span>.<span style="color:#a6e22e">Type</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// typecheckarraylit type-checks a sequence of slice/array literal elements.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">length</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">typecheckarraylit</span>(<span style="color:#a6e22e">elemType</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">List</span>.<span style="color:#a6e22e">Slice</span>(), <span style="color:#e6db74">&#34;array literal&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Op</span> = <span style="color:#a6e22e">OARRAYLIT</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Type</span> = <span style="color:#a6e22e">types</span>.<span style="color:#a6e22e">NewArray</span>(<span style="color:#a6e22e">elemType</span>, <span style="color:#a6e22e">length</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Right</span> = <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">n</span>
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>虽然在编译期这两种方式的实现方式不同，但在运行时这两中方式是完全等价的。事实上，<code>[...]T</code> 这种初始化方式也只是 Go 语言为我们提供的一种语法糖，当我们不想计算数组中的元素个数时可以偷个懒。</p>
+<p>另：变量初始化的位置：</p>
+<p>如果数组中元素的个数小于或者等于 4 个，那么所有的变量会直接在栈上初始化；如果数组元素大于 4 个，变量就会在静态存储区初始化然后拷贝到栈上，这些转换之后代码才会继续进入 <strong>中间代码生成</strong> 和 <strong>机器码生成</strong> 两个阶段，最后生成可以执行的二进制文件。</p>
+<h3 id="3-赋值与访问">3. 赋值与访问<a hidden class="anchor" aria-hidden="true" href="#3-赋值与访问">#</a></h3>
+<p>Go 语言中数组是值语义。一个数组变量即表示整个数组，它并不是隐式的指向第一个元素的指针（比如 C 语言的数组），而是一个完整的值。当一个数组变量被赋值或者被传递的时候，实际上会复制整个数组。如果数组较大的话，数组的赋值也会有较大的开销。为了避免复制数组带来的开销，可以传递一个指向数组的指针，但是数组指针并不是数组。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">a</span> = [<span style="color:#f92672">...</span>]<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>} <span style="color:#75715e">// a 是一个数组</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">b</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">a</span>                <span style="color:#75715e">// b 是指向数组的指针</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">0</span>], <span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">1</span>])   <span style="color:#75715e">// 打印数组的前2个元素</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">b</span>[<span style="color:#ae81ff">0</span>], <span style="color:#a6e22e">b</span>[<span style="color:#ae81ff">1</span>])   <span style="color:#75715e">// 通过数组指针访问数组元素的方式和数组类似</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">b</span> {     <span style="color:#75715e">// 通过数组指针迭代数组的元素</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">v</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>我们可以用<code>for</code>循环来迭代数组。下面常见的几种方式都可以用来遍历数组：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;方式一：&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">a</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;a[%d]: %d\n&#34;</span>, <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">i</span>])
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;方式二：&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">a</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;a[%d]: %d\n&#34;</span>, <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">v</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;方式三：&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; len(<span style="color:#a6e22e">a</span>); <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;a[%d]: %d\n&#34;</span>, <span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">a</span>[<span style="color:#a6e22e">i</span>])
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 输出</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">方式一</span><span style="color:#960050;background-color:#1e0010">：</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">0</span>]: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">1</span>]: <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">2</span>]: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">方式二</span><span style="color:#960050;background-color:#1e0010">：</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">0</span>]: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">1</span>]: <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">2</span>]: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">方式三</span><span style="color:#960050;background-color:#1e0010">：</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">0</span>]: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">1</span>]: <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">a</span>[<span style="color:#ae81ff">2</span>]: <span style="color:#ae81ff">3</span>
+</span></span></code></pre></div><p>用<code>for range</code>方式迭代的性能可能会更好一些，因为这种迭代可以保证不会出现数组越界的情形，每轮迭代对数组元素的访问时可以省去对下标越界的判断。</p>
+<p>需要注意的是 <strong>长度为 0 的数组</strong>。<strong>长度为 0 的数组在内存中并不占用空间</strong>，有时候可以用于强调某种特有类型的操作时避免分配额外的内存空间，比如用于管道的同步操作：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">c1</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> [<span style="color:#ae81ff">0</span>]<span style="color:#66d9ef">int</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;c1&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">c1</span> <span style="color:#f92672">&lt;-</span> [<span style="color:#ae81ff">0</span>]<span style="color:#66d9ef">int</span>{}
+</span></span><span style="display:flex;"><span>}()
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">c1</span>
+</span></span></code></pre></div><p>在此场景下我们并不关心管道中的具体数据以及类型，我们需要的只是管道的接收和发送操作用于消息的同步，此时，空数组作为管道类型可以减少管道元素赋值时的开销。当然一般更倾向于用无类型的匿名结构体代替：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">c2</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">struct</span>{})
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;c2&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">c2</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">struct</span>{}{} <span style="color:#75715e">// struct{}部分是类型, {}表示对应的结构体值</span>
+</span></span><span style="display:flex;"><span>}()
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">c2</span>
+</span></span></code></pre></div><p>注：本节参考自<a href="https://chai2010.gitbooks.io/advanced-go-programming-book/content/ch1-basic/ch1-03-array-string-and-slice.html">Go 语言高级编程 1.4</a></p>
+<h2 id="二切片slice">二、切片(Slice)<a hidden class="anchor" aria-hidden="true" href="#二切片slice">#</a></h2>
+<p>切片和数组非常类似，可以用下标的方式访问，也会在访问越界时发生<code>panic</code>。但它比数组更加灵活，可以自动扩容。</p>
+<h3 id="1-内部实现">1. 内部实现<a hidden class="anchor" aria-hidden="true" href="#1-内部实现">#</a></h3>
+<p>源代码位于： /usr/local/go/src/runtime/slice.go</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">slice</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">array</span> <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>  <span style="color:#75715e">// 指向底层数组的指针</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">len</span>   <span style="color:#66d9ef">int</span>             <span style="color:#75715e">// 长度(已经存放了多少个元素)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">cap</span>   <span style="color:#66d9ef">int</span>             <span style="color:#75715e">// 容量(底层数组的元素个数)，其中 cap&gt;=len</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><img alt="slice底层结构" loading="lazy" src="https://pic.downk.cc/item/5f5f9e28160a154a67fc3734.png"></p>
+<p>需要注意的是，底层的数组是可以被多个 slice 同时指向的，因此，对一个 slice 元素进行操作可能会影响其他指向对应数组的 slice。</p>
+<p><img alt="底层的数组是可以被多个slice同时指向" loading="lazy" src="https://pic.downk.cc/item/5f5fa4a5160a154a67fdbc36.png"></p>
+<h3 id="2-slice-的创建">2. slice 的创建<a hidden class="anchor" aria-hidden="true" href="#2-slice-的创建">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">方式</th>
+          <th style="text-align: left">代码示例</th>
+          <th style="text-align: left">说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">直接声明</td>
+          <td style="text-align: left">var arr1 []int</td>
+          <td style="text-align: left">其实是一个<code>nil slice</code>，<code>array=nil,len=0,cap=0</code>。此时没有开辟内存作为底层数组。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">new</td>
+          <td style="text-align: left">arr2 := *new([]int)</td>
+          <td style="text-align: left">也是一个<code>nil slice</code>，没有开辟内存作为底层数组。也没有设置元素容量的地方，此时只能通过<code>append</code>来添加元素，不能使用下标。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">字面量</td>
+          <td style="text-align: left">arr3 := []int{1,2,3}</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: center">make</td>
+          <td style="text-align: left">arr4 := make([]int,2,5)</td>
+          <td style="text-align: left">切片类型、长度、容量，其中容量可以不传，默认等于长度。</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">从切片或数组“截取”</td>
+          <td style="text-align: left">arr5 := arr4[1:2]</td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="3-关于-make-创建-slice">3. 关于 make 创建 slice<a hidden class="anchor" aria-hidden="true" href="#3-关于-make-创建-slice">#</a></h3>
+<p>Go 编译器会在编译期，根据以下两个条件来判断在哪个位置创建 slice：</p>
+<ol>
+<li>切片的大小和容量是否足够小</li>
+<li>切片是否发生了逃逸</li>
+</ol>
+<p>当<strong>要创建的切片非常小并且不会发生逃逸</strong>时，这部分操作会在编译期完成，并且创建在栈上或者静态存储区。如 <code>n := make([]int,3,4)</code> 会被直接转化成如下所示的代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">arr</span> = [<span style="color:#ae81ff">4</span>]<span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">arr</span>[:<span style="color:#ae81ff">3</span>]
+</span></span></code></pre></div><p>当发生逃逸或者比较大时，会在运行时调用 <code>runtime.makeslice</code> 函数在堆上初始化。而<code>runtime.makeslice</code>函数非常简单：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// et是元素类型</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">makeslice</span>(<span style="color:#a6e22e">et</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">_type</span>, <span style="color:#a6e22e">len</span>, <span style="color:#a6e22e">cap</span> <span style="color:#66d9ef">int</span>) <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span> {
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">mem</span>, <span style="color:#a6e22e">overflow</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">math</span>.<span style="color:#a6e22e">MulUintptr</span>(<span style="color:#a6e22e">et</span>.<span style="color:#a6e22e">size</span>, uintptr(<span style="color:#a6e22e">cap</span>))
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 判断len cap参数是否合法</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">overflow</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">mem</span> &gt; <span style="color:#a6e22e">maxAlloc</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">len</span> &lt; <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">len</span> &gt; <span style="color:#a6e22e">cap</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// NOTE: Produce a &#39;len out of range&#39; error instead of a</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// &#39;cap out of range&#39; error when someone does make([]T, bignumber).</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// &#39;cap out of range&#39; is true too, but since the cap is only being</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// supplied implicitly, saying len is clearer.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// See golang.org/issue/4085.</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">mem</span>, <span style="color:#a6e22e">overflow</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">math</span>.<span style="color:#a6e22e">MulUintptr</span>(<span style="color:#a6e22e">et</span>.<span style="color:#a6e22e">size</span>, uintptr(<span style="color:#a6e22e">len</span>))
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">overflow</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">mem</span> &gt; <span style="color:#a6e22e">maxAlloc</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">len</span> &lt; <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">panicmakeslicelen</span>()
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">panicmakeslicecap</span>()
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// 在堆上申请一片连续的内存</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">mallocgc</span>(<span style="color:#a6e22e">mem</span>, <span style="color:#a6e22e">et</span>, <span style="color:#66d9ef">true</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这个函数的主要作用就是 计算当前切片所占用的内存空间并在堆上申请一段连续的内存，所需的内存空间采用以下的方式计算：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>内存空间 <span style="color:#f92672">=</span> 元素类型大小 * 切片容量cap
+</span></span></code></pre></div><p>而元素类型的大小参照如下：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: center">类型</th>
+          <th style="text-align: center">大小</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: center">bool, int8, uint8</td>
+          <td style="text-align: center">1 bit</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">int16, uint16</td>
+          <td style="text-align: center">2 bit</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">int32, uint32, float32</td>
+          <td style="text-align: center">4 bit</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">int, int64, uint64, float64, pointer</td>
+          <td style="text-align: center">8 bit (1 个字节)</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">string</td>
+          <td style="text-align: center">16 bit (2 个字节)</td>
+      </tr>
+      <tr>
+          <td style="text-align: center">长度为 n 的 array</td>
+          <td style="text-align: center">n * (对应的 type 的长度)</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>TIPS：1 字节(Byte） = 8 位(bit)</p></blockquote>
+<p><code>mallocgc</code> 是专门用于内存申请的函数，后面会详细讲解。</p>
+<h3 id="4-切片截取">4. 切片截取<a hidden class="anchor" aria-hidden="true" href="#4-切片截取">#</a></h3>
+<p><strong>截取</strong> 是创建切片的一种方式，可以从数组或者切片直接截取，同时需要制定截取的起始位置。</p>
+<p>需要关注的是下面这种截取方式： <code>arr1 = data[low : high : max]</code>。这里的三个数字都是指原数组或切片的索引值，而非数量。</p>
+<p>这里的 <strong><code>low</code>是最低索引值，是闭区间</strong>，也就是说第一个元素是位于<code>data</code>位于<code>low</code>索引处的元素；<code>high</code>是开区间，表示最后一个元素只能索引到 <code>high - 1</code>处；<code>max</code>也是开区间，表示容量为 <code>max - 1</code>。其中：<code>len = high - low</code>，<code>cap = max - low</code>，<code>max &gt;= high &gt;= low</code>。用下面的图来帮助说明：</p>
+<p><img alt="切片截取" loading="lazy" src="https://pic.downk.cc/item/5f60362b160a154a67184b54.png"></p>
+<p>基于已有的数组或者切片创建新的切片，新 slice 和老 slice 会公用底层的数组，新老 slice 对底层数组的更改都会影响彼此。需要注意的是，如果某一方执行了<code>append</code>操作引起了 <strong>扩容</strong> ，移动到了新位置，两者就不会影响了。<strong>所以关键问题在于二者是否会共用底层数组</strong>。</p>
+<p>我们通过一个例子来说明，该例子来自于<a href="https://github.com/qyuhen/book/blob/master/Go%20%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%20%E7%AC%AC%E5%9B%9B%E7%89%88.pdf">雨痕 Go 学习笔记 P43</a>，做了一些改造：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">slice</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">s1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">slice</span>[<span style="color:#ae81ff">2</span>:<span style="color:#ae81ff">5</span>]
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">s2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s1</span>[<span style="color:#ae81ff">2</span>:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">7</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">s2</span> = append(<span style="color:#a6e22e">s2</span>, <span style="color:#ae81ff">55</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">s2</span> = append(<span style="color:#a6e22e">s2</span>, <span style="color:#ae81ff">77</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">s1</span>[<span style="color:#ae81ff">2</span>] = <span style="color:#ae81ff">66</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s1</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">s2</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">slice</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 输出</span>
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">7</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">66</span>]
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">5</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">100</span> <span style="color:#ae81ff">200</span>]
+</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">9</span> <span style="color:#ae81ff">8</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">66</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">100</span> <span style="color:#ae81ff">0</span>]
+</span></span></code></pre></div><p>让我们一步步来分析：</p>
+<p>首先，创建 <code>slice</code>、<code>s1</code> 和 <code>s2</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">slice</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">s1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">slice</span>[<span style="color:#ae81ff">2</span>:<span style="color:#ae81ff">5</span>]  <span style="color:#75715e">// len为3，cap默认到底层数组的结尾</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">s2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">s1</span>[<span style="color:#ae81ff">2</span>:<span style="color:#ae81ff">6</span>:<span style="color:#ae81ff">7</span>]   <span style="color:#75715e">// len为4，cap为5</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 以上三个底层数组相同</span>
+</span></span></code></pre></div><p><img alt="初始化slice、s1和s2" loading="lazy" src="https://pic.downk.cc/item/5f604d8b160a154a671d9c16.png"></p>
+<p>之后，向 <code>s2</code> 尾部追加一个元素：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">s2</span> = append(<span style="color:#a6e22e">s2</span>, <span style="color:#ae81ff">55</span>)
+</span></span></code></pre></div><p><code>s2</code>的容量刚好还剩一个，直接追加，不会扩容。因为这三者此时还都共用同一个底层数组，所以这一改动，<code>slice</code>和<code>s1</code>都会受到影响：</p>
+<p><img alt="向s2第一次追加一个元素" loading="lazy" src="https://pic.downk.cc/item/5f604f7f160a154a671e0121.png"></p>
+<p>再次向 <code>s2</code> 追加一个元素：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">s2</span> = append(<span style="color:#a6e22e">s2</span>, <span style="color:#ae81ff">77</span>)
+</span></span></code></pre></div><p>此时，<code>s2</code> 的容量不够用，需要扩容。简单来说，扩容是新申请一块更大(具体多大，后面会说到，假设为原来的 2 倍)的内存块，将原来的数据 copy 过去，<code>s2</code> 的<code>array</code>指针指向新申请的那块内存。再次 <code>append</code> 之后：</p>
+<p><img alt="s2再次append后扩容" loading="lazy" src="https://pic.downk.cc/item/5f6050d1160a154a671e412b.png"></p>
+<p>最后，修改 <code>s1</code> 索引为 2 处的元素：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">s1</span>[<span style="color:#ae81ff">2</span>] = <span style="color:#ae81ff">66</span>
+</span></span></code></pre></div><p>此时 <code>s2</code> 已经使用了新开辟的内存空间，不再指向<code>slice</code>和<code>s1</code>指向的那个数组，因此 <code>s2</code> 不会受影响：</p>
+<p><img alt="修改s1" loading="lazy" src="https://pic.downk.cc/item/5f605211160a154a671e80b5.png"></p>
+<p>后面打印 <code>s1</code> 的时候，只会打印出 <code>s1</code> 长度以内的元素。所以，只会打印出 3 个元素，虽然它的底层数组不止 3 个元素。</p>
+<h3 id="5-append-扩容规则">5. append 扩容规则<a hidden class="anchor" aria-hidden="true" href="#5-append-扩容规则">#</a></h3>
+<p>之前说过，扩容是新申请一块更大的内存块，将原来的数据 copy 过去，原来切片的<code>array</code>指针指向新申请的那块内存。这里我们探讨这个“更大”到底是多大：</p>
+<p><strong>第一步，预估扩容后的容量 newCap：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">data</span> = []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">data</span> = <span style="color:#a6e22e">appand</span>(<span style="color:#a6e22e">data</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>)
+</span></span></code></pre></div><p>扩容前的容量 <code>oldCap = 2</code>，新增 3 个元素，理论上应该扩容到 <code>cap=5</code>，之后会进行预估，求得 <code>newCap</code> 规则如下：</p>
+<ul>
+<li>
+<p>如果 $oldCap * 2 &lt; cap$，那么 <code>newCap = cap</code>；</p>
+</li>
+<li>
+<p>否则</p>
+<ul>
+<li>如果 <code>扩容前元素个数oldLen &lt; 1024​</code> ，那么直接翻倍，即 <code>newCap = oldCap * 2</code>；</li>
+<li>否则(即 <code>扩容前元素个数oldLen &gt;= 1024</code> )，就先扩容 四分之一，也就是 <strong>1.25 倍</strong>，即 <code>newCap = oldCap * 1.25</code>。</li>
+</ul>
+</li>
+</ul>
+<p>即：<img alt="预估规则" loading="lazy" src="https://pic.downk.cc/item/5f605756160a154a671fb153.jpg"></p>
+<p>这段规则的源码位于 <code>/usr/local/go/src/runtime/slice.go</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">growslice</span>(<span style="color:#a6e22e">et</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">_type</span>, <span style="color:#a6e22e">old</span> <span style="color:#a6e22e">slice</span>, <span style="color:#a6e22e">cap</span> <span style="color:#66d9ef">int</span>) <span style="color:#a6e22e">slice</span> {
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">newcap</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">old</span>.<span style="color:#a6e22e">cap</span>
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">doublecap</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newcap</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">newcap</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">cap</span> &gt; <span style="color:#a6e22e">doublecap</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">newcap</span> = <span style="color:#a6e22e">cap</span>
+</span></span><span style="display:flex;"><span> } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">old</span>.<span style="color:#a6e22e">len</span> &lt; <span style="color:#ae81ff">1024</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">newcap</span> = <span style="color:#a6e22e">doublecap</span>
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">// Check 0 &lt; newcap to detect overflow</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">// and prevent an infinite loop.</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">for</span> <span style="color:#ae81ff">0</span> &lt; <span style="color:#a6e22e">newcap</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">newcap</span> &lt; <span style="color:#a6e22e">cap</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">newcap</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">newcap</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">// Set newcap to the requested cap when</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">// the newcap calculation overflowed.</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">newcap</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">newcap</span> = <span style="color:#a6e22e">cap</span>
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上述例子中，<code>oldCap=2</code>，至少需要扩容到<code>cap=5</code>，根据预估规则，因为 <code>oldCap*2=4 &lt; 5</code>，因此 <code>newCap=cap=5</code>，即预估结果为<code>newCap=5</code>。</p>
+<p><strong>第二步，确定实际分配的内存，匹配到合适的内存规格</strong></p>
+<p><strong><code>理论上所需要内存 = 预估容量 * 元素类型大小</code></strong>，难道直接就会分配这么多的内存吗？并不是。</p>
+<p>首先元素类型大小已在 “一.3”中说明过，此处 int 类型的大小是 8bit(1 个字节)。接着看<code>growslice</code>函数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">growslice</span>(<span style="color:#a6e22e">et</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">_type</span>, <span style="color:#a6e22e">old</span> <span style="color:#a6e22e">slice</span>, <span style="color:#a6e22e">cap</span> <span style="color:#66d9ef">int</span>) <span style="color:#a6e22e">slice</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">overflow</span> <span style="color:#66d9ef">bool</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">lenmem</span>, <span style="color:#a6e22e">newlenmem</span>, <span style="color:#a6e22e">capmem</span> <span style="color:#66d9ef">uintptr</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// Specialize for common values of et.size.</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// For 1 we don&#39;t need any division/multiplication.</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// For sys.PtrSize, compiler will optimize division/multiplication into a shift by a constant.</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">// For powers of 2, use a variable shift.</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">switch</span> {
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">et</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">lenmem</span> = uintptr(<span style="color:#a6e22e">old</span>.<span style="color:#a6e22e">len</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">newlenmem</span> = uintptr(<span style="color:#a6e22e">cap</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">capmem</span> = <span style="color:#a6e22e">roundupsize</span>(uintptr(<span style="color:#a6e22e">newcap</span>))
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">overflow</span> = uintptr(<span style="color:#a6e22e">newcap</span>) &gt; <span style="color:#a6e22e">maxAlloc</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">newcap</span> = int(<span style="color:#a6e22e">capmem</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">et</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">sys</span>.<span style="color:#a6e22e">PtrSize</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">lenmem</span> = uintptr(<span style="color:#a6e22e">old</span>.<span style="color:#a6e22e">len</span>) <span style="color:#f92672">*</span> <span style="color:#a6e22e">sys</span>.<span style="color:#a6e22e">PtrSize</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">newlenmem</span> = uintptr(<span style="color:#a6e22e">cap</span>) <span style="color:#f92672">*</span> <span style="color:#a6e22e">sys</span>.<span style="color:#a6e22e">PtrSize</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">capmem</span> = <span style="color:#a6e22e">roundupsize</span>(uintptr(<span style="color:#a6e22e">newcap</span>) <span style="color:#f92672">*</span> <span style="color:#a6e22e">sys</span>.<span style="color:#a6e22e">PtrSize</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">overflow</span> = uintptr(<span style="color:#a6e22e">newcap</span>) &gt; <span style="color:#a6e22e">maxAlloc</span><span style="color:#f92672">/</span><span style="color:#a6e22e">sys</span>.<span style="color:#a6e22e">PtrSize</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">newcap</span> = int(<span style="color:#a6e22e">capmem</span> <span style="color:#f92672">/</span> <span style="color:#a6e22e">sys</span>.<span style="color:#a6e22e">PtrSize</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>.
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在这里，<code>sys.PtrSize = 8</code>，<code>et</code>类型是 <code>int</code>，所以 <code>et.size == sys.PtrSize</code>为 <code>true</code>，则 <code>newcap * sys.PtrSize = 5 * 8 = 40</code>。我们看看 <code>roundupsize</code>这个函数，位于 <code>/usr/local/go/src/runtime/msize.go</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// Returns size of the memory block that mallocgc will allocate if you ask for the size.</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">roundupsize</span>(<span style="color:#a6e22e">size</span> <span style="color:#66d9ef">uintptr</span>) <span style="color:#66d9ef">uintptr</span> {
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">size</span> &lt; <span style="color:#a6e22e">_MaxSmallSize</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">size</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">smallSizeMax</span><span style="color:#f92672">-</span><span style="color:#ae81ff">8</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">return</span> uintptr(<span style="color:#a6e22e">class_to_size</span>[<span style="color:#a6e22e">size_to_class8</span>[(<span style="color:#a6e22e">size</span><span style="color:#f92672">+</span><span style="color:#a6e22e">smallSizeDiv</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">/</span><span style="color:#a6e22e">smallSizeDiv</span>]])
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">// ...</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span> }
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>其中，<code>_MaxSmallSize = 32768</code>，<code>smallSizeMax = 1024</code>，<code>smallSizeDiv = 8</code>，而传进来的 <code>size = 40</code>。而：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">class_to_size</span> = [<span style="color:#a6e22e">_NumSizeClasses</span>]<span style="color:#66d9ef">uint16</span>{<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">32</span>, <span style="color:#ae81ff">48</span>, <span style="color:#ae81ff">64</span>, <span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">96</span>, <span style="color:#ae81ff">112</span>, <span style="color:#ae81ff">128</span>, <span style="color:#ae81ff">144</span>, <span style="color:#ae81ff">160</span>, <span style="color:#ae81ff">176</span>, <span style="color:#ae81ff">192</span>, <span style="color:#ae81ff">208</span>, <span style="color:#ae81ff">224</span>, <span style="color:#ae81ff">240</span>, <span style="color:#ae81ff">256</span>, <span style="color:#ae81ff">288</span>, <span style="color:#ae81ff">320</span>, <span style="color:#ae81ff">352</span>, <span style="color:#ae81ff">384</span>, <span style="color:#ae81ff">416</span>, <span style="color:#ae81ff">448</span>, <span style="color:#ae81ff">480</span>, <span style="color:#ae81ff">512</span>, <span style="color:#ae81ff">576</span>, <span style="color:#ae81ff">640</span>, <span style="color:#ae81ff">704</span>, <span style="color:#ae81ff">768</span>, <span style="color:#ae81ff">896</span>, <span style="color:#ae81ff">1024</span>, <span style="color:#ae81ff">1152</span>, <span style="color:#ae81ff">1280</span>, <span style="color:#ae81ff">1408</span>, <span style="color:#ae81ff">1536</span>, <span style="color:#ae81ff">1792</span>, <span style="color:#ae81ff">2048</span>, <span style="color:#ae81ff">2304</span>, <span style="color:#ae81ff">2688</span>, <span style="color:#ae81ff">3072</span>, <span style="color:#ae81ff">3200</span>, <span style="color:#ae81ff">3456</span>, <span style="color:#ae81ff">4096</span>, <span style="color:#ae81ff">4864</span>, <span style="color:#ae81ff">5376</span>, <span style="color:#ae81ff">6144</span>, <span style="color:#ae81ff">6528</span>, <span style="color:#ae81ff">6784</span>, <span style="color:#ae81ff">6912</span>, <span style="color:#ae81ff">8192</span>, <span style="color:#ae81ff">9472</span>, <span style="color:#ae81ff">9728</span>, <span style="color:#ae81ff">10240</span>, <span style="color:#ae81ff">10880</span>, <span style="color:#ae81ff">12288</span>, <span style="color:#ae81ff">13568</span>, <span style="color:#ae81ff">14336</span>, <span style="color:#ae81ff">16384</span>, <span style="color:#ae81ff">18432</span>, <span style="color:#ae81ff">19072</span>, <span style="color:#ae81ff">20480</span>, <span style="color:#ae81ff">21760</span>, <span style="color:#ae81ff">24576</span>, <span style="color:#ae81ff">27264</span>, <span style="color:#ae81ff">28672</span>, <span style="color:#ae81ff">32768</span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">size_to_class8</span> = [<span style="color:#a6e22e">smallSizeMax</span><span style="color:#f92672">/</span><span style="color:#a6e22e">smallSizeDiv</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]<span style="color:#66d9ef">uint8</span>{<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">9</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">11</span>, <span style="color:#ae81ff">11</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">13</span>, <span style="color:#ae81ff">13</span>, <span style="color:#ae81ff">14</span>, <span style="color:#ae81ff">14</span>, <span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">17</span>, <span style="color:#ae81ff">17</span>, <span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">19</span>, <span style="color:#ae81ff">19</span>, <span style="color:#ae81ff">19</span>, <span style="color:#ae81ff">19</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">21</span>, <span style="color:#ae81ff">21</span>, <span style="color:#ae81ff">21</span>, <span style="color:#ae81ff">21</span>, <span style="color:#ae81ff">22</span>, <span style="color:#ae81ff">22</span>, <span style="color:#ae81ff">22</span>, <span style="color:#ae81ff">22</span>, <span style="color:#ae81ff">23</span>, <span style="color:#ae81ff">23</span>, <span style="color:#ae81ff">23</span>, <span style="color:#ae81ff">23</span>, <span style="color:#ae81ff">24</span>, <span style="color:#ae81ff">24</span>, <span style="color:#ae81ff">24</span>, <span style="color:#ae81ff">24</span>, <span style="color:#ae81ff">25</span>, <span style="color:#ae81ff">25</span>, <span style="color:#ae81ff">25</span>, <span style="color:#ae81ff">25</span>, <span style="color:#ae81ff">26</span>, <span style="color:#ae81ff">26</span>, <span style="color:#ae81ff">26</span>, <span style="color:#ae81ff">26</span>, <span style="color:#ae81ff">26</span>, <span style="color:#ae81ff">26</span>, <span style="color:#ae81ff">26</span>, <span style="color:#ae81ff">26</span>, <span style="color:#ae81ff">27</span>, <span style="color:#ae81ff">27</span>, <span style="color:#ae81ff">27</span>, <span style="color:#ae81ff">27</span>, <span style="color:#ae81ff">27</span>, <span style="color:#ae81ff">27</span>, <span style="color:#ae81ff">27</span>, <span style="color:#ae81ff">27</span>, <span style="color:#ae81ff">28</span>, <span style="color:#ae81ff">28</span>, <span style="color:#ae81ff">28</span>, <span style="color:#ae81ff">28</span>, <span style="color:#ae81ff">28</span>, <span style="color:#ae81ff">28</span>, <span style="color:#ae81ff">28</span>, <span style="color:#ae81ff">28</span>, <span style="color:#ae81ff">29</span>, <span style="color:#ae81ff">29</span>, <span style="color:#ae81ff">29</span>, <span style="color:#ae81ff">29</span>, <span style="color:#ae81ff">29</span>, <span style="color:#ae81ff">29</span>, <span style="color:#ae81ff">29</span>, <span style="color:#ae81ff">29</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>, <span style="color:#ae81ff">31</span>}
+</span></span></code></pre></div><p>所以上面<code>roundupsize</code>会返回：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">class_to_size</span>[<span style="color:#a6e22e">size_to_class8</span>[(<span style="color:#a6e22e">size</span><span style="color:#f92672">+</span><span style="color:#a6e22e">smallSizeDiv</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">/</span><span style="color:#a6e22e">smallSizeDiv</span>]] = <span style="color:#ae81ff">48</span>
+</span></span></code></pre></div><p>在<code>growslice</code>中，<code>capmem = 48</code>，则最后计算得到的 <code>newcap = int(capmem / sys.PtrSize) = int(48 / 8) = 6</code>，即最终扩容后的容量为 <code>6</code>。而不是之前预估的 <code>5</code>。</p>
+<p>总结一下，首先使用预估规则预估一下需要的容量(本例中为 5)，然后用这个容量乘以 slice 元素的大小(单位是 bit，本例中 int 为 8)，之后根据在 <code>class_to_size</code> 中选择合适大小的值，比如 40，那应该选择比 40 大的更小的那个 48，这就是申请到的真正的容量内存，最后用真正的容量大小除以元素大小，即可得到真正的扩容后的 slice 的<code>cap</code>。</p>
+<h3 id="6-slice-作为函数参数">6. slice 作为函数参数<a hidden class="anchor" aria-hidden="true" href="#6-slice-作为函数参数">#</a></h3>
+<p>函数调用处的参数称为 <strong>实参</strong>，函数定义处的参数称为 <strong>形参</strong>。形参是实参的拷贝，会生成一个新的切片，但二者指向底层数组的指针相同。</p>
+<p><strong>当函数中没有出现扩容时：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">6</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>)  <span style="color:#75715e">// 输出 [1,2,3,4,5,6]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">t1</span>(<span style="color:#a6e22e">a</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>)  <span style="color:#75715e">// 输出 [1,66,3,4,5,6]</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">t1</span>(<span style="color:#a6e22e">s</span> []<span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">s</span>[<span style="color:#ae81ff">1</span>] = <span style="color:#ae81ff">66</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>当函数中出现扩容时：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">int</span>{<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">6</span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>)  <span style="color:#75715e">// 输出 [1,2,3,4,5,6]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">t1</span>(<span style="color:#a6e22e">a</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">a</span>)  <span style="color:#75715e">// 输出 [1,2,3,4,5,6]</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">t2</span>(<span style="color:#a6e22e">s</span> []<span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">s</span> = append(<span style="color:#a6e22e">s</span>, <span style="color:#ae81ff">66</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>扩容后，指向的底层数组不同，互不影响。</p>
+<h2 id="三字符串string">三、字符串(String)<a hidden class="anchor" aria-hidden="true" href="#三字符串string">#</a></h2>
+<p>字符串是 Go 语言中最常用的基础数据类型之一，虽然字符串往往被看做一个整体，但是实际上字符串是一片连续的内存空间，我们也可以将它理解成一个由字符组成的数组。</p>
+<p>在设计上，Go 语言中的<code>string</code>是一个只读的字节数组。当然，只读只意味着字符串会分配到只读的内存空间并且这块内存不会被修改，在运行时我们其实还是可以将这段内存拷贝到堆或者栈上，将变量的类型转换成 <code>[]byte</code> 之后就可以进行，修改后通过类型转换就可以变回 <code>string</code>，Go 语言只是不支持直接修改 <code>string</code> 类型变量的内存空间。</p>
+<p><code>string</code>的底层结构如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// /usr/local/go/src/runtime/string.go</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">stringStruct</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">str</span> <span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>
+</span></span><span style="display:flex;"><span> <span style="color:#a6e22e">len</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>可以看到和上面的切片结构非常相似，只是少了表示容量的<code>cap</code>。这是因为，字符串作为只读类型，我们并不会对齐进行扩容操作进而改变其自身的内存空间，<strong>所有在字符串上执行的写入操作都是通过拷贝实现的</strong>。</p>
+<p>关于字符串，讨论最多的是 <code>string</code>和<code>[]byte</code>互相转换的性能问题，在底层是通过 <code>stringtoslicebyte</code> 和 <code>slicebytetostring</code>两个函数实现的，其中出现了内存分配的情况，这里不做细究。</p>
+<p>在说<code>unsafe</code> 那篇文章里，提到了 <strong>实现<code>string</code>和<code>[]byte</code> 的零拷贝转换</strong>：这里再复习一下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">stringToBytes</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>)[]<span style="color:#66d9ef">byte</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>(<span style="color:#f92672">*</span>[]<span style="color:#66d9ef">byte</span>)(<span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">s</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">bytesToString</span>(<span style="color:#a6e22e">b</span> []<span style="color:#66d9ef">byte</span>)<span style="color:#66d9ef">string</span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>(<span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>)(<span style="color:#a6e22e">unsafe</span>.<span style="color:#a6e22e">Pointer</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">b</span>))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/golang/">Golang</a></li>
+      <li><a href="http://localhost:1313/tags/%E6%95%B0%E7%BB%84/">数组</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%88%87%E7%89%87/">切片</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">hujm2023&#39;s blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

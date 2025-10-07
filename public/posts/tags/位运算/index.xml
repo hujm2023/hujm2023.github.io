@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>位运算 on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/</link>
+    <description>Recent content in 位运算 on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 22 Sep 2020 00:25:09 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LeetCode-位运算</title>
+      <link>http://localhost:1313/posts/leetcode-%E4%BD%8D%E8%BF%90%E7%AE%97/</link>
+      <pubDate>Tue, 22 Sep 2020 00:25:09 +0000</pubDate>
+      <guid>http://localhost:1313/posts/leetcode-%E4%BD%8D%E8%BF%90%E7%AE%97/</guid>
+      <description>&lt;h1 id=&#34;位运算&#34;&gt;位运算&lt;/h1&gt;
+&lt;p&gt;位运算讲究技巧，需要多积累经验。&lt;/p&gt;
+&lt;h2 id=&#34;一背景知识&#34;&gt;一、背景知识&lt;/h2&gt;
+&lt;p&gt;Go 语言支持的 &lt;strong&gt;位运算符&lt;/strong&gt; 如下：&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;运算符&lt;/th&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;描述&lt;/th&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;规则&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;amp;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;按位 &lt;strong&gt;与&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;二者同为 1 时结果才为 1，否则为 0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;|&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;按位 &lt;strong&gt;或&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;二者同为 0 时结果才为 0，否则是 1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;^&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;按位 &lt;strong&gt;异或&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;相同为 0，相异为 1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;laquo;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;strong&gt;左移 n 位，相当于乘以 2 的 n 次方&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;后面补 0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;raquo;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;strong&gt;右移一位，相当于除以 2 的 n 次方&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;截掉最后一位&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;1-与&#34;&gt;1. 与&lt;/h3&gt;
+&lt;p&gt;将参与运算的两个数 各对应的二进制位 相与。只有当二者参与运算的&lt;strong&gt;对应位同为 1 时，该位才为 1，否则为 0&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

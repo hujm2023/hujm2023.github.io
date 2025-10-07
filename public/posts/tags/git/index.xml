@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Git on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/git/</link>
+    <description>Recent content in Git on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 05 Nov 2020 11:01:28 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/tags/git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git 详解</title>
+      <link>http://localhost:1313/posts/git%E8%AF%A6%E8%A7%A3/</link>
+      <pubDate>Thu, 05 Nov 2020 11:01:28 +0800</pubDate>
+      <guid>http://localhost:1313/posts/git%E8%AF%A6%E8%A7%A3/</guid>
+      <description>&lt;h2 id=&#34;一git-底层存储原理&#34;&gt;一、Git 底层存储原理&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;Git&lt;/code&gt; 是一个 &lt;strong&gt;内容寻址文件系统&lt;/strong&gt;。其底层存储从本质上讲是一个基于文件系统实现的 &lt;code&gt;Key-Value&lt;/code&gt; 数据库，这里的 &lt;code&gt;Value&lt;/code&gt; 是指 &lt;code&gt;git&lt;/code&gt; 中三种不同的对象，而 &lt;code&gt;Key&lt;/code&gt; 是该对象对应的哈希值。你可以向 &lt;code&gt;git&lt;/code&gt; 仓库中插入任何类型的文件，它会返回给你一个唯一的键，通过该键你可以在任何时刻再次取回该文件。其中 &lt;code&gt;Key&lt;/code&gt; 会被存储为目录加文件名(&lt;code&gt;hash&lt;/code&gt; 值前两位作为目录名，剩下部分作为文件名，这样做的目的是为了 &lt;strong&gt;加快文件的定位&lt;/strong&gt;， 在查找文件时先找到对应的目录,，再遍历目录中的文件进行查找)，&lt;code&gt;Value&lt;/code&gt; 则被存储为文件内容，默认使用 &lt;code&gt;zlib&lt;/code&gt; 压缩。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

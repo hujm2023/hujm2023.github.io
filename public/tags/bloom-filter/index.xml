@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Bloom Filter on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/bloom-filter/</link>
+    <description>Recent content in Bloom Filter on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 07 Oct 2020 20:57:20 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/bloom-filter/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>优秀组件-布隆过滤器</title>
+      <link>http://localhost:1313/posts/%E4%BC%98%E7%A7%80%E7%BB%84%E4%BB%B6-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/</link>
+      <pubDate>Wed, 07 Oct 2020 20:57:20 +0000</pubDate>
+      <guid>http://localhost:1313/posts/%E4%BC%98%E7%A7%80%E7%BB%84%E4%BB%B6-%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8/</guid>
+      <description>&lt;h2 id=&#34;一前言&#34;&gt;一、前言&lt;/h2&gt;
+&lt;p&gt;前段时间辞职骑完川藏线后回来找工作，面试 贝尔科教后端开发工程师 岗位时，遇到这样一个面试题：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;有一个几十亿的白名单，每天白天需要高并发查询，晚上需要更新一次，如何设计这个功能。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>MySQL索引 on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/mysql%E7%B4%A2%E5%BC%95/</link>
+    <description>Recent content in MySQL索引 on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 16 Apr 2021 19:56:29 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/mysql%E7%B4%A2%E5%BC%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MySQL面试汇总</title>
+      <link>http://localhost:1313/posts/mysql%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Fri, 16 Apr 2021 19:56:29 +0800</pubDate>
+      <guid>http://localhost:1313/posts/mysql%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</guid>
+      <description>&lt;h3 id=&#34;关于事务&#34;&gt;关于事务&lt;/h3&gt;
+&lt;h4 id=&#34;事务的特性&#34;&gt;事务的特性&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;原子性(Atomic, A)&lt;/code&gt;：要么全部执行，要么全部不执行；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;一致性(Consistent, C)&lt;/code&gt;：事务的执行，使得数据库由一种正确状态转变为另一种正确的状态；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;隔离性(Isolation, I)&lt;/code&gt;：在事务正确提交之前，不应该把该事务对数据的改变提供给其他事务；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;持久性(Durability, D)&lt;/code&gt;：事务提交后，其结果永久保存在数据库中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;事务ACID特性的实现思想&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>MySQL关于索引</title>
+      <link>http://localhost:1313/posts/mysql%E5%85%B3%E4%BA%8E%E7%B4%A2%E5%BC%95/</link>
+      <pubDate>Tue, 29 Sep 2020 20:57:29 +0000</pubDate>
+      <guid>http://localhost:1313/posts/mysql%E5%85%B3%E4%BA%8E%E7%B4%A2%E5%BC%95/</guid>
+      <description>&lt;h2 id=&#34;一常见的索引类型&#34;&gt;一、常见的索引类型&lt;/h2&gt;
+&lt;h3 id=&#34;1-哈希索引&#34;&gt;1. 哈希索引&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;哈希索引(Hash Index)&lt;/strong&gt; 基于哈希表实现，&lt;strong&gt;只适合精确匹配，不适合范围查找&lt;/strong&gt;。对于每一行数据，存储引擎都会使用一个哈希函数，对改行的对应索引列计算&lt;code&gt;哈希code&lt;/code&gt;，通过 &lt;strong&gt;K-V&lt;/strong&gt; 的形式保存起来，其中“K”为哈希 code，“V”是指向改行记录的指针。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

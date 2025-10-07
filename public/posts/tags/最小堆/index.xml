@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>最小堆 on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/%E6%9C%80%E5%B0%8F%E5%A0%86/</link>
+    <description>Recent content in 最小堆 on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 13 May 2021 21:08:09 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/tags/%E6%9C%80%E5%B0%8F%E5%A0%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>最小堆以及优先级队列的Golang实现</title>
+      <link>http://localhost:1313/posts/%E6%9C%80%E5%B0%8F%E5%A0%86%E4%BB%A5%E5%8F%8A%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97%E7%9A%84golang%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Thu, 13 May 2021 21:08:09 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E6%9C%80%E5%B0%8F%E5%A0%86%E4%BB%A5%E5%8F%8A%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97%E7%9A%84golang%E5%AE%9E%E7%8E%B0/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://zh.wikipedia.org/wiki/%E5%A0%86%E7%A9%8D&#34;&gt;堆&lt;/a&gt;，是计算机科学中的一种特别的完全二叉树。若父节点的值恒小于等于子节点的值，此堆称为&lt;strong&gt;最小堆（min heap）&lt;/strong&gt;；反之，若母节点的值恒大于等于子节点的值，此堆称为&lt;strong&gt;最大堆（max heap）&lt;/strong&gt;。在堆中最顶端的那一个节点，称作 &lt;strong&gt;根节点（root node）&lt;/strong&gt;，根节点本身没有 &lt;strong&gt;父节点（parent node）&lt;/strong&gt;。堆通常是一个可以被看做一棵树的数组对象。在队列中，调度程序反复提取队列中第一个作业并运行，因为实际情况中某些时间较短的任务将等待很长时间才能结束，或者某些不短小，但具有重要性的作业，同样应当具有优先权。堆即为解决此类问题设计的一种数据结构。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>跳表 on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/%E8%B7%B3%E8%A1%A8/</link>
+    <description>Recent content in 跳表 on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 05 Oct 2020 05:32:24 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E8%B7%B3%E8%A1%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>跳表原理以及Golang实现</title>
+      <link>http://localhost:1313/posts/%E8%B7%B3%E8%A1%A8/</link>
+      <pubDate>Mon, 05 Oct 2020 05:32:24 +0000</pubDate>
+      <guid>http://localhost:1313/posts/%E8%B7%B3%E8%A1%A8/</guid>
+      <description>&lt;h2 id=&#34;一前言&#34;&gt;一、前言&lt;/h2&gt;
+&lt;p&gt;大家应该对 &lt;strong&gt;二分查找算法&lt;/strong&gt; 不陌生，二分查找之所以能达到 &lt;code&gt;O(logN)&lt;/code&gt; 的时间复杂度，一个重要原因在于它所依赖的数据结构是数组，数组支持随机访问，可通过下标很容易地定位到中间的某个元素。但是链表就没有 &lt;strong&gt;随机访问数据&lt;/strong&gt; 这个特性，要判断是否包含某个元素，只能从头开始遍历对比。但是数组有数组的局限性，比如需要连续的内存空间，插入删除操作会引起数组的扩容和元素移动；链表有链表的优势，链表不需要先申请连续的空间，插入删除操作的效率非常高。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

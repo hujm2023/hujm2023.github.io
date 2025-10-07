@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>效率 on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/%E6%95%88%E7%8E%87/</link>
+    <description>Recent content in 效率 on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 09 Nov 2020 19:35:34 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E6%95%88%E7%8E%87/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用ghz压测GRPC接口</title>
+      <link>http://localhost:1313/posts/%E4%BD%BF%E7%94%A8ghz%E5%8E%8B%E6%B5%8Bgrpc%E6%8E%A5%E5%8F%A3/</link>
+      <pubDate>Mon, 09 Nov 2020 19:35:34 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E4%BD%BF%E7%94%A8ghz%E5%8E%8B%E6%B5%8Bgrpc%E6%8E%A5%E5%8F%A3/</guid>
+      <description>&lt;h2 id=&#34;一前言&#34;&gt;一、前言&lt;/h2&gt;
+&lt;p&gt;公司后端服务已经全部微服务化，想要调试某个服务可以使用 &lt;a href=&#34;https://github.com/fullstorydev/grpcui&#34;&gt;&lt;code&gt;grpcui&lt;/code&gt;&lt;/a&gt;，但要对某个接口进行压测，&lt;code&gt;grpcui&lt;/code&gt; 还做不到。诸多努力之后找到本次主角：&lt;a href=&#34;https://github.com/bojand/ghz&#34;&gt;https://github.com/bojand/ghz&lt;/a&gt;，官网：&lt;a href=&#34;https://ghz.sh&#34;&gt;ghz.sh&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;推荐理由：简洁！可以一次性解决掉 &lt;code&gt;proto&lt;/code&gt; 文件相互之间引用的烦心事！&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -8,7 +8,7 @@
 <title>Posts | hujm2023&#39;s blog</title>
 <meta name="keywords" content="">
 <meta name="description" content="Posts - hujm2023&#39;s blog">
-<meta name="author" content="">
+<meta name="author" content="map[comments:false defaulttheme:auto description:个人技术博客，分享编程经验和技术心得 disablescrolltotop:false disablespecial1stpost:false hidemeta:false hidesummary:false keywords:编程, 技术, 博客, Golang, Python name:hujm.net@gmail.com showbreadcrumbs:true showcodecopybuttons:true showpostnavlinks:true showreadingtime:true showrssbuttonintermstermlist:true showtoc:true showwordcount:true tocopen:false usehugotoc:true]">
 <link rel="canonical" href="http://localhost:1313/posts/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.a090830a421002426baafbd314e38f149d77b4c48a12ee9312700d770b27fb26.css" integrity="sha256-oJCDCkIQAkJrqvvTFOOPFJ13tMSKEu6TEnANdwsn&#43;yY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/index.xml" title="rss">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/posts/index.xml" title="rss">
 <link rel="alternate" hreflang="en" href="http://localhost:1313/posts/">
 <noscript>
     <style>
@@ -99,6 +99,36 @@
             </div>
         </div>
         <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="首页">
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span class="active">文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </header>
@@ -110,17 +140,176 @@
 </header>
 
 <article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f77e088160a154a67ede68f.png" alt="">
+</figure>
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Hello
+    <h2 class="entry-hint-parent">最小堆以及优先级队列的Golang实现
     </h2>
   </header>
   <div class="entry-content">
-    <p>this is my first post
-</p>
+    <p>前言 堆，是计算机科学中的一种特别的完全二叉树。若父节点的值恒小于等于子节点的值，此堆称为最小堆（min heap）；反之，若母节点的值恒大于等于子节点的值，此堆称为最大堆（max heap）。在堆中最顶端的那一个节点，称作 根节点（root node），根节点本身没有 父节点（parent node）。堆通常是一个可以被看做一棵树的数组对象。在队列中，调度程序反复提取队列中第一个作业并运行，因为实际情况中某些时间较短的任务将等待很长时间才能结束，或者某些不短小，但具有重要性的作业，同样应当具有优先权。堆即为解决此类问题设计的一种数据结构。
+...</p>
   </div>
-  <footer class="entry-footer"><span title='2025-10-07 14:23:06 +0800 CST'>October 7, 2025</span></footer>
-  <a class="entry-link" aria-label="post link to Hello" href="http://localhost:1313/posts/hello/"></a>
+  <footer class="entry-footer"><span title='2021-05-13 21:08:09 +0800 CST'>May 13, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to 最小堆以及优先级队列的Golang实现" href="http://localhost:1313/posts/%E6%9C%80%E5%B0%8F%E5%A0%86%E4%BB%A5%E5%8F%8A%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97%E7%9A%84golang%E5%AE%9E%E7%8E%B0/"></a>
 </article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f61dc63160a154a6777224d.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">I/O多路复用之 epoll
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>select 的缺陷 目前对于高并发的解决方案是 一个线程处理所有连接，在这一点上 select 和 epoll 是一样的。但 当大量的并发连接存在、但短时间内只有少数活跃的连接时，select 的表现就显得捉襟见肘了。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-05-10 20:57:47 +0800 CST'>May 10, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to I/O多路复用之 epoll" href="http://localhost:1313/posts/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B9%8B-epoll/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f61dc63160a154a6777224d.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">彻底理解Linux Select中的FD_SET
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>看 select 源码，fd_set 这个结构体实际上是一个 long 型的数组，但是数组的长度依赖于系统中 typedef long int __fd_mask 的长度。当我去调试的时候，经常打印出一些很奇怪的值，有时候还会溢出。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-05-08 21:00:42 +0800 CST'>May 8, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to 彻底理解Linux Select中的FD_SET" href="http://localhost:1313/posts/%E5%BD%BB%E5%BA%95%E7%90%86%E8%A7%A3linux-select%E4%B8%AD%E7%9A%84fd_set/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f73fbb3160a154a67b4ff7e.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">MySQL面试汇总
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>关于事务 事务的特性 原子性(Atomic, A)：要么全部执行，要么全部不执行； 一致性(Consistent, C)：事务的执行，使得数据库由一种正确状态转变为另一种正确的状态； 隔离性(Isolation, I)：在事务正确提交之前，不应该把该事务对数据的改变提供给其他事务； 持久性(Durability, D)：事务提交后，其结果永久保存在数据库中。 事务ACID特性的实现思想
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-04-16 19:56:29 +0800 CST'>April 16, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to MySQL面试汇总" href="http://localhost:1313/posts/mysql%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f76adca160a154a674bc4da.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Redis 面试汇总
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>当我们谈论 Redis 时，应该谈论什么？ Redis 基本数据类型有哪些？以及他们各自的使用场景是什么？ 常见的有五种：字符串、哈希、列表、集合、有序集合。5.0 版本中新添加了 Stream 类型。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-04-15 12:11:24 +0800 CST'>April 15, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Redis 面试汇总" href="http://localhost:1313/posts/redis-%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f61dc63160a154a6777224d.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang Channel详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一、原理 0. 简介 channel 分为有缓冲和无缓冲，或者阻塞和非阻塞，主要区别就在于是否有 容量capacity。
+在 runtime 中是通过 hchan 这个结构体来表示的，它里面的主要成员可以理解成包含两个大部分：环形队列相关 和 sudog等待队列 相关。
+对于有缓冲的 channel，会设置环形队列相关的参数，如已有的元素数量、容量、指向队列的指针等；
+等待队列有发送等待队列和接受等待队列，他们分别在发送时 channel 已满、接收时 channel 为空的情况下，会将当前 goroutine 打包成一个 sudog 结构，添加到对应的队列中，直到条件符合时再被唤醒工作。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-04-09 11:57:42 +0800 CST'>April 9, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Golang Channel详解" href="http://localhost:1313/posts/golang-channel%E8%AF%A6%E8%A7%A3/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f6b97cf160a154a67054cc8.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Redis(二): 什么是 Redis 中的事件
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> Redis 设计与实现–事件 中有很清晰的说明。
+redis 要处理的事件有两种类型：
+文件事件：网络连接套接字。服务器与多个客户端通过网络套接字连接，当对应套接字上出现“读”或“写”需求时，对应的事件就会触发； 时间事件：在指定时间点运行的事件。如持续运行的服务器为了维持一个健康稳定的状态，需要定期对自身的资源和状态进行检查和整理。 一、时间事件 时间事件记录着那些要在指定时间点运行的事件， 多个时间事件以无序链表的形式保存在服务器状态中。
+每个时间事件主要由三个属性组成：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-04-08 22:31:17 +0800 CST'>April 8, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Redis(二): 什么是 Redis 中的事件" href="http://localhost:1313/posts/redis%E4%BA%8C-%E4%BB%80%E4%B9%88%E6%98%AF-redis-%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f6b97cf160a154a67054cc8.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Redis系列(一): Redis 单线程事件循环
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一、前言 在关注 redis 单线程/多线程 时，有几个重要的时间节点：
+Before Redis v4.0，真正的单线程； Redis v4.0，引入多线程处理 AOF 等任务，但核心的网络模型中依旧使用单线程； Redis v6.0，正式在网络模型中实现 I/O多线程。 从 Redis v1.0 到 Redis v6.0以前，Redis 的核心网络模型一直都是一个典型的 单Reactor模型，所有的事件都在这个线程内处理完成。本 issue 旨在解释清楚这个 单Reactor模型 的所有运作细节，为以后更好地理解新的 Multi-Reactors/Master-Workers 模型做准备。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-04-05 23:08:37 +0800 CST'>April 5, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Redis系列(一): Redis 单线程事件循环" href="http://localhost:1313/posts/redis%E4%B8%80-redis-%E5%8D%95%E7%BA%BF%E7%A8%8B%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/"></a>
+</article>
+
+<article class="post-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f6b97cf160a154a67054cc8.jpg" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">面试题:交替打印数字和字符串
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>题目描述 使用两个 goroutine 交替打印序列，一个 goroutine 打印数字， 另外一个 goroutine 打印字母， 最终效果如下：
+1A2B3C4D5E6F7G8H9I10J11K12L13M14N15O16P17Q18R19S20T21U22V23W24X25Y26Z 思路 使用 channel 来控制打印的进度。使用两个 channel，来分别控制数字和字母的打印进度，数字打印完通过 channel 通知数字打印，数字打印完通过 channel 通知字母打印。如此周而复始，直到终止条件。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-03-31 00:24:19 +0800 CST'>March 31, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to 面试题:交替打印数字和字符串" href="http://localhost:1313/posts/%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0%E6%95%B0%E5%AD%97%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang中使用RSA进行加解密
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 本文对 RSA 加密算法 的细节不做深究，仅描述大致用法。具体算法原理请阅读参考文献中的 2 和 4。
+一、介绍 当我们谈论加解密方式时，通常有两种情形：对称加密 和 非对称加密。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-01-14 11:45:06 +0800 CST'>January 14, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Golang中使用RSA进行加解密" href="http://localhost:1313/posts/golang%E4%B8%AD%E4%BD%BF%E7%94%A8rsa%E8%BF%9B%E8%A1%8C%E5%8A%A0%E8%A7%A3%E5%AF%86/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="http://localhost:1313/posts/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
     </main>
     
 <footer class="footer">

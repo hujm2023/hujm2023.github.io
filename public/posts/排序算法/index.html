@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>排序算法 | hujm2023&#39;s blog</title>
+<meta name="keywords" content="排序算法">
+<meta name="description" content="1. 堆排序
+堆 是一种数据结构，它具有如下特征：
+
+是一棵完全二叉树
+父节点的值 &gt; 子节点的值
+
+1.1 完全二叉树
+若设二叉树的深度为h，除第 h 层外，其它各层 (1～h-1) 的结点数都达到最大个数，第 h 层所有的结点都连续集中在最左边，这就是 完全二叉树。">
+<meta name="author" content="JemmyHu(hujm20151021@gmail.com)">
+<link rel="canonical" href="http://localhost:1313/posts/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.a090830a421002426baafbd314e38f149d77b4c48a12ee9312700d770b27fb26.css" integrity="sha256-oJCDCkIQAkJrqvvTFOOPFJ13tMSKEu6TEnANdwsn&#43;yY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="hujm2023&#39;s blog (Alt + H)">hujm2023&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="首页">
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      排序算法
+    </h1>
+    <div class="post-meta"><span title='2020-09-24 02:36:16 +0000 UTC'>September 24, 2020</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span>
+
+</div>
+  </header> 
+<figure class="entry-cover">
+        <img loading="eager" src="https://pic.downk.cc/item/5f6b97cf160a154a67054cc8.jpg" alt="">
+        
+</figure>
+  <div class="post-content"><h2 id="1-堆排序">1. 堆排序<a hidden class="anchor" aria-hidden="true" href="#1-堆排序">#</a></h2>
+<p><strong>堆</strong> 是一种数据结构，它具有如下特征：</p>
+<ol>
+<li>是一棵完全二叉树</li>
+<li>父节点的值 &gt; 子节点的值</li>
+</ol>
+<h3 id="11-完全二叉树">1.1 完全二叉树<a hidden class="anchor" aria-hidden="true" href="#11-完全二叉树">#</a></h3>
+<p>若设二叉树的深度为<code>h</code>，除第 <code>h</code> 层外，其它各层 <code>(1～h-1)</code> 的结点数都达到最大个数，第 <code>h</code> 层所有的结点都连续集中在最左边，这就是 <strong>完全二叉树</strong>。</p>
+<p>完全二叉树有一个很重要的特点，它的元素可以全部放在一个数组中，这个数组中的元素排列非常紧密，不会出现零值的情况。比如下面这棵树，对应的数组为： <code>[25, 14, 13, 4, 2, 10]</code>。</p>
+<p><img alt="完全二叉树" loading="lazy" src="https://pic.downk.cc/item/5f6b6ec8160a154a67f0e3f2.png"></p>
+<p>如果我们从上到下、从左到右的顺序去遍历这棵树，会发现，元素顺序与数组中完全对应。于是会有下面的公式：</p>
+<blockquote>
+<p>设数组中父节点的 <code>index</code> 值为<code>i</code>，则左孩子的 <code>index</code> 值为 <code>2*i+1</code>，右孩子的 <code>index</code> 值为 <code>2*i+2</code>。这样数组和数的关系就对应上了。这是堆排序的基础。</p></blockquote>
+<h3 id="12-heapify">1.2 heapify<a hidden class="anchor" aria-hidden="true" href="#12-heapify">#</a></h3>
+<p>我们称 <strong>将一棵树变成堆的过程</strong> 称为 <strong>heapify</strong>。具体来说是将 <code>parent</code>、<code>left</code> 和 <code>right</code>这三个结点，通过交换，使得 <code>parent</code> 为最大(<code>left</code>和<code>right</code>哪个大没关系)，因为数的定义是递归的，所以上面这个交换过程也是递归的。此时需要决定的是从下到上，还是从上到下。答案是<strong>如果是大根堆，从下到上进行 <code>heapify</code> 过程</strong>，因为从上到下的，处理完父节点，还不确定这个父节点是不是就是整个堆中的最大，而从下到上可以看成是一个不断往上 “喂” 最大值的过程。可以写出代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// heapify 从数组的第i个元素为父节点，使其符合大根堆的特性。前提，左右子树均已经是大根堆了</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">heapify</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">i</span> <span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">n</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 第i个结点的左右孩子分别为</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">left</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">right</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 求得父节点、左孩子、右孩子之间的最大值</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">maxIndex</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">left</span> &lt; <span style="color:#a6e22e">n</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">left</span>] &gt; <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">maxIndex</span>] {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">maxIndex</span> = <span style="color:#a6e22e">left</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">right</span> &lt; <span style="color:#a6e22e">n</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">right</span>] &gt; <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">maxIndex</span>] {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">maxIndex</span> = <span style="color:#a6e22e">right</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 如果发生了交换，需要递归去处理对应的子树</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">maxIndex</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">i</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 交换 使得parent为最大的那个</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">maxIndex</span>] = <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">maxIndex</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">//fmt.Println(arr[maxIndex], arr[left], arr[right])</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 此时，修改了原来的结构，为了保证交换后的子树也继续是大根堆，这里递归调用调整子树</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">heapify</span>(<span style="color:#a6e22e">arr</span>, <span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">maxIndex</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="13-build-heap">1.3 build heap<a hidden class="anchor" aria-hidden="true" href="#13-build-heap">#</a></h3>
+<p><img alt="build tree" loading="lazy" src="https://pic.downk.cc/item/5f6b7cb2160a154a67f67439.png"></p>
+<p>当我们从下到上构建一个大根堆的时候，没必要从最后一个元素开始，需要从最后一个有孩子的父节点开始，所以第一步是先找到 <strong>最后一个有孩子的父节点</strong>。方法很简单，找到最后一个孩子，再根据他们之间的关系很容易就能求得其父节点的索引值。之后遍历所有的有孩子的节点，即剩下的 13 , 14, 25，这三个元素刚好按照数组索引的顺序递减，因此可以写出代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// buildHeap 从底向上构建大根堆</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildHeap</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">n</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">arr</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">parent</span> <span style="color:#f92672">:=</span> (<span style="color:#a6e22e">n</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#75715e">// n-1为数组最后一个元素的index，其父节点为 ((n-1) - 1) / 2</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">parent</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 从这个父节点开始，一直到第一个元素，从下到上构建不断heapify</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">heapify</span>(<span style="color:#a6e22e">arr</span>, <span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">i</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="14-heap-sort">1.4 heap sort<a hidden class="anchor" aria-hidden="true" href="#14-heap-sort">#</a></h3>
+<p>构建出大根堆之后，堆顶(也就是数组<code>index=0</code>)的元素就是最大值。此时，我们将数组第一个元素和最后一个元素交换位置，之后缩小数组长度再次从头到尾进行 <code>heapify</code> ，之后再交换，最后的结果就是 数组从尾巴到头的元素一次递减。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">heapSort</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">buildHeap</span>(<span style="color:#a6e22e">arr</span>)  <span style="color:#75715e">// 构建大根堆</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 最后一个元素 与 第一个元素(最大)交换，之后再次heapify，再交换，结果就是从尾到头数值依次减小</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">arr</span>) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">--</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">arr</span>[<span style="color:#ae81ff">0</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>] = <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">heapify</span>(<span style="color:#a6e22e">arr</span>, <span style="color:#a6e22e">i</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="2-插入排序">2. 插入排序<a hidden class="anchor" aria-hidden="true" href="#2-插入排序">#</a></h2>
+<p>它的工作原理是构建有序序列，对于未排序的数据，在已经排好序的序列中从后向前扫描，放入合适的位置。</p>
+<p><strong>优点是：对近乎有序的一组数排序，其时间复杂度可以接近线性。</strong> 这个特性非常重要！谨记！！</p>
+<p>步骤：</p>
+<ol>
+<li>第一步，将第一个元素看成有序序列，第二个元素到最后一个元素看成未排序的序列；</li>
+<li>从头到尾扫描未排序的序列，将这个元素插入到前面的有序序列的合适位置。为了 <strong>稳定性</strong> 的目的，如果某个元素和有序序列中的某个元素相同，应该将这个元素放在有序序列元素的后面。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// insertionSort 插入排序</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">insertionSort</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">sortedIndex</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e">// 有序序列的最后一个元素</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 遍历所有的未排序元素</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">sortedIndex</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> &lt; len(<span style="color:#a6e22e">arr</span>); <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 从当前元素开始向前遍历有序序列</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span>; <span style="color:#a6e22e">j</span> &gt; <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">--</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 当前值大于等于前面的，终止循环</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>] {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 如果当前值比前一个小，交换，之后循环再不断交换</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="3-希尔排序">3. 希尔排序<a hidden class="anchor" aria-hidden="true" href="#3-希尔排序">#</a></h2>
+<p>是插入排序的改进版本，更高效一些，但是它是不稳定的。具体步骤如下：</p>
+<ol>
+<li>以 gap 为间隔分组</li>
+<li>分好的组内内部排好序</li>
+<li>降低 gap，重复上述步骤，直到 gap 变成 1，此时变成对整个数组进行排序</li>
+</ol>
+<p>有一个问题，组内排序，采用什么方法？答案是 <strong>插入排序法</strong>，原因就是，在 gap 不断减小的过程中，数组主键接近有序，此时借助插入排序的优点：对近乎有序的一组数排序，其时间复杂度可以接近线性。是一个不错的选择。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">shellSort</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">gap</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span> <span style="color:#75715e">// 计算gap，简单点，可以让gap变成数组长度的一半</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">gap</span> &lt; len(<span style="color:#a6e22e">arr</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">3</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">gap</span> = <span style="color:#a6e22e">gap</span><span style="color:#f92672">*</span><span style="color:#ae81ff">3</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">gap</span> &gt; <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">gap</span>; <span style="color:#a6e22e">i</span> &lt; len(<span style="color:#a6e22e">arr</span>); <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">i</span>]
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">gap</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 每次之和当前组内前面的元素比较交换</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>] &gt; <span style="color:#a6e22e">tmp</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#a6e22e">gap</span>] = <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span>]
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">j</span> <span style="color:#f92672">-=</span> <span style="color:#a6e22e">gap</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#a6e22e">gap</span>] = <span style="color:#a6e22e">tmp</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">gap</span> <span style="color:#f92672">/=</span> <span style="color:#ae81ff">3</span> <span style="color:#75715e">// 更新gap</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="4-快速排序">4. 快速排序<a hidden class="anchor" aria-hidden="true" href="#4-快速排序">#</a></h2>
+<p>采用的是“分而治之”的思想。步骤如下：</p>
+<ol>
+<li>第一步，挑出基准元素(一般取第一个元素)</li>
+<li>对数组进行排序，使得所有小于基准的排在前面，大于基准的排在基准后面。最后返回分区的位置。这个操作我们称之为 <code>partition</code>。</li>
+<li>递归地 把小于基准值元素的子数列和大于基准值元素的子数列排序</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">quickSort</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">_QuickSort</span>(<span style="color:#a6e22e">arr</span>, <span style="color:#ae81ff">0</span>, len(<span style="color:#a6e22e">arr</span>)<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">_QuickSort</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span> <span style="color:#66d9ef">int</span>) []<span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">left</span> &lt; <span style="color:#a6e22e">right</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">partitionIndex</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">partition</span>(<span style="color:#a6e22e">arr</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">right</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_QuickSort</span>(<span style="color:#a6e22e">arr</span>, <span style="color:#a6e22e">left</span>, <span style="color:#a6e22e">partitionIndex</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_QuickSort</span>(<span style="color:#a6e22e">arr</span>, <span style="color:#a6e22e">partitionIndex</span><span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">right</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">arr</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">partition</span>(<span style="color:#a6e22e">arr</span> []<span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">startIndex</span>, <span style="color:#a6e22e">endIndex</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">pivot</span> = <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">startIndex</span>] <span style="color:#75715e">// 基准</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">left</span>  = <span style="color:#a6e22e">startIndex</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">right</span> = <span style="color:#a6e22e">endIndex</span>
+</span></span><span style="display:flex;"><span>	)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">left</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">right</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// right指向倒数第一个小于基准的数</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">left</span> &lt; <span style="color:#a6e22e">right</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">pivot</span> &lt; <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">right</span>] {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">right</span><span style="color:#f92672">--</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// left指向顺数第一个大于基准的</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">left</span> &lt; <span style="color:#a6e22e">right</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">pivot</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">left</span>] {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">left</span><span style="color:#f92672">++</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 交换left和right处的值</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">left</span> &lt; <span style="color:#a6e22e">right</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">left</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">right</span>] = <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">right</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">left</span>]
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 此时left=right，将left与pivot处的值交换即可</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">startIndex</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">left</span>] = <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">left</span>], <span style="color:#a6e22e">arr</span>[<span style="color:#a6e22e">startIndex</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">left</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">排序算法</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">hujm2023&#39;s blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

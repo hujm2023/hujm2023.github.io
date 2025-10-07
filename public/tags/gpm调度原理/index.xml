@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>GPM调度原理 on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/gpm%E8%B0%83%E5%BA%A6%E5%8E%9F%E7%90%86/</link>
+    <description>Recent content in GPM调度原理 on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 18 Sep 2020 01:53:29 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/gpm%E8%B0%83%E5%BA%A6%E5%8E%9F%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang-GPM调度原理</title>
+      <link>http://localhost:1313/posts/golang-gpm%E8%B0%83%E5%BA%A6%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Fri, 18 Sep 2020 01:53:29 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang-gpm%E8%B0%83%E5%BA%A6%E5%8E%9F%E7%90%86/</guid>
+      <description>&lt;h2 id=&#34;一概述&#34;&gt;一、概述&lt;/h2&gt;
+&lt;h3 id=&#34;1-为什么在内核的线程调度器之外go-还需要实现一个自己的调度器&#34;&gt;1. 为什么在内核的线程调度器之外，Go 还需要实现一个自己的调度器&lt;/h3&gt;
+&lt;p&gt;主要解决&lt;strong&gt;系统线程太重&lt;/strong&gt;的问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建与切换线程 太重：都需要在用户态和内核态之间切换，开销较大；&lt;/li&gt;
+&lt;li&gt;系统线程内存使用 太重：一方面，创建系统线程时会分配一段大部分情况下都用不完的栈内存，造成浪费；另一方面，栈内存空间创建后其大小不会再变化，有溢出的风险。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;goroutine 是 Go 语言实现的用户态的线程，可以看做是对系统线程进行的一层抽象。有了这层抽象，Golang 程序员不会直接面对系统线程，直接使用 goroutine 就可以了，而操作系统不会 care 什么 goroutine，只是执行设定好的系统线程就好了。这层抽象，就是 Go 的调度器，后面会详细说明。Go 很精巧地解决了上述两个问题：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

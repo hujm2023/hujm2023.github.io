@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>默克尔树 on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/%E9%BB%98%E5%85%8B%E5%B0%94%E6%A0%91/</link>
+    <description>Recent content in 默克尔树 on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 22 Oct 2020 15:21:59 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/tags/%E9%BB%98%E5%85%8B%E5%B0%94%E6%A0%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>优秀数据结构--默克尔树</title>
+      <link>http://localhost:1313/posts/%E4%BC%98%E7%A7%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%BB%98%E5%85%8B%E5%B0%94%E6%A0%91/</link>
+      <pubDate>Thu, 22 Oct 2020 15:21:59 +0000</pubDate>
+      <guid>http://localhost:1313/posts/%E4%BC%98%E7%A7%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E9%BB%98%E5%85%8B%E5%B0%94%E6%A0%91/</guid>
+      <description>&lt;h2 id=&#34;一简介&#34;&gt;一、简介&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Merkle_tree&#34;&gt;默克尔树&lt;/a&gt;是一种典型的二叉树结构，由&lt;strong&gt;一个根节点&lt;/strong&gt;、&lt;strong&gt;一组中间节点&lt;/strong&gt; 和 &lt;strong&gt;一组叶节点&lt;/strong&gt; 组成。默克尔树最早由 &lt;code&gt;Merkle Ralf &lt;/code&gt;在 1980 年提出，曾广泛用于 &lt;strong&gt;文件系统&lt;/strong&gt; 和 &lt;strong&gt;P2P&lt;/strong&gt; 系统中，比如 &lt;code&gt;Git&lt;/code&gt;、区块链、&lt;code&gt;IPFS&lt;/code&gt; 等大名鼎鼎的项目或技术。&lt;/p&gt;
+&lt;p&gt;他又被称为 &lt;strong&gt;哈希树&lt;/strong&gt;，即存储哈希值的树。树的叶子结点是 &lt;strong&gt;数据块&lt;/strong&gt;(文件或者对象)的哈希值，而非叶子结点保存的是其子节点连接起来后的哈希值。简单来说，它有以下特点：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

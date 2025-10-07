@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tun/Tap on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/tun/tap/</link>
+    <description>Recent content in Tun/Tap on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 16 Nov 2020 20:25:50 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/tags/tun/tap/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>虚拟网络设备tuntap</title>
+      <link>http://localhost:1313/posts/%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87tuntap/</link>
+      <pubDate>Mon, 16 Nov 2020 20:25:50 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87tuntap/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;实验机器：&lt;code&gt;MacBook Pro (Retina, 15-inch, Mid 2015)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Golang 版本：&lt;code&gt;go version go1.14.6 darwin/amd64&lt;/code&gt;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;h2 id=&#34;一前言&#34;&gt;一、前言&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;网卡&lt;/strong&gt; 也称 &lt;strong&gt;网络适配器&lt;/strong&gt;，是电脑与局域网进行相互连接的设备，在 &lt;code&gt;OSI&lt;/code&gt; 七层模型中，工作在 &lt;strong&gt;物理层&lt;/strong&gt; 和 &lt;strong&gt;数据链路层&lt;/strong&gt;，其作用可以简单描述为：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

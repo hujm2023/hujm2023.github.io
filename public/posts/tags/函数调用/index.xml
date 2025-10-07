@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>函数调用 on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/</link>
+    <description>Recent content in 函数调用 on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 15 Sep 2020 02:05:36 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/tags/%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang-关于函数调用</title>
+      <link>http://localhost:1313/posts/golang-%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/</link>
+      <pubDate>Tue, 15 Sep 2020 02:05:36 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang-%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/</guid>
+      <description>&lt;h2 id=&#34;一-前言&#34;&gt;一、 前言&lt;/h2&gt;
+&lt;p&gt;我们完成程序的编写之后，经过编译，编译器会将我们的程序编译成一行行机器指令，放到一个可执行文件中；程序执行时，可执行文件被加载到内存，机器执行被放置到虚拟内存的“代码段”，并分配以及初始化程序运行过程中需要的堆栈。会形成如下的结构：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

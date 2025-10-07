@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Redis 面试汇总 | hujm2023&#39;s blog</title>
+<meta name="keywords" content="Redis, 基础数据结构">
+<meta name="description" content="当我们谈论 Redis 时，应该谈论什么？
+Redis 基本数据类型有哪些？以及他们各自的使用场景是什么？
+常见的有五种：字符串、哈希、列表、集合、有序集合。5.0 版本中新添加了 Stream 类型。">
+<meta name="author" content="JemmyHu(hujm20151021@gmail.com)">
+<link rel="canonical" href="http://localhost:1313/posts/redis-%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.a090830a421002426baafbd314e38f149d77b4c48a12ee9312700d770b27fb26.css" integrity="sha256-oJCDCkIQAkJrqvvTFOOPFJ13tMSKEu6TEnANdwsn&#43;yY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/redis-%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="hujm2023&#39;s blog (Alt + H)">hujm2023&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="首页">
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Redis 面试汇总
+    </h1>
+    <div class="post-meta"><span title='2021-04-15 12:11:24 +0800 CST'>April 15, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span>
+
+</div>
+  </header> 
+<figure class="entry-cover">
+        <img loading="eager" src="https://pic.downk.cc/item/5f76adca160a154a674bc4da.png" alt="">
+        
+</figure>
+  <div class="post-content"><h2 id="当我们谈论-redis-时应该谈论什么">当我们谈论 Redis 时，应该谈论什么？<a hidden class="anchor" aria-hidden="true" href="#当我们谈论-redis-时应该谈论什么">#</a></h2>
+<h3 id="redis-基本数据类型有哪些以及他们各自的使用场景是什么">Redis 基本数据类型有哪些？以及他们各自的使用场景是什么？<a hidden class="anchor" aria-hidden="true" href="#redis-基本数据类型有哪些以及他们各自的使用场景是什么">#</a></h3>
+<p>常见的有五种：<code>字符串</code>、<code>哈希</code>、<code>列表</code>、<code>集合</code>、<code>有序集合</code>。<code>5.0</code> 版本中新添加了 <code>Stream</code> 类型。</p>
+<ul>
+<li><strong>字符串 <code>String</code></strong>: 就是常规的 <code>GET/SET</code> 操作。是 Redis 最基本的数据类型，一个键最大能存储 <code>512MB</code>(底层数据结构：<code>SDS</code>)；</li>
+<li><strong>哈希 <code>Hash</code></strong>：可以理解成一个键值对的集合，十分适合存储结构化数据。比如 <code>MySQL</code> 中有一条记录：<code>id=1, name=demo, age=18</code>，那么可以使用 hash 将其存到 Redis 中：<code>HSET user:1 name demo age 18</code>(数据结构：<code>ZipList</code> 或 <code>HashTable</code>)；</li>
+<li><strong>列表 <code>List</code></strong>：就是简单的字符串列表，按照插入顺序排序。比较常见的场景是当做队列或者栈使用(数据结构：<code>QuickList</code>，是 <code>ZipList</code> 和 <code>双向链表</code> 的组合)。</li>
+<li><strong>集合 <code>Set</code></strong>：存放的是一堆不重复值的集合，通常用来做去重，同时还提供了不同 <code>Set</code> 之间求交集、并集、合集等功能，业务上也能使用的到。它底层也是通过哈希表去实现的，可以做到增删改查都是 <code>O(1)</code> 的复杂度(数据结构：<code>HashTable</code>)。</li>
+<li><strong>有序集合 <code>Sorted Set</code></strong>：跟 <code>Set</code> 一样，也是一堆不重复值的集合，不同的是每一个元素都会关联一个 <code>float64</code> 类型的分数，而 Redis 正是基于这个分数为集合中的成员进行排序的。比较常见的使用场景是存排行榜数据，去 <code>Top N</code> 会非常方便(数据结构：跳表<code>SkipList</code>)。</li>
+<li><strong>流式数据 <code>Stream</code></strong>：这是 <code>V5.0</code> 版本引入的新的数据类型，用来弥补 <code>Pub/Sub</code> 的不足，工作模式类似于 <code>kafka</code>，可以使用 <code>XADD</code> 往一个 stream 中发送消息，而消费者可以是单个，也可以是消费者集群，并且任意一个消费者消费之后，必须手动调用 <code>XACK</code> 才会完全标志这条消息被处理，特别适合做消息队列。</li>
+</ul>
+<h3 id="redis-使用场景">Redis 使用场景<a hidden class="anchor" aria-hidden="true" href="#redis-使用场景">#</a></h3>
+<ul>
+<li><strong>热数据存储</strong>：当成缓存中间件来使用，以缓解 DB 的压力。</li>
+<li><strong>做消息队列</strong>：我们可以使用它的 <code>List</code> 或 <code>Stream</code> 或 <code>Pub/Sub</code> 来实现一个消息队列，完成业务逻辑上的数据解耦；</li>
+<li><strong>排行榜</strong>：利用 <code>Redis Sorted Set</code> 实现；</li>
+<li><strong>限流器</strong>：利用单线程、原子递增等特性，可以记录某个用户在某段时间内的访问量，结合业务逻辑做到限流效果；</li>
+<li><strong>分布式锁</strong>：<code>setnx</code> 命令，设置成功表示拿到锁，不成功表示没拿到锁。</li>
+</ul>
+<h3 id="redis-是单线程还是多线程为什么这么快">Redis 是单线程还是多线程？为什么这么快？<a hidden class="anchor" aria-hidden="true" href="#redis-是单线程还是多线程为什么这么快">#</a></h3>
+<ul>
+<li>4.0 以前，不管是主业务逻辑还是持久化，都是单线程；</li>
+<li>4.0 版本，引入了多线程处理 <code>AOF</code> 等不太核心的操作，但主 <code>Reactor</code> 模型依旧使用单线程。主要是体现在大数据的异步删除功能上，例如 <code>unlink key</code>、<code>flushdb async</code>、<code>flushall async</code> 等;</li>
+<li>6.0 版本，主 <code>Reactor</code> 真正引入多线程处理用户逻辑。</li>
+</ul>
+<p><strong>既然是单线程，为什么还这么快</strong>？</p>
+<blockquote>
+<p>官方的 QA 里说过，Redis 是基于内存的操作，CPU 并不是 Redis 的瓶颈，最大的瓶颈可能来自于机器内存大小以及网络带宽。快的原因：</p>
+<ul>
+<li>基于内存操作，并且有许多非常优秀的的数据结构为数据存储和处理做支撑；</li>
+<li>单线程避免了多线程的竞争，省去了多线程切换带来的时间和性能损失；</li>
+<li>基于 <code>I/O 多路复用</code> 实现了自己类似于 <code>Reactor</code> 模型的事件库，大大提高网络处理能力。</li>
+</ul></blockquote>
+<h3 id="redis-是如何实现分布式锁的">Redis 是如何实现分布式锁的？<a hidden class="anchor" aria-hidden="true" href="#redis-是如何实现分布式锁的">#</a></h3>
+<p>主要利用 Redis 的 <code>SETNX</code> 命令实现：<code>SETNX k v</code>，当 <code>k</code> 不存在时，<code>k v</code> 设置成功并返回成功，表示拿到锁；<code>k</code> 已经存在则返回失败，加锁失败。操作结束后，可以使用 <code>del k</code> 删除，表示释放锁；也可以在加锁的同时，给这个锁一个过期时间，避免锁没有被显式释放而造成永久锁住。</p>
+<p>但上述方式也存在一些问题：</p>
+<ol>
+<li><code>SETNX</code> 和 <code>EXPIRE</code> 并不是原子性操作，如果我 <code>SET</code> 之后因为网络原因没有 <code>EXPIRE</code>，锁因为没有设置超时时间而永远无法释放。很多开源的解决方案是 通过 lua 脚本同时设置过期时间，也可以 使用原生的 <code>SET</code> 命令，加上 <code>nx</code> 选项以及对应的过期时间，都可以解决没有 没有<code>expire</code>造成的锁不释放 问题。</li>
+<li>使用了 <code>expire</code>，但有可能出现新的问题：就是加锁的一方的执行时间超过了 <code>expire</code>，此时锁自动过期释放，另一个线程获得锁，此时两个线程并发运行，就会出问题，而且如果当前线程处理完后调用 <code>expire</code> 也会将另一个线程的锁解除；而且这个锁也不是可重入锁。</li>
+</ol>
+<p>针对这个问题，Redis 作者提出了在基于分布式环境下提出了更高级的分布式锁的实现：<code>RedLock</code>。(不过也并不是完美的，而且实际使用时也不会给你 5 个独立的 redis master)</p>
+<p>结论：Redis 以其高性能著称，但使用其实现分布式锁来解决并发仍存在一些困难。Redis 分布式锁只能作为一种缓解并发的手段，如果要完全解决并发问题，仍需要数据库的防并发手段。</p>
+<h3 id="缓存雪崩缓存穿透缓存击穿等问题">缓存雪崩、缓存穿透、缓存击穿等问题<a hidden class="anchor" aria-hidden="true" href="#缓存雪崩缓存穿透缓存击穿等问题">#</a></h3>
+<ul>
+<li><strong>缓存雪崩</strong></li>
+</ul>
+<blockquote>
+<p><strong>现象</strong>：大量的热 key 设置了相同的过期时间，在该时刻这些热 key 全部失效，所有的请求铺天盖地都打到了 DB。</p>
+<p><strong>解决方案</strong>：不要设置相同的过期时间，可以在一个 <code>baseDuration</code> 上加减一个随机数。</p></blockquote>
+<ul>
+<li><strong>缓存穿透</strong></li>
+</ul>
+<blockquote>
+<p><strong>现象</strong>：一般的逻辑都是在 redis 中找不到，就会去 DB 查，然后将结果缓存到 Redis。但是如果某些 Key 在 DB 中也不存在(如小于 0 的用户 ID)，这类 Key 每次都会进行两次无用的查询。</p>
+<p><strong>解决方案</strong>：</p>
+<ol>
+<li>加强非法参数的逻辑校验，提前返回失败；</li>
+<li>将不存在的 Key 也缓存下来；</li>
+<li>使用布隆过滤器，可以帮助识别：哪些数据一定不存在和可能存在，提前过滤一定不存在的数据。</li>
+</ol></blockquote>
+<ul>
+<li><strong>缓存击穿</strong></li>
+</ul>
+<blockquote>
+<p><strong>现象</strong>：某一个热点 key 扛着非常大的并发，某一时刻这个热点 key 失效，所有请求全部打到 DB 上，像是在墙上穿了一个洞。</p>
+<p><strong>解决方案</strong>：1. 设置这个热点 key 永不过期；2. 如果非要更新，那么在这个热点 key 为空的时候，设置一个锁(比如 SETNX)，只让一个请求去数据库拉取数据，取完之后释放锁，恢复正常缓存逻辑。</p></blockquote>
+<h3 id="redis-持久化方式以及实现细节">Redis 持久化方式以及实现细节<a hidden class="anchor" aria-hidden="true" href="#redis-持久化方式以及实现细节">#</a></h3>
+<p>Redis 是在内存中处理数据的，但断电后内存数据会消失，因此需要将内存数据通过某种方式存储到磁盘上，以便服务器重启后能够恢复原有数据，这就是 Redis 的持久化。有三种方式：</p>
+<ul>
+<li><code>AOF日志(Append Only File)</code>：文件追加方式，并且以文本的形式追加到文件中；</li>
+<li><code>RDB快照(Redis DataBase)</code>：将某一时刻的内存数据，以二进制的形式全部存到磁盘中；</li>
+<li><code>混合持久方式</code>：v4.0 增加了混合持久化方式，集成了 <code>RDB</code> 和 <code>AOF</code> 的优点。</li>
+</ul>
+<h4 id="aof">AOF<a hidden class="anchor" aria-hidden="true" href="#aof">#</a></h4>
+<p>AOF 采用的是写后日志的方式，现将数据写入内存，再记录到日志文件中。<strong>AOF 记录的是实际的操作命令和数据，即我们在终端输入的命令</strong>。等到重启恢复时，只需要将 AOF 文件中的命令重复执行一遍(涉及到 <code>AOF</code> 重写)。</p>
+<p>命令同步到 AOF 需要经历三个阶段：</p>
+<ol>
+<li><strong>命令追加</strong>：Redis 将执行完的命令、命令的参数等信息“传播” AOF 程序中：</li>
+<li><strong>缓存追加</strong>：AOF 程序根据接收到的命令数据，将命令编码为自己的网络通信协议，然后将内容追加到服务器的 AOF 缓存中(<code>redisServer</code> 中有一个字段叫 <code>sds aof_buf</code>)；</li>
+<li><strong>文件写入和保存</strong>：缓存数据到一定条件，在事件处理器之后，会调 <code>flushAppendOnlyFile</code> 函数，这个函数会执行两个操作：
+<ul>
+<li><strong>WRITE</strong>：将 <code>aof_buf</code> 中的数据缓存写入 <code>AOF</code> 文件中；</li>
+<li><strong>SAVE</strong>：调用 <code>fsync</code> 或者 <code>fdataasync</code>函数，将AOF 文件保存到磁盘中；</li>
+</ul>
+</li>
+</ol>
+<p>而 AOF 的文件保存模式有三种：</p>
+<ul>
+<li><strong>不保存</strong>：<code>WRITE</code> 会被执行，<code>SAVE</code> 只会在服务关闭等常见会被执行一次，平常会被略过。这个时候，这两个操作都是由主线程来完成的，会阻塞主线程；</li>
+<li><strong>每秒保存一次</strong>：<code>WRITE</code> 每次都被执行，<code>SAVE</code> 启动子线程每秒执行一次。<code>WRITE</code> 操作由主进程执行，阻塞主进程；<code>SAVE</code> 操作由子线程执行，不直接阻塞主进程，但 <code>SAVE</code> 完成的快慢会影响 <code>WRITE</code> 的阻塞时长。</li>
+<li><strong>每执行一个命令保存一次</strong>：每次执行完一个命令之后， <code>WRITE</code> 和 <code>SAVE</code> 都会被执行。这两个动作都由主线程执行，会阻塞主线程。</li>
+</ul>
+<p>文件重写(bgrewriteaof):</p>
+<p>当开启的AOF时，随着时间推移，AOF文件会越来越大,当然redis也对AOF文件进行了优化，即触发AOF文件重写条件（后续会说明）时候，redis将使用bgrewriteaof对AOF文件进行重写。这样的好处在于减少AOF文件大小，同时有利于数据的恢复。常见的重写策略：</p>
+<ul>
+<li>重复或无效的命令不写入文件；</li>
+<li>过期的数据不再写入文件；</li>
+<li>多条命令合并写入。</li>
+</ul>
+<h4 id="rdb">RDB<a hidden class="anchor" aria-hidden="true" href="#rdb">#</a></h4>
+<p>按照指定时间间隔对你的数据集生成的时间点快照。它是 <code>Redis</code> 数据库中数据的内存快照，它是一个二进制文件（默认名称为：<code>dump.rdb</code>，可修改），存储了文件生成时 <code>Redis</code> 数据库中所有的数据内容。在 <code>Redis Server</code> 重启时可以通过加载 <code>RDB</code> 文件来还原数据库状态。 可用于 <code>Redis</code> 的数据备份、转移与恢复。</p>
+<p><code>rdbSave</code> 负责将内存中的数据以 <code>RDB</code> 的格式保存到磁盘中，如果 <code>RDB</code> 文件已经存在，那么旧的文件会被新的文件替换。</p>
+<p>而 <code>SAVE</code> 和 <code>BGSAVE</code> 都会调用 <code>rdbSave</code> 函数，但他们的执行方式不同：</p>
+<ul>
+<li><code>SAVE</code> 直接调用 <code>rdbSave</code>，阻塞 Redis 主进程，直到保存完为止。在主进程阻塞期间，服务器不能处理任何客户端请求；</li>
+<li><code>BGSAVE</code> 则会 <code>folk</code> 出一个子进程，子进程调用 <code>rdbSave</code>，并在结束后向主进程发送信号通知。因为 <code>rdbSave</code> 是在子进程运行的，所以并不会阻塞主进程，在此期间服务器仍旧可以继续处理客户端的请求。</li>
+</ul>
+<p>其他需要注意的：</p>
+<ul>
+<li>为了避免产生竞争条件， <code>BGSAVE</code> 执行时， <code>SAVE</code> 命令不能执行。</li>
+<li>调用 <code>rdbLoad</code> 函数载入 <code>RDB</code> 文件时，不能进行任何和数据库相关的操作，不过订阅与发布方面的命令可以正常执行，因为它们和数据库不相关联。</li>
+<li><code>AOF</code> 文件的保存频率通常要高于 <code>RDB</code> 文件保存的频率， 所以一般来说， <code>AOF</code> 文件中的数据会比 <code>RDB</code> 文件中的数据要新。因此， 如果服务器在启动时， 打开了 <code>AOF</code> 功能， 那么程序优先使用 <code>AOF</code> 文件来还原数据。 只有在 <code>AOF</code> 功能未打开的情况下，<code>Redis</code> 才会使用 <code>RDB</code> 文件来还原数据。</li>
+</ul>
+<h4 id="混合持久化">混合持久化<a hidden class="anchor" aria-hidden="true" href="#混合持久化">#</a></h4>
+<p>混合持久化就是 <strong>同时结合 <code>RDB</code> 持久化以及 <code>AOF</code> 持久化混合写入 <code>AOF文件</code></strong>。这样做的好处是可以结合 <code>RDB</code> 和 <code>AOF</code> 的优点, 快速加载同时避免丢失过多的数据，缺点是 <code>AOF</code> 里面的 <code>RDB</code> 部分就是压缩格式不再是 <code>AOF</code> 格式，可读性差，并且 <code>4.0</code> 之前的版本并不识别；</p>
+<p>混合持久化同样也是通过 <code>bgrewriteaof</code> 完成的，不同的是当开启混合持久化时，<code>fork</code> 出的子进程先将共享的内存副本全量的以 <code>RDB</code> 方式写入 <code>AOF文件</code>，然后在将重写缓冲区的增量命令以 <code>AOF</code> 方式写入到文件，写入完成后通知主进程更新统计信息，并将新的含有 <code>RDB</code> 格式和 <code>AOF</code> 格式的 <code>AOF文件</code> 替换旧的的 <code>AOF文件</code>。</p>
+<h4 id="总结">总结<a hidden class="anchor" aria-hidden="true" href="#总结">#</a></h4>
+<p><strong>RDB 优点</strong>：</p>
+<ol>
+<li>是一个非常紧凑的问题，特别适合文件备份以及灾难恢复；</li>
+<li>节省性能。开启子进程不影响主进程功能。</li>
+</ol>
+<p><strong>RDB 缺点</strong>：</p>
+<ol>
+<li>RDB 是某一时刻的快照，无法保存全部数据，在请求较大时，丢失的数据会更多。</li>
+</ol>
+<p><strong>AOF 优点</strong>：</p>
+<ol>
+<li>数据更完整，秒级数据丢失(取决于设置fsync策略)；</li>
+<li>文件内容可读性高，方便 debug。</li>
+</ol>
+<p><strong>AOF 缺点</strong>：</p>
+<ol>
+<li>文件体积更大，且恢复速度慢于 RDB。</li>
+</ol>
+<h3 id="redis-如何实现高可用">Redis 如何实现高可用<a hidden class="anchor" aria-hidden="true" href="#redis-如何实现高可用">#</a></h3>
+<p><code>Redis</code> 实现高可用主要有三种方式：<strong>主从复制</strong>、<strong>哨兵模式</strong>，以及 <strong>Redis 集群</strong>。</p>
+<h4 id="主从复制">主从复制<a hidden class="anchor" aria-hidden="true" href="#主从复制">#</a></h4>
+<p>在 <code>主从复制</code> 中，<code>Redis server</code> 分为两类：<code>主库 master</code> 和 <code>从库 slave</code>。主库可以进行读写操作，当写操作导致数据变化时会自动同步到从库。而从库一般是只读的，并接受来自主库的数据，一个主库可拥有多个从库，而一个从库只能有一个主库。</p>
+<h4 id="哨兵模式">哨兵模式<a hidden class="anchor" aria-hidden="true" href="#哨兵模式">#</a></h4>
+<p><strong>哨兵(sentinel)</strong> 是官方推荐的的 <code>高可用(HA)</code> 解决方案。<code>Redis</code> 的主从高可用解决方案，这种方案的缺点在于当 <code>master</code> 故障时候，需要手动进行故障恢复，而 <code>sentinel</code> 是一个独立运行的进程，它能监控一个或多个主从集群，并能在 <code>master</code> 故障时候自动进行故障转移，更为理想的是 <code>sentinel</code> 本身是一个分布式系统，其分布式设计思想有点类似于 <code>zookeeper</code>，当某个时候 <code>Master</code> 故障后，<code>sentinel集群</code> 采用一致性算法来选取<code>Leader</code>，故障转移由 <code>Leader</code> 完成。而对于客户端来说，操作 <code>Redis</code> 的主节点，我们只需要询问 <code>sentinel</code>，<code>sentinel</code> 返回当前可用的 <code>master</code>，这样一来客户端不需要关注的切换而引发的客户端配置变更。</p>
+<h4 id="redis-集群">Redis 集群<a hidden class="anchor" aria-hidden="true" href="#redis-集群">#</a></h4>
+<p>从最开始的 <code>一主N从</code>，到 <code>读写分离</code>，再到 <code>Sentinel</code> 哨兵机制，单实例的Redis缓存足以应对大多数的使用场景，也能实现主从故障迁移。为什么还需要 <code>Redis 集群</code>？这是因为某些场景下，单实例会存在一下几个问题：</p>
+<ol>
+<li>写并发：读操作可以通过负载均衡由诸多从节点分担，但所有的写操作只能由主节点完成，在海量数据高并发场景下，主节点压力也会飙升；</li>
+<li>海量数据的存储压力：单实例本质上是只有一台主节点作为存储，其他从结点都是复制主节点的数据，也就是说，Redis 服务的存储能力取决于主节点所能承载的上线。</li>
+</ol>
+<p><strong>为了扩展写能力和存储能力，Redis引入集群模式</strong>。</p>
+<p><code>Redis3.0</code> 加入了 <strong>集群模式</strong>，实现了数据的分布式存储，对数据进行分片，将不同的数据存储在不同的 <code>master</code> 节点上面，从而解决了海量数据的存储问题。</p>
+<p>同时 <code>Redis集群</code> 采用去中心化的思想，没有中心节点的说法，对于客户端来说，整个集群可以看成一个整体，可以连接任意一个节点进行操作，就像操作单一Redis实例一样，不需要任何代理中间件，<strong>当客户端操作的key没有分配到该node上时，Redis会返回转向指令，指向正确的node</strong>。</p>
+<p><code>Redis</code> 也内置了高可用机制，支持 <code>N</code> 个 <code>master节点</code> ，每个 <code>master节点</code> 都可以挂载多个<code>slave节点</code>，当 <code>master节点</code> 挂掉时，集群会提升它的某个<code>slave节点</code> 作为新的<code>master节点</code>。</p>
+<p><strong>Redis集群可以看成多个主从架构组合起来的，每一个主从架构可以看成一个节点</strong>(其中，只有master节点具有处理请求的能力，slave节点主要是用于节点的高可用)。</p>
+<p><strong>问：集群中那么多 <code>master节点</code>，集群在存储的时候如何确定选择哪个节点呢？</strong></p>
+<blockquote>
+<p>采用 <strong>类一致性哈希算法</strong> 实现节点选择。<br />
+首先，集群将自己分成 16384 个 slot(槽位)，然后让每个节点分别负责一部分槽位(范围固定)。当某个 key 到来时，某个集群的 <code>master</code> 会先计算这个 key 应该被分配到哪个槽位(<code>CRC16</code>后的哈希值与 16384 取模的结果就是应该放入的槽位号)，如果这个槽位刚好是自己负责，那么开始处理并返回；如果不属于当前节点负责的范围，那么会返回一个 <code>moved error</code>，并告诉你应该去哪个节点指定这个写入命令。</p></blockquote>
+<p><strong>问：那集群如何实现扩容</strong>？</p>
+<blockquote>
+<p>通过 <code>reshard(重新分片)</code>来实现。它可以将已经分配给某个节点的任意数量的 <code>slot</code> 迁移给另一个节点，同时将对应 <code>slot</code> 的数据也全部迁移值新的节点。</p></blockquote>
+<h3 id="redis-的过期策略以及内存淘汰机制">Redis 的过期策略以及内存淘汰机制<a hidden class="anchor" aria-hidden="true" href="#redis-的过期策略以及内存淘汰机制">#</a></h3>
+<h4 id="过期策略">过期策略<a hidden class="anchor" aria-hidden="true" href="#过期策略">#</a></h4>
+<ul>
+<li>
+<p><strong>定期随机检测删除</strong>：<code>Redis</code> 默认每隔 <code>xxx ms</code>就随机抽取设置了过期时间的 <code>key</code>，检测这些 <code>key</code> 是否过期，如果过期就删除。</p>
+</li>
+<li>
+<p><strong>惰性删除</strong>：不再是 <code>Redis</code>主动去删除，而是在客户端获取某个 <code>key</code> 时，先检查是否过期，没过期则正常返回，如果过期则删除并且返回 <code>nil</code>。</p>
+</li>
+</ul>
+<h4 id="内存淘汰机制">内存淘汰机制<a hidden class="anchor" aria-hidden="true" href="#内存淘汰机制">#</a></h4>
+<p>惰性删除可以解决一些过期了，但没被定期删除随机抽取到的 <code>key</code>。但有些过期的 <code>key</code> 既没有被随机抽取，也没有被客户端访问，就会一直保留在数据库，占用内存，长期下去可能会导致内存耗尽。所以 <code>Redis</code> 提供了内存淘汰机制来解决这个问题。</p>
+<p><code>Redis</code> 在使用内存达到某个阈值(通过 <code>maxmemory</code> 配置)的时候，就会触发内存淘汰机制，选取一些 <code>key</code> 来删除。当内存不足以容纳新写入的数据时，内存淘汰有以下几种策略：</p>
+<ul>
+<li><code>noeviction</code>：报错。<strong>默认策略</strong>。</li>
+<li><code>allkeys-lru</code>：在所有的 <code>key</code> 中，删除最近最少使用的 <code>key</code>；</li>
+<li><code>allkeys-random</code>：在所有的 <code>key</code> 中，随机移除某个 <code>key</code>；</li>
+<li><code>volatile-lru</code>：在所有设置了过期时间的 <code>key</code>中，删除最近最少使用的 <code>key</code>；</li>
+<li><code>volatile-random</code>：在所有设置了过期时间的 <code>key</code>中，随机移除某个 <code>key</code>；</li>
+<li><code>volatile-ttl</code>：在所有设置了过期时间的 <code>key</code>中，有更早过期时间的 <code>key</code> 优先移除。</li>
+</ul>
+<h3 id="redis-中-大key-和-热key-问题">Redis 中 大key 和 热key 问题<a hidden class="anchor" aria-hidden="true" href="#redis-中-大key-和-热key-问题">#</a></h3>
+<h4 id="大key-问题">大Key 问题<a hidden class="anchor" aria-hidden="true" href="#大key-问题">#</a></h4>
+<p><strong>现象：</strong></p>
+<p>什么是大 <code>Key</code>：</p>
+<ul>
+<li>单个简单的 <code>key</code> 存储的 <code>value</code> 很大：会导致网络拥塞，内存使用不均(集群模式下)；</li>
+<li><code>hash</code>、<code>set</code>、<code>zset</code> 以及 <code>list</code> 结构中存储过多的元素：单个命令耗时太长容易阻塞其他命令，严重会引起集群发生故障切换，循环故障从而整个集群宕机。</li>
+</ul>
+<p><strong>如何发现：</strong></p>
+<ul>
+<li>Redis 监控对超多 xxx 的 <code>kv</code> 报警；</li>
+<li>定时脚本不断去 <code>scan</code> 拿到结果进而报警然后处理优化；</li>
+<li>利用 <code>redis-cli --bigkeys</code> 命令行工具分析；</li>
+<li>使用 <code>redis-rdb-tools</code> 工具对 <code>RDB</code> 文件进行分析</li>
+</ul>
+<p><strong>如何解决：</strong></p>
+<ul>
+<li>删除：<code>4.0</code> 以后有 <code>lazy delete</code>，不会阻塞主线程。但这只是临时方案；</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>hash： 使用 hscan + hdel
+</span></span><span style="display:flex;"><span>set ： 使用 sscan + srem
+</span></span><span style="display:flex;"><span>zset ： 使用 zremrangebyrank
+</span></span><span style="display:flex;"><span>list ： 使用 scan + ltrim
+</span></span></code></pre></div><ul>
+<li>拆分，然后使用 <code>multiGet</code> 获取;</li>
+</ul>
+<h4 id="热key-问题">热Key 问题<a hidden class="anchor" aria-hidden="true" href="#热key-问题">#</a></h4>
+<p><strong>现象：</strong></p>
+<p>突然有非常大的请求去访问 <code>Redis</code> 上的某个特定的key，流量过于集中，甚至达到物理网卡的上限，导致这台 <code>Redis</code> 服务器宕机。此时，这台<code>Redis</code>上的其他读写请求都变得不可用；<code>热 key</code> 会落到同一个 <code>Redis</code> 实例上，无法通过扩容解决；所有的请求都打在 <code>DB</code> 上，<code>Redis</code> 都扛不住，<code>DB</code> 大概率会挂掉。</p>
+<p><strong>如何发现：</strong></p>
+<ul>
+<li>业务经验预估</li>
+<li>对用户行为数据分析，如点击、加购行为都会有打点数据</li>
+<li>如果是集群，可以利用集群 <code>proxy</code> 统计分析</li>
+<li><code>Redis v4.3</code> 的 <code>redis-cli</code> 有一个 <code>--hotkeys</code> 选项，可以在命令行直接获取当前 <code>namespace</code> 中的热点 <code>key</code>(实现上是通过 <code>scan + object freq</code> 完成的)。</li>
+<li>利用 <code>redis-cli monitor</code> 抓取数据，利用现有开源工具如 <code>redis-faina</code> 进行分析，统计出热 <code>key</code>。</li>
+</ul>
+<p><strong>怎么解决：</strong></p>
+<ul>
+<li>增加 <code>Redis</code> 副本数量，将读请求的压力分配到不同的副本节点上；</li>
+<li>业务上缓存(本地缓存)：比如使用一个大小限定的 <code>map</code>，每次去 <code>Redis</code> 查询前先检查内存中是否存在，如果存在就直接返回了。</li>
+<li>集群条件下热<code>key</code> 备份：在集群条件下，一个 <code>key</code> 会被放入指定的实例的 <code>slot</code>，增加集群的节点数是没有用的。为了将针对某一个 <code>key</code> 的请求打散到不同的实例上，可以给对应的 <code>key</code> 增加前缀或者后缀，这样就可以实现将热<code>key</code>的流量让整个集群来分担，而不是某个节点。不过整个方案需要进行一定的业务开发，比如 <code>key</code> 前后缀的生成方式。</li>
+</ul>
+<h3 id="redis-通信协议简单介绍">Redis 通信协议简单介绍<a hidden class="anchor" aria-hidden="true" href="#redis-通信协议简单介绍">#</a></h3>
+<p>简称 <code>RESP(Redis Serilization Protocol)</code>，是 <code>Redis</code> 自定义的用于服务端和客户端之间的通信协议。特点是：实现简单、可读性强、快速解析。</p>
+<p>间隔符号，在 <code>类Unix</code> 下是 <code>\r\n</code>，在 <code>Windows</code> 是 <code>\n</code>。</p>
+<ul>
+<li><code>+</code>：简单字符串：<code>&quot;+OK\r\n&quot;</code></li>
+<li><code>-</code>：错误信息：<code>&quot;-Error unknow command 'foobar'\r\n&quot;</code></li>
+<li><code>:</code>：整数：<code>&quot;:1000\r\n&quot;</code></li>
+<li><code>$</code>：批量字符串：<code>&quot;$6\r\nfoobar\r\n&quot;</code>，前面的数组表示字符串长度</li>
+<li><code>*</code>：数组：<code>&quot;\*2\\r\\n$2\\r\\nfoo\\r\\n$3\\r\\nbar\\r\\n&quot;</code>，数组包含2个元素，分别是字符串foo和bar。</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/redis/">Redis</a></li>
+      <li><a href="http://localhost:1313/tags/%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">基础数据结构</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">hujm2023&#39;s blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

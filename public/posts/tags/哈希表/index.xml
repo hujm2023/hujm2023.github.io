@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>哈希表 on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/</link>
+    <description>Recent content in 哈希表 on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 18 Sep 2020 23:41:39 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/tags/%E5%93%88%E5%B8%8C%E8%A1%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang-map详解</title>
+      <link>http://localhost:1313/posts/golang-map%E8%AF%A6%E8%A7%A3/</link>
+      <pubDate>Fri, 18 Sep 2020 23:41:39 +0000</pubDate>
+      <guid>http://localhost:1313/posts/golang-map%E8%AF%A6%E8%A7%A3/</guid>
+      <description>&lt;h2 id=&#34;一设计原理&#34;&gt;一、设计原理&lt;/h2&gt;
+&lt;p&gt;哈希表(也就是我们说的&lt;code&gt;map&lt;/code&gt;)是计算机应用领域非常重要的数据结构之一，读写的时间复杂度均是&lt;code&gt;O(1)&lt;/code&gt;，是典型的 &lt;strong&gt;以空间换时间&lt;/strong&gt; 设计。它的优点除了读写性能优异，还在于它提供了键值之间的映射，为程序设计提供了极大的方便。要想实现一个性能优异的哈希表，需要关注两个关键点：&lt;strong&gt;哈希函数&lt;/strong&gt; 和 &lt;strong&gt;冲突解决方法&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

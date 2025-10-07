@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Epoll on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/epoll/</link>
+    <description>Recent content in Epoll on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 10 May 2021 20:57:47 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/epoll/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>I/O多路复用之 epoll</title>
+      <link>http://localhost:1313/posts/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B9%8B-epoll/</link>
+      <pubDate>Mon, 10 May 2021 20:57:47 +0800</pubDate>
+      <guid>http://localhost:1313/posts/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B9%8B-epoll/</guid>
+      <description>&lt;h2 id=&#34;select-的缺陷&#34;&gt;select 的缺陷&lt;/h2&gt;
+&lt;p&gt;目前对于高并发的解决方案是 &lt;strong&gt;一个线程处理所有连接&lt;/strong&gt;，在这一点上 &lt;code&gt;select&lt;/code&gt; 和 &lt;code&gt;epoll&lt;/code&gt; 是一样的。但 &lt;strong&gt;当大量的并发连接存在、但短时间内只有少数活跃的连接时，&lt;code&gt;select&lt;/code&gt; 的表现就显得捉襟见肘了。&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

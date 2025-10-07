@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>MySQL面试汇总 | hujm2023&#39;s blog</title>
+<meta name="keywords" content="MySQL, MySQL索引, 面试">
+<meta name="description" content="关于事务
+事务的特性
+
+原子性(Atomic, A)：要么全部执行，要么全部不执行；
+一致性(Consistent, C)：事务的执行，使得数据库由一种正确状态转变为另一种正确的状态；
+隔离性(Isolation, I)：在事务正确提交之前，不应该把该事务对数据的改变提供给其他事务；
+持久性(Durability, D)：事务提交后，其结果永久保存在数据库中。
+
+
+事务ACID特性的实现思想">
+<meta name="author" content="JemmyHu(hujm20151021@gmail.com)">
+<link rel="canonical" href="http://localhost:1313/posts/mysql%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.a090830a421002426baafbd314e38f149d77b4c48a12ee9312700d770b27fb26.css" integrity="sha256-oJCDCkIQAkJrqvvTFOOPFJ13tMSKEu6TEnANdwsn&#43;yY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/mysql%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="hujm2023&#39;s blog (Alt + H)">hujm2023&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="首页">
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      MySQL面试汇总
+    </h1>
+    <div class="post-meta"><span title='2021-04-16 19:56:29 +0800 CST'>April 16, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span>
+
+</div>
+  </header> 
+<figure class="entry-cover">
+        <img loading="eager" src="https://pic.downk.cc/item/5f73fbb3160a154a67b4ff7e.jpg" alt="">
+        
+</figure>
+  <div class="post-content"><h3 id="关于事务">关于事务<a hidden class="anchor" aria-hidden="true" href="#关于事务">#</a></h3>
+<h4 id="事务的特性">事务的特性<a hidden class="anchor" aria-hidden="true" href="#事务的特性">#</a></h4>
+<ul>
+<li><code>原子性(Atomic, A)</code>：要么全部执行，要么全部不执行；</li>
+<li><code>一致性(Consistent, C)</code>：事务的执行，使得数据库由一种正确状态转变为另一种正确的状态；</li>
+<li><code>隔离性(Isolation, I)</code>：在事务正确提交之前，不应该把该事务对数据的改变提供给其他事务；</li>
+<li><code>持久性(Durability, D)</code>：事务提交后，其结果永久保存在数据库中。</li>
+</ul>
+<blockquote>
+<p>事务ACID特性的实现思想</p>
+<ul>
+<li>原子性：是使用 undo log来实现的，如果事务执行过程中出错或者用户执行了rollback，系统通过undo log日志返回事务开始的状态。</li>
+<li>持久性：使用 redo log来实现，只要redo log日志持久化了，当系统崩溃，即可通过redo log把数据恢复。</li>
+<li>隔离性：通过锁以及MVCC,使事务相互隔离开。</li>
+<li>一致性：通过回滚、恢复，以及并发情况下的隔离性，从而实现一致性。</li>
+</ul></blockquote>
+<h4 id="并发操作带来的问题">并发操作带来的问题<a hidden class="anchor" aria-hidden="true" href="#并发操作带来的问题">#</a></h4>
+<ul>
+<li><strong>脏读(Dirty Reads)</strong>：一个事务在处理的过程中读取到了另一个未提交事务中的事务；</li>
+<li><strong>不可重复读(Non-Reapeatable Reads)</strong>：一个事务在读取某些数据后的某个时间再次读取以前读过的数据，却发现其读出的数据已经发生了改变、或某些记录已经被删除了；</li>
+<li><strong>幻读(Phantom Reads)</strong>：一个事务按相同的查询条件重新读取以前检索过的数据，却发现其他事务插入了满足其查询条件的新数据。</li>
+</ul>
+<p><strong><code>不可重复读</code> 和 <code>幻读</code> 区别是什么？</strong></p>
+<blockquote>
+<ul>
+<li>
+<p><code>不可重复读</code> 的重点是 <strong>修改</strong>：在同一事务中，同样的条件，第一次读的数据和第二次读的<strong>数据不一样</strong>。（因为中间有其他事务提交了修改）</p>
+</li>
+<li>
+<p><code>幻读</code> 的重点是 <strong>新增/删除</strong>：在同一事务中，同样的条件，第一次和第二次读出来的 <strong>记录数不一样</strong>。（因为中间有其他事务提交了插入/删除）</p>
+</li>
+</ul></blockquote>
+<h4 id="事务的隔离级别">事务的隔离级别<a hidden class="anchor" aria-hidden="true" href="#事务的隔离级别">#</a></h4>
+<ul>
+<li><strong>读未提交(Read UnCommitted)</strong>：所有的事务都可以看到其他事务未提交的修改(很少用到业务中)。(<code>脏读：Y，不可重复读：Y，幻读：Y，</code>)</li>
+<li><strong>读已提交(Read Committed)</strong>：只能看到其他已经提交的事务。(<code>脏读：N，不可重复读：Y，幻读：Y</code>)</li>
+<li><strong>可重复读(Reapeatable Read)</strong>：确保同一个事务在并发读取时数据一致(MySQL 默认的事务级别)。(<code>脏读：N，不可重复读：N，幻读：Y</code>)</li>
+<li><strong>可串行化(Serializable)</strong>：串行化读取数据(最高隔离级别，锁竞争激烈)。(<code>脏读：N，不可重复读：N，幻读：N</code>)</li>
+</ul>
+<p>不同的数据库支持的隔离级别不同。在 <code>MySQL</code> 数据库中，支持上面四种隔离级别，默认的为 <code>Repeatable read (可重复读)</code>；而在 <code>Oracle</code> 数据库中，只支持 <code>Serializable (串行化)</code>级别和 <code>Read committed (读已提交)</code>这两种级别，其中默认的为 <code>Read committed</code> 级别。</p>
+<h4 id="mysql-中有哪几种锁">MySQL 中有哪几种锁？<a hidden class="anchor" aria-hidden="true" href="#mysql-中有哪几种锁">#</a></h4>
+<ul>
+<li><strong>表级锁</strong>：开销小，加锁快；不会出现死锁；锁定粒度大，发生锁冲突的概率最高，并发度最低。</li>
+<li><strong>行级锁</strong>：开销大，加锁慢；会出现死锁；锁定粒度最小，发生锁冲突的概率最低，并发度也最高。</li>
+<li><strong>页面锁</strong>：开销和加锁时间界于表锁和行锁之间；会出现死锁；锁定粒度界于表锁和行锁之间，并发度一般。</li>
+</ul>
+<h4 id="什么是-mvcc">什么是 MVCC？<a hidden class="anchor" aria-hidden="true" href="#什么是-mvcc">#</a></h4>
+<p><strong>多版本并发控制(<code>MultiVersion Concurrency Control</code>)</strong> 是一种并发控制的方法，一般用在数据库管理系统中，实现对数据库的并发访问。</p>
+<h5 id="为什么需要-mvcc">为什么需要 <code>MVCC</code>？<a hidden class="anchor" aria-hidden="true" href="#为什么需要-mvcc">#</a></h5>
+<p>主要实现对数据的隔离，解决读写之间的阻塞问题，提高读写并发度。</p>
+<ul>
+<li>最原生的锁，锁住一个资源之后禁止其他任何线程访问。但是很多应用的场景都是 <strong>读多写少</strong>，很多数据的读取次数远远大于修改的次数，而这种读数据的操作之间进行排斥就显得很没必要；</li>
+<li>所以出现了 <strong>读写锁</strong>，读锁与读锁不互斥，而写锁与写锁、写锁与读锁之间互斥，这样已经很大地提升了系统的并发能力。</li>
+<li>后来人们发现并发读还是不够，又提出了一种让读写之间也不冲突的方法：<strong>快照读</strong>。就是读取数据的时候通过一种类似于 “快照” 的方式将第一眼看到的数据保存下来，这样读锁和写锁就不冲突了，不同的事务会看到自己特定版本的数据。当然，“快照”是一种概念模型，不同的数据库实现方式可能不太一样。</li>
+</ul>
+<p>所以我们可以看到这样的“提高并发”的演进思路：</p>
+<p><code>普通锁，串行执行</code> &ndash;&gt; <code>读写锁，实现读读并发</code> &ndash;&gt; <code>MVCC，实现读写并发</code>。</p>
+<h5 id="mvcc-解决了哪些问题">MVCC 解决了哪些问题？<a hidden class="anchor" aria-hidden="true" href="#mvcc-解决了哪些问题">#</a></h5>
+<ul>
+<li>读写之间的阻塞问题：可以实现并发读写；</li>
+<li>降低了死锁的概率：MySQL 的 InnoDB 的 MVCC 使用了乐观锁，读数据时并不需要加锁；对于写操作，也只锁定必要的行；</li>
+<li>解决一致性读的问题：一致性读也被称为快照读，当我们查询数据库在某个时间点的快照时，只能看到这个时间点之前事务提交更新的结果，而不能看到这个时间点之后事务提交的更新结果。</li>
+</ul>
+<blockquote>
+<p><code>MVCC</code> 只在 <code>可重复读(REPEATABLE READ)</code> 和 <code>提交读(READ COMMITTED)</code> 两个隔离级别下工作。其他两个隔离级别都和 <code>MVCC</code> 不兼容，因为 <code>未提交读</code> 总是读取最新的数据行，而不是符合当前事务版本的数据行。而 <code>可串行化</code>则会对所有读取的行都加锁。</p></blockquote>
+<h5 id="mvcc-如何实现的">MVCC 如何实现的？<a hidden class="anchor" aria-hidden="true" href="#mvcc-如何实现的">#</a></h5>
+<p><code>Innodb</code> 中使用 <code>B+树</code> 作为索引的数据结构，并且主键所在的索引称为 <code>聚簇索引(ClusterIndex)</code>，<code>聚簇索引</code>的叶子结点保存了完整的一条数据。一张表只能有一个主键，所以也只能有一个<code>聚簇索引</code>，如果没有定义主键，<code>InnoDB</code> 将使用一个隐藏列作为<code>聚簇索引</code>。除了 <code>聚簇索引</code>，还有 <code>二级索引(SecondaryIndex)</code>，它的叶子结点中保存的是主键。</p>
+<p><code>InnoDB</code> 的叶子段中保存了数据页，数据页中保存了行记录，而在行记录中有三个个重要的隐藏记录：</p>
+<ul>
+<li>DB_ROW_ID(隐藏行 ID)：隐藏的行 ID，用来生成默认的聚簇索引。如果我们创建表时没有指定聚簇索引，那么 <code>InnoDB</code> 会使用这个隐藏 ID来创建聚簇索引。</li>
+<li>DB_TRX_ID(行的事务ID)：操作这行数据的事务 ID，也就是最后一个对该数据进行插入或更新的事务 ID。新增一个事务时事务ID会增加，DB_TRX_ID 能够表示事务开始的先后顺序。</li>
+<li>DB_ROLL_PT(行的回滚指针)：回滚指针，指向这行记录的 <code>Undo Segment</code> 中的 <code>undo log</code>。</li>
+</ul>
+<p><strong>MVCC</strong> 在 <code>MySQL</code> 中的实现依赖的是 <code>undo log</code> 和 <code>ReadView</code>。</p>
+<p><strong><code>undo log</code>：</strong></p>
+<p>除了记录 <code>redo log</code> 之外，当进行数据修改时还会记录 <code>undo log</code>。<code>undo log</code> 用于数据的撤回操作，它记录修改的反向操作，比如插入对应删除，修改对应修改为原来的数据。<code>undo log</code> 分为两种：<code>Insert</code> 和 <code>Update</code>，<code>Delete</code> 可以看做是一种特殊的 <code>Update</code>，即在记录上修改删除标记。而 <code>Insert undo log</code> 在事务提交之后可以删除，因为用不到。所以我们可以理解为：<strong><code>update undo log</code>记录了数据之前的数据信息，通过这些信息可以还原到之前版本的状态</strong>。</p>
+<p><img alt="第一次，插入" loading="lazy" src="https://img-blog.csdnimg.cn/img_convert/2a403f9b6422de07211b416b82ea8cc5.png"><br />
+<img alt="第二次，更新" loading="lazy" src="https://img-blog.csdnimg.cn/img_convert/f766ee1c5e2b6b5e196cac16e423b288.png"><br />
+<img alt="又被另一个事务更新" loading="lazy" src="https://img-blog.csdnimg.cn/img_convert/63b1dbd65c2e9a08e07a29664c11047f.png"></p>
+<p><strong><code>ReadView</code>：</strong></p>
+<p>也称为 <strong>一致性读视图</strong>。它并不实际存在，只是一个概念，通过 <code>undo log</code> 和版本计算出来，用以决定当前事务能看到哪些数据。<br />
+对于 <code>READ UNCOMMITTED</code> 隔离级别，所有事务直接读取数据库的最新值即可；<code>SERIALIZABLE</code> 隔离级别，所有请求都会加锁，同步执行。所以这对这两种情况下是不需要使用到 <code>ReadView</code> 的版本控制。<br />
+所以我们才说 <code>MVCC</code> 只支持 <code>Read Committed</code> 以及 <code>Repeated Read</code> 隔离级别的实现，而核心逻辑就是依赖 <code>undo log</code> 以及版本控制。针对这个问题 <code>InnoDB</code> 在设计上增加了<code>ReadView</code> 的设计，<code>ReadView</code> 中主要包含当前聚簇索引对应的、当前系统中还有哪些活跃的读写事务，把它们的 <code>事务ID</code> 放到一个列表中，我们把这个列表命名为为 <code>m_ids</code>。对于查询时版本数据能否被看到的判断依据是：</p>
+<ul>
+<li>如果被访问版本的 trx_id 属性值小于 m_ids 列表中最小的事务id，表明生成该版本的事务在生成 ReadView 前已经提交，所以该版本可以被当前事务访问；</li>
+<li>如果被访问版本的 trx_id 属性值大于 m_ids 列表中最大的事务id，表明生成该版本的事务在生成 ReadView 后才生成，所以该版本不可以被当前事务访问；</li>
+<li>如果被访问版本的 trx_id 属性值在 m_ids 列表中最大的事务id和最小事务id之间，那就需要判断一下 trx_id 属性值是不是在 m_ids 列表中，如果在，说明创建 ReadView 时生成该版本的事务还是活跃的，该版本不可以被访问；如果不在，说明创建 ReadView 时生成该版本的事务已经被提交，该版本可以被访问。</li>
+</ul>
+<p>先说结论：<code>Read Committed</code> 和 <code>Repeatable Read</code> 隔离级别的的一个非常大的区别就是它们生成 <code>ReadView</code> 的时机不同：</p>
+<ul>
+<li>在 <code>Read Committed</code> 中每次查询都会生成一个实时的 <code>ReadView</code>，做到保证每次提交后的数据是处于当前的可见状态；</li>
+<li>在 <code>Repeatable Read</code> 中，在当前事务第一次查询时生成当前的 <code>ReadView</code>，并且当前的 <code>ReadView</code> 会一直沿用到当前事务提交，以此来保证 <strong>可重复读(<code>Repeatale Read</code>)</strong>。</li>
+</ul>
+<p><a href="https://blog.csdn.net/qq_35190492/article/details/109044141">腾讯面试：MySQL事务与MVCC如何实现的隔离级别？</a> 中有一个例子特别好，以截图方式展示：</p>
+<p><strong>Read Committed</strong> 下的 <code>ReadView</code>：<br />
+<img alt="RC 1" loading="lazy" src="https://pic.imgdb.cn/item/612272b54907e2d39c64fa18.jpg"><br />
+<img alt="RC 2" loading="lazy" src="https://pic.imgdb.cn/item/612272d24907e2d39c654f36.jpg"><br />
+<img alt="RC 3" loading="lazy" src="https://pic.imgdb.cn/item/612272f44907e2d39c65a2dd.jpg"><br />
+<img alt="RC 4" loading="lazy" src="https://pic.imgdb.cn/item/6122736b44eaada739f19d98.jpg"></p>
+<p><strong>Repeatable Read</strong> 下的 <code>ReadView</code>：<br />
+<img alt="RR 1" loading="lazy" src="https://pic.imgdb.cn/item/612273a944eaada739f20d22.jpg"><br />
+<img alt="RR 2" loading="lazy" src="https://pic.imgdb.cn/item/612273cf44eaada739f255c1.jpg"><br />
+<img alt="RR 3" loading="lazy" src="https://pic.imgdb.cn/item/612273e744eaada739f2811d.jpg"><br />
+<img alt="RR 4" loading="lazy" src="https://pic.imgdb.cn/item/6122740944eaada739f2c73f.jpg"></p>
+<h4 id="mysql-中哪些存储引擎支持事务">MySQL 中哪些存储引擎支持事务？<a hidden class="anchor" aria-hidden="true" href="#mysql-中哪些存储引擎支持事务">#</a></h4>
+<p><code>MySQL</code> 服务器层不管理事务，事务是由下层的存储引擎实现的。支持事务的存储引擎有<code>InnoDB</code> 和 <code>NDB Cluster</code>。</p>
+<h4 id="什么是自动提交">什么是自动提交？<a hidden class="anchor" aria-hidden="true" href="#什么是自动提交">#</a></h4>
+<p>MySQL 默认使用 <code>InnoDB</code> 引擎，并且默认采用 <code>自动提交(AUTOCOMMITTED)</code> 模式。也就是说，如果不是显式地开启一个事务，则每一个查询都被当成一个事务执行提交操作。</p>
+<h3 id="mysql-支持的存储引擎">MySQL 支持的存储引擎<a hidden class="anchor" aria-hidden="true" href="#mysql-支持的存储引擎">#</a></h3>
+<p>我们主要关注三个：<code>InnoDB</code>、<code>MyISAM</code> 和 <code>Memory</code>。</p>
+<h4 id="innodb">InnoDB<a hidden class="anchor" aria-hidden="true" href="#innodb">#</a></h4>
+<p><code>MySQL</code> 的默认事务型引擎，支持事务和外键。在你增删改查时匹配的条件字段带有索引时，<code>InnoDB</code> 使用 <strong>行级锁</strong>；在你增删改查时匹配的条件字段不带有索引时。<code>InnoDB</code> 使用的将是 <strong>表级锁</strong>。</p>
+<h4 id="myisam">MyISAM<a hidden class="anchor" aria-hidden="true" href="#myisam">#</a></h4>
+<p>旧版本<code>MySQL</code> 的默认存储引擎。主要特点是快，不支持事务，也不支持外键。</p>
+<h4 id="memory">Memory<a hidden class="anchor" aria-hidden="true" href="#memory">#</a></h4>
+<p>使用内存空间来创建表。<code>Memory</code> 类型的表访问非常快，因为它的数据是放在内存中的，并且默认使用 <code>Hash</code> 索引，但是一旦服务关闭，表中的数据就会丢失掉。</p>
+<h3 id="关于索引">关于索引<a hidden class="anchor" aria-hidden="true" href="#关于索引">#</a></h3>
+<p>按照数据结构分：<code>哈希索引</code>、<code>B+树索引</code> 和 <code>全文索引</code>。<br />
+按物理存储方式分：<code>聚簇索引</code> 和 <code>二级索引</code>。</p>
+<p>InnoDB到底支不支持哈希索引？</p>
+<ul>
+<li><code>InnoDB</code> 用户无法手动创建哈希索引，这一层上说，<code>InnoDB</code> 确实不支持哈希索引;</li>
+<li><code>InnoDB</code> 会 <code>自调优(self-tuning)</code>，如果判定建立 <code>自适应哈希索引(Adaptive Hash Index, AHI)</code>，能够提升查询效率，<code>InnoDB</code> 自己会建立相关哈希索引，这一层上说，<code>InnoDB</code> 又是支持哈希索引的。</li>
+</ul>
+<h4 id="哈希索引">哈希索引<a hidden class="anchor" aria-hidden="true" href="#哈希索引">#</a></h4>
+<p><strong>哈希索引(Hash Index)</strong> 基于哈希表实现，<strong>只适合精确匹配，不适合范围查找</strong>。对于每一行数据，存储引擎都会使用一个哈希函数，对改行的对应索引列计算<code>哈希code</code>，通过 <strong>K-V</strong> 的形式保存起来，其中“K”为哈希 code，“V”是指向改行记录的指针。</p>
+<p>使用哈希索引，有一点需要注意：如何解决哈希冲突？就目前而言，大多数使用 <strong>“链接法”</strong>——冲突之后，在原来的位置添加一个链表结构，多个冲突值通过链表的形式保存；当查询的时候，通过哈希 code 定位到对应的链表，之后遍历链表，直到找到符合条件的。</p>
+<p>借用《高性能 MySQL》中实例：</p>
+<p><img alt="哈希索引举例" loading="lazy" src="https://pic.downk.cc/item/5f732e83160a154a678581e2.png"></p>
+<p><strong>哈希索引的特点</strong>：</p>
+<ul>
+<li><strong>哈希索引只包含哈希值和行指针，不存储字段值</strong>。因此<strong>无法使用覆盖索引</strong>等相关特性；</li>
+<li>哈希索引并不按照索引值顺序存储，因此<strong>不适合排序操作</strong>；</li>
+<li>哈希索引<strong>不支持部分索引列匹配查找</strong>，因为计算哈希时，始终使用的是索引列的全部内容。例如，在数据列&lt;A, B&gt;上建立哈希索引，如果查询的只有&lt;A&gt;，那么无法使用该索引，因为 hash(&lt;A, B&gt;) 和 hash(&lt;A&gt;) 的结果一点关系都没有；</li>
+<li>哈希索引<strong>只支持等值比较</strong>( <strong>=</strong>、<strong>IN()<strong>和 <strong>&lt;=&gt;</strong>(效果等同于等号，不过可以比较 NULL))，<strong>不支持任何的范围查询</strong>(比如 <strong>BETWEEN</strong>、</strong>&lt;</strong> 等)；</li>
+<li>访问哈希索引的速度非常快，除非出现很多的哈希冲突，此时的查询会退化成链表的遍历；</li>
+<li>如果哈希冲突很多的话，索引的维护代价将会非常高，此时对索引的增删改，回退化成对链表的增删改，**O(n)**的时间复杂度。</li>
+</ul>
+<h4 id="b树索引">B+树索引<a hidden class="anchor" aria-hidden="true" href="#b树索引">#</a></h4>
+<p>所有的数据都在叶子节点，非叶子结点只存储叶子结点的索引，且每一个叶子节点都带有指向下一个节点的指针，形成了一个有序的链表，这样就可以实现范围查询。优势：</p>
+<ul>
+<li>B+Tree 它的非叶子节点不存储数据，只存储索引，而数据会存放在叶子节点中。非叶子结点存储的索引越多，叶子结点能表示的数据就越多，同样数量情况下，树的高度越小，查找数据时进行的 IO 次数就越少。</li>
+</ul>
+<h4 id="全文索引">全文索引<a hidden class="anchor" aria-hidden="true" href="#全文索引">#</a></h4>
+<p>只支持英文，实现方式为 <strong>倒排索引</strong>：先分词，再建立对应的<code>B+树</code>索引。</p>
+<h4 id="innodb-中的索引策略">InnoDB 中的索引策略<a hidden class="anchor" aria-hidden="true" href="#innodb-中的索引策略">#</a></h4>
+<ul>
+<li>覆盖索引</li>
+<li>最左前缀原则</li>
+<li>索引下推</li>
+<li>索引下推优化是 MySQL 5.6 引入的，可以在索引遍历过程中，对索引中包含的字段先做判断，直接过滤掉不满足条件的记录，减少回表次数。</li>
+</ul>
+<h4 id="innodb-中创建索引有什么原则">InnoDB 中创建索引有什么原则<a hidden class="anchor" aria-hidden="true" href="#innodb-中创建索引有什么原则">#</a></h4>
+<ul>
+<li>最左前缀匹配原则</li>
+<li>频繁作为查询条件的字段才去创建索引</li>
+<li>频繁更新的字段不适合创建索引</li>
+<li>索引列不能参与计算，不能有函数操作</li>
+<li>优先考虑扩展索引，而不是新建索引，避免不必要的索引</li>
+<li>在order by或者group by子句中，创建索引需要注意顺序</li>
+<li>区分度低的数据列不适合做索引列(如性别）</li>
+<li>定义有外键的数据列一定要建立索引。</li>
+<li>对于定义为text、image数据类型的列不要建立索引。</li>
+<li>删除不再使用或者很少使用的索引</li>
+</ul>
+<h3 id="mysql-分库分表">MySQL 分库分表<a hidden class="anchor" aria-hidden="true" href="#mysql-分库分表">#</a></h3>
+<h4 id="分库分表方案">分库分表方案<a hidden class="anchor" aria-hidden="true" href="#分库分表方案">#</a></h4>
+<ul>
+<li>水平分库：以字段为依据，按照一定策略（hash、range等），将一个库中的数据拆分到多个库中。</li>
+<li>水平分表：以字段为依据，按照一定策略（hash、range等），将一个表中的数据拆分到多个表中。</li>
+<li>垂直分库：以表为依据，按照业务归属不同，将不同的表拆分到不同的库中。</li>
+<li>垂直分表：以字段为依据，按照字段的活跃性，将表中字段拆到不同的表（主表和扩展表）中。</li>
+</ul>
+<h4 id="分库分表可能遇到的问题">分库分表可能遇到的问题<a hidden class="anchor" aria-hidden="true" href="#分库分表可能遇到的问题">#</a></h4>
+<ul>
+<li>事务问题：需要用分布式事务啦</li>
+<li>跨节点Join的问题：解决这一问题可以分两次查询实现</li>
+<li>跨节点的count,order by,group by以及聚合函数问题：分别在各个节点上得到结果后在应用程序端进行合并。</li>
+<li>数据迁移，容量规划，扩容等问题</li>
+<li>ID问题：数据库被切分后，不能再依赖数据库自身的主键生成机制啦，最简单可以考虑UUID</li>
+<li>跨分片的排序分页问题（后台加大pagesize处理？）</li>
+</ul>
+<h3 id="mysql-innodb-索引为什么使用-b树">MySQL InnoDB 索引为什么使用 B+树？<a hidden class="anchor" aria-hidden="true" href="#mysql-innodb-索引为什么使用-b树">#</a></h3>
+<p>可以从几个维度去看这个问题，查询是否够快，效率是否稳定，存储数据多少，以及查找磁盘次数，为什么不是二叉树，为什么不是平衡二叉树，为什么不是B树，而偏偏是B+树呢？</p>
+<h4 id="为什么不是一般二叉树">为什么不是一般二叉树？<a hidden class="anchor" aria-hidden="true" href="#为什么不是一般二叉树">#</a></h4>
+<p>如果二叉树特殊化为一个链表，相当于全表扫描。平衡二叉树相比于二叉查找树来说，查找效率更稳定，总体的查找速度也更快。</p>
+<h4 id="为什么不是平衡二叉树呢">为什么不是平衡二叉树呢？<a hidden class="anchor" aria-hidden="true" href="#为什么不是平衡二叉树呢">#</a></h4>
+<p>我们知道，在内存比在磁盘的数据，查询效率快得多。如果树这种数据结构作为索引，那我们每查找一次数据就需要从磁盘中读取一个节点，也就是我们说的一个磁盘块，但是平衡二叉树可是每个节点只存储一个键值和数据的，如果是B树，可以存储更多的节点数据，树的高度也会降低，因此读取磁盘的次数就降下来啦，查询效率就快啦。</p>
+<h4 id="那为什么不是b树而是b树呢">那为什么不是B树而是B+树呢？<a hidden class="anchor" aria-hidden="true" href="#那为什么不是b树而是b树呢">#</a></h4>
+<ol>
+<li>B+树非叶子节点上是不存储数据的，仅存储键值，而B树节点中不仅存储键值，也会存储数据。innodb中页的默认大小是16KB，如果不存储数据，那么就会存储更多的键值，相应的树的阶数（节点的子节点树）就会更大，树就会更矮更胖，如此一来我们查找数据进行磁盘的IO次数有会再次减少，数据查询的效率也会更快。</li>
+<li>B+树索引的所有数据均存储在叶子节点，而且数据是按照顺序排列的，链表连着的。那么B+树使得范围查找，排序查找，分组查找以及去重查找变得异常简单。</li>
+</ol>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/mysql/">MySQL</a></li>
+      <li><a href="http://localhost:1313/tags/mysql%E7%B4%A2%E5%BC%95/">MySQL索引</a></li>
+      <li><a href="http://localhost:1313/tags/%E9%9D%A2%E8%AF%95/">面试</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">hujm2023&#39;s blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

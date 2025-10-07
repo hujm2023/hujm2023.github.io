@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Linux on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/linux/</link>
+    <description>Recent content in Linux on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 10 May 2021 20:57:47 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>I/O多路复用之 epoll</title>
+      <link>http://localhost:1313/posts/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B9%8B-epoll/</link>
+      <pubDate>Mon, 10 May 2021 20:57:47 +0800</pubDate>
+      <guid>http://localhost:1313/posts/io%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E4%B9%8B-epoll/</guid>
+      <description>&lt;h2 id=&#34;select-的缺陷&#34;&gt;select 的缺陷&lt;/h2&gt;
+&lt;p&gt;目前对于高并发的解决方案是 &lt;strong&gt;一个线程处理所有连接&lt;/strong&gt;，在这一点上 &lt;code&gt;select&lt;/code&gt; 和 &lt;code&gt;epoll&lt;/code&gt; 是一样的。但 &lt;strong&gt;当大量的并发连接存在、但短时间内只有少数活跃的连接时，&lt;code&gt;select&lt;/code&gt; 的表现就显得捉襟见肘了。&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>彻底理解Linux Select中的FD_SET</title>
+      <link>http://localhost:1313/posts/%E5%BD%BB%E5%BA%95%E7%90%86%E8%A7%A3linux-select%E4%B8%AD%E7%9A%84fd_set/</link>
+      <pubDate>Sat, 08 May 2021 21:00:42 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E5%BD%BB%E5%BA%95%E7%90%86%E8%A7%A3linux-select%E4%B8%AD%E7%9A%84fd_set/</guid>
+      <description>&lt;p&gt;看 &lt;code&gt;select&lt;/code&gt; 源码，&lt;code&gt;fd_set&lt;/code&gt; 这个结构体实际上是一个 &lt;code&gt;long&lt;/code&gt; 型的数组，但是数组的长度依赖于系统中 &lt;code&gt;typedef long int __fd_mask&lt;/code&gt; 的长度。当我去调试的时候，经常打印出一些很奇怪的值，有时候还会溢出。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Linux面试汇总</title>
+      <link>http://localhost:1313/posts/linux%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Mon, 03 May 2021 21:00:42 +0800</pubDate>
+      <guid>http://localhost:1313/posts/linux%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</guid>
+      <description>&lt;h2 id=&#34;进程调度&#34;&gt;进程调度&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;进程调度算法&lt;/strong&gt; 也称 &lt;strong&gt;CPU 调度算法&lt;/strong&gt;，毕竟进程是有 &lt;code&gt;CPU&lt;/code&gt; 进行调度的。当 &lt;code&gt;CPU&lt;/code&gt; 空闲时，操作系统就会选择内存中某个处在 &lt;code&gt;就绪状态&lt;/code&gt; 的进程，分配给其 &lt;code&gt;CPU&lt;/code&gt; 开始运行。&lt;/p&gt;
+&lt;p&gt;进程一般有三种基本状态：&lt;code&gt;运行&lt;/code&gt;、&lt;code&gt;就绪&lt;/code&gt; 和 &lt;code&gt;阻塞&lt;/code&gt;，还有一种说法，还包括 &lt;code&gt;新建&lt;/code&gt; 和 &lt;code&gt;终止&lt;/code&gt;。它们叫做 &lt;strong&gt;五态模型&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

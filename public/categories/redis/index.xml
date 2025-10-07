@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Redis on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/categories/redis/</link>
+    <description>Recent content in Redis on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 15 Apr 2021 12:11:24 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/redis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Redis 面试汇总</title>
+      <link>http://localhost:1313/posts/redis-%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Thu, 15 Apr 2021 12:11:24 +0800</pubDate>
+      <guid>http://localhost:1313/posts/redis-%E9%9D%A2%E8%AF%95%E6%B1%87%E6%80%BB/</guid>
+      <description>&lt;h2 id=&#34;当我们谈论-redis-时应该谈论什么&#34;&gt;当我们谈论 Redis 时，应该谈论什么？&lt;/h2&gt;
+&lt;h3 id=&#34;redis-基本数据类型有哪些以及他们各自的使用场景是什么&#34;&gt;Redis 基本数据类型有哪些？以及他们各自的使用场景是什么？&lt;/h3&gt;
+&lt;p&gt;常见的有五种：&lt;code&gt;字符串&lt;/code&gt;、&lt;code&gt;哈希&lt;/code&gt;、&lt;code&gt;列表&lt;/code&gt;、&lt;code&gt;集合&lt;/code&gt;、&lt;code&gt;有序集合&lt;/code&gt;。&lt;code&gt;5.0&lt;/code&gt; 版本中新添加了 &lt;code&gt;Stream&lt;/code&gt; 类型。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis(二): 什么是 Redis 中的事件</title>
+      <link>http://localhost:1313/posts/redis%E4%BA%8C-%E4%BB%80%E4%B9%88%E6%98%AF-redis-%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6/</link>
+      <pubDate>Thu, 08 Apr 2021 22:31:17 +0800</pubDate>
+      <guid>http://localhost:1313/posts/redis%E4%BA%8C-%E4%BB%80%E4%B9%88%E6%98%AF-redis-%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://redisbook.readthedocs.io/en/latest/internal/ae.html&#34;&gt;Redis 设计与实现&amp;ndash;事件&lt;/a&gt; 中有很清晰的说明。&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;redis 要处理的事件有两种类型：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文件事件：网络连接套接字。服务器与多个客户端通过网络套接字连接，当对应套接字上出现“读”或“写”需求时，对应的事件就会触发；&lt;/li&gt;
+&lt;li&gt;时间事件：在指定时间点运行的事件。如持续运行的服务器为了维持一个健康稳定的状态，需要定期对自身的资源和状态进行检查和整理。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;一时间事件&#34;&gt;一、时间事件&lt;/h3&gt;
+&lt;p&gt;时间事件记录着那些要在指定时间点运行的事件， 多个时间事件以无序链表的形式保存在服务器状态中。&lt;br /&gt;
+每个时间事件主要由三个属性组成：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis系列(一): Redis 单线程事件循环</title>
+      <link>http://localhost:1313/posts/redis%E4%B8%80-redis-%E5%8D%95%E7%BA%BF%E7%A8%8B%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/</link>
+      <pubDate>Mon, 05 Apr 2021 23:08:37 +0800</pubDate>
+      <guid>http://localhost:1313/posts/redis%E4%B8%80-redis-%E5%8D%95%E7%BA%BF%E7%A8%8B%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/</guid>
+      <description>&lt;h2 id=&#34;一前言&#34;&gt;一、前言&lt;/h2&gt;
+&lt;p&gt;在关注 &lt;strong&gt;redis 单线程/多线程&lt;/strong&gt; 时，有几个重要的时间节点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Before &lt;code&gt;Redis v4.0&lt;/code&gt;，真正的单线程；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Redis v4.0&lt;/code&gt;，引入多线程处理 &lt;code&gt;AOF&lt;/code&gt; 等任务，但&lt;strong&gt;核心的网络模型中依旧使用单线程&lt;/strong&gt;；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Redis v6.0&lt;/code&gt;，正式在网络模型中实现 &lt;code&gt;I/O多线程&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;从 &lt;code&gt;Redis v1.0&lt;/code&gt; 到 &lt;code&gt;Redis v6.0以前&lt;/code&gt;，Redis 的核心网络模型一直都是一个典型的 &lt;strong&gt;单Reactor模型&lt;/strong&gt;，所有的事件都在这个线程内处理完成。本 issue 旨在解释清楚这个 &lt;strong&gt;单Reactor模型&lt;/strong&gt; 的所有运作细节，为以后更好地理解新的 &lt;strong&gt;Multi-Reactors/Master-Workers&lt;/strong&gt; 模型做准备。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis源码阅读--1.基础数据结构与对象</title>
+      <link>http://localhost:1313/posts/redis%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-1-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1/</link>
+      <pubDate>Fri, 02 Oct 2020 12:31:41 +0000</pubDate>
+      <guid>http://localhost:1313/posts/redis%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB-1-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AF%B9%E8%B1%A1/</guid>
+      <description>&lt;p&gt;首先明确，&lt;code&gt;Redis&lt;/code&gt; 是一个&lt;strong&gt;使用 C 语言编写的键值对存储系统&lt;/strong&gt;。&lt;code&gt;Redis&lt;/code&gt; 是众所周知的 “&lt;strong&gt;快&lt;/strong&gt;”，一方面，它是一个内存数据库，所有的操作都是在&lt;strong&gt;内存&lt;/strong&gt;中完成的，内存的访问速度本身就很快；另一方面，得益于它&lt;strong&gt;底层的数据结构&lt;/strong&gt;。&lt;code&gt;Redis&lt;/code&gt; 的常见类型可在这个网页找到：&lt;a href=&#34;https://redis.readthedocs.io/en/2.4/index.html&#34;&gt;Redis 命令参考简体中文版&lt;/a&gt;，其使用到的底层数据结构有如下六种：&lt;strong&gt;简单动态字符串&lt;/strong&gt;、&lt;strong&gt;双向链表&lt;/strong&gt;、&lt;strong&gt;压缩列表&lt;/strong&gt;、&lt;strong&gt;哈希表&lt;/strong&gt;、&lt;strong&gt;跳表&lt;/strong&gt;和 &lt;strong&gt;整数数组&lt;/strong&gt;。本篇文章，将具体了解这些底层数据结构的实现。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

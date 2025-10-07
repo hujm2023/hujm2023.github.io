@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Channel on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/channel/</link>
+    <description>Recent content in Channel on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 09 Apr 2021 11:57:42 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/tags/channel/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang Channel详解</title>
+      <link>http://localhost:1313/posts/golang-channel%E8%AF%A6%E8%A7%A3/</link>
+      <pubDate>Fri, 09 Apr 2021 11:57:42 +0800</pubDate>
+      <guid>http://localhost:1313/posts/golang-channel%E8%AF%A6%E8%A7%A3/</guid>
+      <description>&lt;h2 id=&#34;一原理&#34;&gt;一、原理&lt;/h2&gt;
+&lt;h3 id=&#34;0-简介&#34;&gt;0. 简介&lt;/h3&gt;
+&lt;p&gt;channel 分为有缓冲和无缓冲，或者阻塞和非阻塞，主要区别就在于是否有 &lt;code&gt;容量capacity&lt;/code&gt;。&lt;br /&gt;
+在 &lt;code&gt;runtime&lt;/code&gt; 中是通过 &lt;code&gt;hchan&lt;/code&gt; 这个结构体来表示的，它里面的主要成员可以理解成包含两个大部分：环形队列相关 和 sudog等待队列 相关。&lt;br /&gt;
+对于有缓冲的 channel，会设置环形队列相关的参数，如已有的元素数量、容量、指向队列的指针等；&lt;br /&gt;
+等待队列有发送等待队列和接受等待队列，他们分别在发送时 channel 已满、接收时 channel 为空的情况下，会将当前 goroutine 打包成一个 sudog 结构，添加到对应的队列中，直到条件符合时再被唤醒工作。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

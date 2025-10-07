@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Golang | hujm2023&#39;s blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="author" content="map[comments:false defaulttheme:auto description:个人技术博客，分享编程经验和技术心得 disablescrolltotop:false disablespecial1stpost:false hidemeta:false hidesummary:false keywords:编程, 技术, 博客, Golang, Python name:hujm.net@gmail.com showbreadcrumbs:true showcodecopybuttons:true showpostnavlinks:true showreadingtime:true showrssbuttonintermstermlist:true showtoc:true showwordcount:true tocopen:false usehugotoc:true]">
+<link rel="canonical" href="http://localhost:1313/tags/golang/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.a090830a421002426baafbd314e38f149d77b4c48a12ee9312700d770b27fb26.css" integrity="sha256-oJCDCkIQAkJrqvvTFOOPFJ13tMSKEu6TEnANdwsn&#43;yY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/tags/golang/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/tags/golang/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="list" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="hujm2023&#39;s blog (Alt + H)">hujm2023&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="首页">
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+<header class="page-header">
+  <h1>
+    Golang
+  </h1>
+</header>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f77e088160a154a67ede68f.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">最小堆以及优先级队列的Golang实现
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>前言 堆，是计算机科学中的一种特别的完全二叉树。若父节点的值恒小于等于子节点的值，此堆称为最小堆（min heap）；反之，若母节点的值恒大于等于子节点的值，此堆称为最大堆（max heap）。在堆中最顶端的那一个节点，称作 根节点（root node），根节点本身没有 父节点（parent node）。堆通常是一个可以被看做一棵树的数组对象。在队列中，调度程序反复提取队列中第一个作业并运行，因为实际情况中某些时间较短的任务将等待很长时间才能结束，或者某些不短小，但具有重要性的作业，同样应当具有优先权。堆即为解决此类问题设计的一种数据结构。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-05-13 21:08:09 +0800 CST'>May 13, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to 最小堆以及优先级队列的Golang实现" href="http://localhost:1313/posts/%E6%9C%80%E5%B0%8F%E5%A0%86%E4%BB%A5%E5%8F%8A%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97%E7%9A%84golang%E5%AE%9E%E7%8E%B0/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f61dc63160a154a6777224d.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang Channel详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一、原理 0. 简介 channel 分为有缓冲和无缓冲，或者阻塞和非阻塞，主要区别就在于是否有 容量capacity。
+在 runtime 中是通过 hchan 这个结构体来表示的，它里面的主要成员可以理解成包含两个大部分：环形队列相关 和 sudog等待队列 相关。
+对于有缓冲的 channel，会设置环形队列相关的参数，如已有的元素数量、容量、指向队列的指针等；
+等待队列有发送等待队列和接受等待队列，他们分别在发送时 channel 已满、接收时 channel 为空的情况下，会将当前 goroutine 打包成一个 sudog 结构，添加到对应的队列中，直到条件符合时再被唤醒工作。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-04-09 11:57:42 +0800 CST'>April 9, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Golang Channel详解" href="http://localhost:1313/posts/golang-channel%E8%AF%A6%E8%A7%A3/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang中使用RSA进行加解密
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 本文对 RSA 加密算法 的细节不做深究，仅描述大致用法。具体算法原理请阅读参考文献中的 2 和 4。
+一、介绍 当我们谈论加解密方式时，通常有两种情形：对称加密 和 非对称加密。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-01-14 11:45:06 +0800 CST'>January 14, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Golang中使用RSA进行加解密" href="http://localhost:1313/posts/golang%E4%B8%AD%E4%BD%BF%E7%94%A8rsa%E8%BF%9B%E8%A1%8C%E5%8A%A0%E8%A7%A3%E5%AF%86/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Boltdb使用(一)基本用法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>介绍 boltdb 是一个使用 Go 编写的键值对数据库，它的目标是 简单、快速和稳定的轻型数据库，适用于那些不需要使用像 MySQL 一样的完整的数据库系统的项目。
+使用 1. 安装 go get github.com/boltdb/bolt/... 2. 打开(Open)一个数据库文件连接 func main() { dbPath := &#34;./data.db&#34; // 指定你的数据库文件要存储的地方 db, err := bolt.Open(dbPath, os.ModePerm, nil) if err != nil { panic(err) } ... } bolt 打开一个文件之后，会一直获得此文件的锁，在这期间，其他的进程无法再次打开此文件，直到最开始的进程释放锁。打开一个已经打开的 bolt文件 会导致当前进程无限制地等待下去，直到另一个已经打开的进程结束这个文件的使&gt; 用。为了避免这种无限制的等待，可以给 Open 操作添加超时：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2021-01-05 16:28:43 +0800 CST'>January 5, 2021</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Boltdb使用(一)基本用法" href="http://localhost:1313/posts/boltdb%E4%BD%BF%E7%94%A8%E4%B8%80%E5%9F%BA%E6%9C%AC%E7%94%A8%E6%B3%95/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f61dc63160a154a6777224d.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang-map详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一、设计原理 哈希表(也就是我们说的map)是计算机应用领域非常重要的数据结构之一，读写的时间复杂度均是O(1)，是典型的 以空间换时间 设计。它的优点除了读写性能优异，还在于它提供了键值之间的映射，为程序设计提供了极大的方便。要想实现一个性能优异的哈希表，需要关注两个关键点：哈希函数 和 冲突解决方法。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2020-09-18 23:41:39 +0000 UTC'>September 18, 2020</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Golang-map详解" href="http://localhost:1313/posts/golang-map%E8%AF%A6%E8%A7%A3/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f5f38b3160a154a67e1771f.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang-GPM调度原理
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一、概述 1. 为什么在内核的线程调度器之外，Go 还需要实现一个自己的调度器 主要解决系统线程太重的问题：
+创建与切换线程 太重：都需要在用户态和内核态之间切换，开销较大； 系统线程内存使用 太重：一方面，创建系统线程时会分配一段大部分情况下都用不完的栈内存，造成浪费；另一方面，栈内存空间创建后其大小不会再变化，有溢出的风险。 goroutine 是 Go 语言实现的用户态的线程，可以看做是对系统线程进行的一层抽象。有了这层抽象，Golang 程序员不会直接面对系统线程，直接使用 goroutine 就可以了，而操作系统不会 care 什么 goroutine，只是执行设定好的系统线程就好了。这层抽象，就是 Go 的调度器，后面会详细说明。Go 很精巧地解决了上述两个问题：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2020-09-18 01:53:29 +0000 UTC'>September 18, 2020</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Golang-GPM调度原理" href="http://localhost:1313/posts/golang-gpm%E8%B0%83%E5%BA%A6%E5%8E%9F%E7%90%86/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f5f5567160a154a67e8ec80.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang-unsafe包详解
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>1. Go语言指针的限制 go语言中也有指针，但相对C语言的指针来说，有了很多限制，但这也算是go的成功之处：既可以享受指针带来的便利，又避免了指针过度使用带来的危险。主要的限制如下：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2020-09-17 01:53:29 +0000 UTC'>September 17, 2020</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Golang-unsafe包详解" href="http://localhost:1313/posts/golang-unsafe%E5%8C%85%E8%AF%A6%E8%A7%A3/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f5fa4a5160a154a67fdbc36.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang-数组,切片和字符串
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>在主流的编程语言中数组及其相关的数据结构是使用得最为频繁的，只有在它(们)不能满足时才会考虑链表、hash 表（hash 表可以看作是数组和链表的混合体）和更复杂的自定义数据结构。
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2020-09-16 02:15:54 +0000 UTC'>September 16, 2020</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Golang-数组,切片和字符串" href="http://localhost:1313/posts/golang-%E6%95%B0%E7%BB%84-%E5%88%87%E7%89%87%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/"></a>
+</article>
+
+<article class="post-entry tag-entry"> 
+<figure class="entry-cover">
+        <img loading="lazy" src="https://pic.downk.cc/item/5f5f333b160a154a67dff3a1.png" alt="">
+</figure>
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Golang-关于函数调用
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>一、 前言 我们完成程序的编写之后，经过编译，编译器会将我们的程序编译成一行行机器指令，放到一个可执行文件中；程序执行时，可执行文件被加载到内存，机器执行被放置到虚拟内存的“代码段”，并分配以及初始化程序运行过程中需要的堆栈。会形成如下的结构：
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2020-09-15 02:05:36 +0000 UTC'>September 15, 2020</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span></footer>
+  <a class="entry-link" aria-label="post link to Golang-关于函数调用" href="http://localhost:1313/posts/golang-%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/"></a>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">hujm2023&#39;s blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

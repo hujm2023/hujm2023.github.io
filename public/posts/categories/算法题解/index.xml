@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>算法题解 on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/</link>
+    <description>Recent content in 算法题解 on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 31 Mar 2021 00:24:19 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/categories/%E7%AE%97%E6%B3%95%E9%A2%98%E8%A7%A3/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>面试题:交替打印数字和字符串</title>
+      <link>http://localhost:1313/posts/%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0%E6%95%B0%E5%AD%97%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Wed, 31 Mar 2021 00:24:19 +0800</pubDate>
+      <guid>http://localhost:1313/posts/%E9%9D%A2%E8%AF%95%E9%A2%98%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0%E6%95%B0%E5%AD%97%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>&lt;h3 id=&#34;题目描述&#34;&gt;题目描述&lt;/h3&gt;
+&lt;p&gt;使用两个 goroutine 交替打印序列，一个 goroutine 打印数字， 另外一个 goroutine 打印字母， 最终效果如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1A2B3C4D5E6F7G8H9I10J11K12L13M14N15O16P17Q18R19S20T21U22V23W24X25Y26Z
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;思路&#34;&gt;思路&lt;/h3&gt;
+&lt;p&gt;使用 channel 来控制打印的进度。使用两个 channel，来分别控制数字和字母的打印进度，数字打印完通过 channel 通知数字打印，数字打印完通过 channel 通知字母打印。如此周而复始，直到终止条件。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>排序算法</title>
+      <link>http://localhost:1313/posts/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Thu, 24 Sep 2020 02:36:16 +0000</pubDate>
+      <guid>http://localhost:1313/posts/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</guid>
+      <description>&lt;h2 id=&#34;1-堆排序&#34;&gt;1. 堆排序&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;堆&lt;/strong&gt; 是一种数据结构，它具有如下特征：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;是一棵完全二叉树&lt;/li&gt;
+&lt;li&gt;父节点的值 &amp;gt; 子节点的值&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;11-完全二叉树&#34;&gt;1.1 完全二叉树&lt;/h3&gt;
+&lt;p&gt;若设二叉树的深度为&lt;code&gt;h&lt;/code&gt;，除第 &lt;code&gt;h&lt;/code&gt; 层外，其它各层 &lt;code&gt;(1～h-1)&lt;/code&gt; 的结点数都达到最大个数，第 &lt;code&gt;h&lt;/code&gt; 层所有的结点都连续集中在最左边，这就是 &lt;strong&gt;完全二叉树&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LeetCode-位运算</title>
+      <link>http://localhost:1313/posts/leetcode-%E4%BD%8D%E8%BF%90%E7%AE%97/</link>
+      <pubDate>Tue, 22 Sep 2020 00:25:09 +0000</pubDate>
+      <guid>http://localhost:1313/posts/leetcode-%E4%BD%8D%E8%BF%90%E7%AE%97/</guid>
+      <description>&lt;h1 id=&#34;位运算&#34;&gt;位运算&lt;/h1&gt;
+&lt;p&gt;位运算讲究技巧，需要多积累经验。&lt;/p&gt;
+&lt;h2 id=&#34;一背景知识&#34;&gt;一、背景知识&lt;/h2&gt;
+&lt;p&gt;Go 语言支持的 &lt;strong&gt;位运算符&lt;/strong&gt; 如下：&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;运算符&lt;/th&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;描述&lt;/th&gt;
+          &lt;th style=&#34;text-align: center&#34;&gt;规则&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;amp;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;按位 &lt;strong&gt;与&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;二者同为 1 时结果才为 1，否则为 0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;|&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;按位 &lt;strong&gt;或&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;二者同为 0 时结果才为 0，否则是 1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;^&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;按位 &lt;strong&gt;异或&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;相同为 0，相异为 1&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;laquo;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;strong&gt;左移 n 位，相当于乘以 2 的 n 次方&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;后面补 0&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&amp;raquo;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;&lt;strong&gt;右移一位，相当于除以 2 的 n 次方&lt;/strong&gt;&lt;/td&gt;
+          &lt;td style=&#34;text-align: center&#34;&gt;截掉最后一位&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;1-与&#34;&gt;1. 与&lt;/h3&gt;
+&lt;p&gt;将参与运算的两个数 各对应的二进制位 相与。只有当二者参与运算的&lt;strong&gt;对应位同为 1 时，该位才为 1，否则为 0&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LeetCode-三数之和问题</title>
+      <link>http://localhost:1313/posts/leetcode-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 19 Sep 2020 18:57:30 +0000</pubDate>
+      <guid>http://localhost:1313/posts/leetcode-%E4%B8%89%E6%95%B0%E4%B9%8B%E5%92%8C%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;&lt;code&gt;leetcode&lt;/code&gt; 上 &lt;code&gt;三数之和&lt;/code&gt; 问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/3sum/&#34;&gt;15. 三数之和&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/3sum-smaller/&#34;&gt;259. 较小的三数之和&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/3sum-closest/&#34;&gt;16. 最接近的三数之和&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;1-题目描述&#34;&gt;1. 题目描述&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给你一个包含 &lt;code&gt;n&lt;/code&gt; 个整数的数组 &lt;code&gt;nums&lt;/code&gt;，判断 &lt;code&gt;nums&lt;/code&gt; 中是否存在三个元素&lt;code&gt;a，b，c&lt;/code&gt; ，使得 &lt;code&gt;a + b + c = 0&lt;/code&gt;？请你找出所有满足条件&lt;strong&gt;且不重复&lt;/strong&gt;的三元组。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LeetCode-两数之和问题</title>
+      <link>http://localhost:1313/posts/leetcode-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 19 Sep 2020 13:22:24 +0000</pubDate>
+      <guid>http://localhost:1313/posts/leetcode-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;&lt;code&gt;leetcode&lt;/code&gt; 上 &lt;code&gt;twoSum&lt;/code&gt; 相关的问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/two-sum/&#34;&gt;1. 两数之和&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/&#34;&gt;167. 两数之和 II - 输入有序数组&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://leetcode-cn.com/problems/two-sum-iii-data-structure-design/&#34;&gt;170. 两数之和 III .数据结构设计&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;1-问题描述&#34;&gt;1. 问题描述&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

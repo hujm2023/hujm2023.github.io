@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>虚拟网络设备tuntap | hujm2023&#39;s blog</title>
+<meta name="keywords" content="底层原理, tun/tap, VPN">
+<meta name="description" content="
+实验机器：MacBook Pro (Retina, 15-inch, Mid 2015)
+Golang 版本：go version go1.14.6 darwin/amd64
+一、前言
+网卡 也称 网络适配器，是电脑与局域网进行相互连接的设备，在 OSI 七层模型中，工作在 物理层 和 数据链路层，其作用可以简单描述为：">
+<meta name="author" content="JemmyHu(hujm20151021@gmail.com)">
+<link rel="canonical" href="http://localhost:1313/posts/%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87tuntap/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.a090830a421002426baafbd314e38f149d77b4c48a12ee9312700d770b27fb26.css" integrity="sha256-oJCDCkIQAkJrqvvTFOOPFJ13tMSKEu6TEnANdwsn&#43;yY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87tuntap/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="hujm2023&#39;s blog (Alt + H)">hujm2023&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="首页">
+                    <span>首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/categories/" title="分类">
+                    <span>分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      虚拟网络设备tuntap
+    </h1>
+    <div class="post-meta"><span title='2020-11-16 20:25:50 +0800 CST'>November 16, 2020</span>&nbsp;·&nbsp;<span>JemmyHu(hujm20151021@gmail.com)</span>
+
+</div>
+  </header> 
+  <div class="post-content"><blockquote>
+<p>实验机器：<code>MacBook Pro (Retina, 15-inch, Mid 2015)</code></p>
+<p>Golang 版本：<code>go version go1.14.6 darwin/amd64</code></p></blockquote>
+<h2 id="一前言">一、前言<a hidden class="anchor" aria-hidden="true" href="#一前言">#</a></h2>
+<p><strong>网卡</strong> 也称 <strong>网络适配器</strong>，是电脑与局域网进行相互连接的设备，在 <code>OSI</code> 七层模型中，工作在 <strong>物理层</strong> 和 <strong>数据链路层</strong>，其作用可以简单描述为：</p>
+<ol>
+<li>将本机的数据封装成帧，通过网线<strong>发送</strong>到网络上去；</li>
+<li><strong>接收</strong>网络上其他设别传过来的帧，将其重新组合成数据，向上层传输到本机的应用程序中。</li>
+</ol>
+<p>这里的网卡指的是真实的网卡，是一个真实的物理设备。今天我们要了解的是一个叫 <strong>虚拟网卡</strong> 的东西。</p>
+<p>在当前的云计算时代，虚拟机和容器的盛行离不开网络管理设备，即 <strong>虚拟网络设备</strong>，或者说是 <strong>虚拟网卡</strong>。虚拟网卡有以下好处：</p>
+<ol>
+<li>对用户来说，虚拟网卡和真实网卡几乎没有区别。我们对虚拟网卡的操作不会影响到真实的网卡，不会影响到本机网络；</li>
+<li>虚拟网卡的数据可以直接从用户态读取和写入，这样方便我们在用户态进行一些额外的操作(比如截包、修改后再发送出去)</li>
+</ol>
+<p>Linux 系统中有众多的虚拟网络设备，如 <code>TUN/TAP 设备</code>、<code>VETH 设备</code>、<code>Bridge 设备</code>、<code>Bond 设备</code>、<code>VLAN 设备</code>、<code>MACVTAP 设备</code> 等。这里我们只关注 <code>TUN/TAP 设备</code>。</p>
+<p><code>tap/tun</code> 是 <code>Linux</code> 内核 <code>2.4.x</code> 版本之后实现的虚拟网络设备，不同于物理网卡靠硬件网路板卡实现，<strong><code>tap/tun</code> 虚拟网卡完全由软件来实现</strong>，功能和硬件实现完全没有差别，它们都属于网络设备，都可以配置 IP，都归 Linux 网络设备管理模块统一管理。</p>
+<h2 id="二理解-tuntap-数据传输过程">二、理解 <code>tun/tap</code> 数据传输过程<a hidden class="anchor" aria-hidden="true" href="#二理解-tuntap-数据传输过程">#</a></h2>
+<p><strong>TUN</strong> 设备是一种虚拟网络设备，通过此设备，程序可以方便地模拟网络行为。<strong>TUN</strong> 模拟的是一个三层设备(<code>OSI</code> 模型的第三层：网络层，即IP 层),也就是说，通过它可以处理来自网络层的数据，更通俗一点的说，通过它，通过它我们可以处理 <strong>IP</strong> 数据包。</p>
+<p>先看一下正常情况下的物理设备是如何工作的：</p>
+<p><img alt="物理设备" loading="lazy" src="https://tva1.sinaimg.cn/large/0081Kckwgy1gkp4p8argmj30wl0u01kx.jpg"></p>
+<p>这里的 <code>ethx</code> 表示的就是一台主机的真实的网卡接口，一般一台主机只会有一块网卡，像一些特殊的设备，比如路由器，有多少个口就有多少块网卡。</p>
+<p>我们先看一下 <code>ifconfig</code> 命令的输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ ifconfig
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>en0: flags<span style="color:#f92672">=</span>8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu <span style="color:#ae81ff">1500</span>
+</span></span><span style="display:flex;"><span>	options<span style="color:#f92672">=</span>400&lt;CHANNEL_IO&gt;
+</span></span><span style="display:flex;"><span>	ether ac:bc:32:96:86:01
+</span></span><span style="display:flex;"><span>	inet6 fe80::456:7cb8:3dc5:2722%en0 prefixlen <span style="color:#ae81ff">64</span> secured scopeid 0x4
+</span></span><span style="display:flex;"><span>	inet 10.0.0.176 netmask 0xffffff00 broadcast 10.0.0.255
+</span></span><span style="display:flex;"><span>	nd6 options<span style="color:#f92672">=</span>201&lt;PERFORMNUD,DAD&gt;
+</span></span><span style="display:flex;"><span>	media: autoselect
+</span></span><span style="display:flex;"><span>	status: active
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>可以看到 <code>etho</code> 这个网卡接口分配到的 IP 地址是 <code>10.0.0.176</code>，这是一块物理网卡，它的两端分别是 <strong>内核协议栈</strong> 和 <strong>外面的网络</strong>，从物理层收到的数据，会被转发给内核进而通过某种接口被应用层的用户程序读到；应用程序要想和网络中的另一个进程进行数据通信，会先将数据发送给内核，然后被网卡发送出去。</p>
+<p>接下来我们看一看 <code>tun/tap</code> 设备的工作方式：</p>
+<p><img alt="tun工作方式" loading="lazy" src="https://tva1.sinaimg.cn/large/0081Kckwgy1gkp5pk467sj30we0u0h6p.jpg"></p>
+<p>上图中应用层有两个应用程序，而 <strong>网络协议栈</strong> 和 <strong>网络设备(<code>eth0</code> 和 <code>tun0</code>)</strong> 都位于内核层，对于 <code>socket</code>，可以这么理解：<code>socket</code> 就像是一组 <code>接口(interface)</code>，它将更复杂的 <code>TCP/IP</code> 协议簇隐藏在 <code>socket</code> 接口后面，只对用户暴露更简单的接口，就像操作系统隐藏了底层的硬件操作细节而只对用户程序暴露接口一样，它是 应用层 与 <code>TCP/IP</code>协议簇 通信的中间软件抽象层。</p>
+<p><code>tun0</code> 就是一个 <code>tun/tap</code> 虚拟设备，从上图中就可以看出它和物理设备 <code>eth0</code> 的区别：虽然它们的一端都是连着网络协议栈，但是 <code>eth0</code> 另一端连接的是物理网络，而 <code>tun0</code> 另一端连接的是一个 <strong>应用层程序</strong>，这样协议栈发送给 <code>tun0</code> 的数据包就可以被这个应用程序读取到，此时这个应用程序可以对数据包进行一些自定义的修改(比如封装成 <code>UDP</code>)，然后又通过网络协议栈发送出去——这就是目前大多数 <strong>代理</strong> 的工作原理。</p>
+<p>假如 <code>eth0</code> 的 IP 地址是 <code>10.0.0.176</code>，而 <code>tun0</code> 配的 IP 为 <code>192.168.1.2</code>。上图是一个典型的使用 <code>tun/tap</code> 进行 <code>VPN</code> 工作的原理，发送给 <code>192.168.1.0/24</code> 的数据通过 <code>应用程序 B</code> 这个 <strong>隧道</strong> 处理(隐藏一些信息)之后，利用真实的物理设备 <code>10.0.0.176</code> 转发给目的地址(假如为 <code>49.233.198.76</code>)，从而实现 <code>VPN</code>。我们看下每一个流程：</p>
+<ol>
+<li><code>Application A</code> 是一个普通的应用程序，通过 <code>Socket A</code> 发送了一个数据包，这个数据包的目的地址是 <code>192.168.1.2</code>；</li>
+<li><code>Socket A</code> 将这个数据包丢给网络协议栈；</li>
+<li>协议栈根据数据包的目的地址，匹配本地路由规则，得知这个数据包应该由 <code>tun0</code> 出去，于是将数据包丢给了 <code>tun0</code>；</li>
+<li><code>tun0</code> 收到数据包之后，发现另一端被 <code>Application B</code> 打开，于是又将数据包丢给了 <code>Application B</code>；</li>
+<li><code>Application B</code> 收到数据包之后，解包，做一些特殊的处理，然后构造一个新的数据包，将原来的数据嵌入新的数据包中，最后通过 <code>Socket B</code> 将数据包转发出去，这个时候新数据包的源地址就变成了 <code>eth0</code> 的地址，而目的地址就变成了真正想发送的主机的地址，比如 <code>49.233.198.76</code>；</li>
+<li><code>Socket B</code> 将这个数据包丢给网络协议栈；</li>
+<li>协议栈根据本地路由得知，这个数据包应该从 <code>eth0</code> 发送出去，于是将数据包丢给 <code>eth0</code>；</li>
+<li><code>eth0</code> 通过物理网络将这个数据包发送出去</li>
+</ol>
+<p>简单来说，<code>tun/tap</code> 设备的用处是将协议栈中的部分数据包转发给用户空间的特殊应用程序，给用户空间的程序一个处理数据包的机会，比较常用的场景是 <strong>数据压缩</strong>、<strong>加密</strong>等，比如 <code>VPN</code>。</p>
+<h2 id="三使用-golang-实现一个简易-vpn">三、使用 <code>Golang</code> 实现一个简易 <code>VPN</code><a hidden class="anchor" aria-hidden="true" href="#三使用-golang-实现一个简易-vpn">#</a></h2>
+<p>先看客户端的实现：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;encoding/binary&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;os&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;os/signal&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;syscall&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/fatih/color&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/songgao/water&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">flag</span> <span style="color:#e6db74">&#34;github.com/spf13/pflag&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* @CreateTime: 2020/11/16 11:08
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* @Author: hujiaming
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* @Description:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">数据传输过程：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	用户数据，如ping --&gt; 协议栈conn --&gt; IfaceWrite --&gt; IfaceRead --&gt; 协议栈conn --&gt; 网线
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">serviceAddress</span> = <span style="color:#a6e22e">flag</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;addr&#34;</span>, <span style="color:#e6db74">&#34;10.0.0.245:9621&#34;</span>, <span style="color:#e6db74">&#34;service address&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tunName</span>        = <span style="color:#a6e22e">flag</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;dev&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;local tun device name&#34;</span>)
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">flag</span>.<span style="color:#a6e22e">Parse</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// create tun/tap interface</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">iface</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">water</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">water</span>.<span style="color:#a6e22e">Config</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">DeviceType</span>: <span style="color:#a6e22e">water</span>.<span style="color:#a6e22e">TUN</span>,
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">PlatformSpecificParams</span>: <span style="color:#a6e22e">water</span>.<span style="color:#a6e22e">PlatformSpecificParams</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Name</span>: <span style="color:#f92672">*</span><span style="color:#a6e22e">tunName</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">color</span>.<span style="color:#a6e22e">Red</span>(<span style="color:#e6db74">&#34;create tun device failed,error: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// connect to server</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">conn</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Dial</span>(<span style="color:#e6db74">&#34;tcp&#34;</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">serviceAddress</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">color</span>.<span style="color:#a6e22e">Red</span>(<span style="color:#e6db74">&#34;connect to server failed,error: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	go IfaceRead(iface, conn)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">IfaceWrite</span>(<span style="color:#a6e22e">iface</span>, <span style="color:#a6e22e">conn</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">sig</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Signal</span>, <span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">signal</span>.<span style="color:#a6e22e">Notify</span>(<span style="color:#a6e22e">sig</span>, <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">SIGINT</span>, <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">SIGABRT</span>, <span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">SIGHUP</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">sig</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	IfaceRead 从 tun 设备读取数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">IfaceRead</span>(<span style="color:#a6e22e">iface</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">water</span>.<span style="color:#a6e22e">Interface</span>, <span style="color:#a6e22e">conn</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Conn</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">packet</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">2048</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 不断从 tun 设备读取数据</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">iface</span>.<span style="color:#a6e22e">Read</span>(<span style="color:#a6e22e">packet</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">color</span>.<span style="color:#a6e22e">Red</span>(<span style="color:#e6db74">&#34;READ: read from tun failed&#34;</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 在这里你可以对拿到的数据包做一些数据，比如加密。这里只对其进行简单的打印</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">color</span>.<span style="color:#a6e22e">Cyan</span>(<span style="color:#e6db74">&#34;get data from tun: %v&#34;</span>, <span style="color:#a6e22e">packet</span>[:<span style="color:#a6e22e">n</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 通过物理连接，将处理后的数据包发送给目的服务器</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">forwardServer</span>(<span style="color:#a6e22e">conn</span>, <span style="color:#a6e22e">packet</span>[:<span style="color:#a6e22e">n</span>])
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">color</span>.<span style="color:#a6e22e">Red</span>(<span style="color:#e6db74">&#34;forward to server failed&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	IfaceWrite 从物理连接中读取数据，然后通过 tun 将数据发送给 IfaceRead
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">IfaceWrite</span>(<span style="color:#a6e22e">iface</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">water</span>.<span style="color:#a6e22e">Interface</span>, <span style="color:#a6e22e">conn</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Conn</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">packet</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">2048</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 从物理请求中读取数据</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">nr</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Read</span>(<span style="color:#a6e22e">packet</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">color</span>.<span style="color:#a6e22e">Red</span>(<span style="color:#e6db74">&#34;WRITE: read from tun failed&#34;</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 将处理后的数据通过 tun 发送给 IfaceRead</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">iface</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">packet</span>[<span style="color:#ae81ff">4</span>:<span style="color:#a6e22e">nr</span>])
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">color</span>.<span style="color:#a6e22e">Red</span>(<span style="color:#e6db74">&#34;WRITE: write to tun failed&#34;</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// forwardServer 通过物理连接发送一个包</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">forwardServer</span>(<span style="color:#a6e22e">conn</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Conn</span>, <span style="color:#a6e22e">buff</span> []<span style="color:#66d9ef">byte</span>) (<span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">output</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">bsize</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">4</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">binary</span>.<span style="color:#a6e22e">BigEndian</span>.<span style="color:#a6e22e">PutUint32</span>(<span style="color:#a6e22e">bsize</span>, uint32(len(<span style="color:#a6e22e">buff</span>)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">output</span> = append(<span style="color:#a6e22e">output</span>, <span style="color:#a6e22e">bsize</span><span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">output</span> = append(<span style="color:#a6e22e">output</span>, <span style="color:#a6e22e">buff</span><span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">left</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">output</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">left</span> &gt; <span style="color:#ae81ff">0</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">nw</span>, <span style="color:#a6e22e">er</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">output</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">er</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">er</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">left</span> <span style="color:#f92672">-=</span> <span style="color:#a6e22e">nw</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>再看服务端的实现：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;io&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;net&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;github.com/fatih/color&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* @CreateTime: 2020/11/16 11:39
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* @Author: hujiaming
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">* @Description:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">clients</span> = make([]<span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Conn</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">listener</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Listen</span>(<span style="color:#e6db74">&#34;tcp&#34;</span>, <span style="color:#e6db74">&#34;:9621&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">color</span>.<span style="color:#a6e22e">Red</span>(<span style="color:#e6db74">&#34;listen failed,error: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">color</span>.<span style="color:#a6e22e">Cyan</span>(<span style="color:#e6db74">&#34;server start...&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 对客户端的每一个连接，都起一个 go 协程去处理</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">conn</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">listener</span>.<span style="color:#a6e22e">Accept</span>()
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">color</span>.<span style="color:#a6e22e">Red</span>(<span style="color:#e6db74">&#34;tcp accept failed,error: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">clients</span> = append(<span style="color:#a6e22e">clients</span>, <span style="color:#a6e22e">conn</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">color</span>.<span style="color:#a6e22e">Cyan</span>(<span style="color:#e6db74">&#34;accept tun client&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">go</span> <span style="color:#a6e22e">handleClient</span>(<span style="color:#a6e22e">conn</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handleClient</span>(<span style="color:#a6e22e">conn</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Conn</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Close</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">buff</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">byte</span>, <span style="color:#ae81ff">65536</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">Read</span>(<span style="color:#a6e22e">buff</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">io</span>.<span style="color:#a6e22e">EOF</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">color</span>.<span style="color:#a6e22e">Red</span>(<span style="color:#e6db74">&#34;read from client failed&#34;</span>)
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// broadcast data to all clients</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">clients</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">RemoteAddr</span>().<span style="color:#a6e22e">String</span>() <span style="color:#f92672">!=</span> <span style="color:#a6e22e">conn</span>.<span style="color:#a6e22e">RemoteAddr</span>().<span style="color:#a6e22e">String</span>() {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">buff</span>[:<span style="color:#a6e22e">n</span>])
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在这里，我们把 <strong>网络协议栈</strong> 抽象成了一个黑盒。在接下来的步骤中，我们将逐渐抽丝剥茧，一步步了解网络协议栈的工作原理，以及用 Golang 去实现它。</p>
+<h2 id="四参考">四、参考<a hidden class="anchor" aria-hidden="true" href="#四参考">#</a></h2>
+<ul>
+<li><a href="https://www.cnblogs.com/bakari/p/10450711.html">原创 详解云计算网络底层技术——虚拟网络设备 tap/tun 原理解析</a></li>
+<li><a href="https://blog.liu-kevin.com/2020/01/06/tun-tapshe-bei-qian-xi/">TUN/TAP概述及操作</a></li>
+<li><a href="https://www.jianshu.com/p/09f9375b7fa7">TUN/TAP设备浅析</a></li>
+<li><a href="https://github.com/ICKelin/article/issues/9">https://github.com/ICKelin/article/issues/9</a></li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86/">底层原理</a></li>
+      <li><a href="http://localhost:1313/tags/tun/tap/">Tun/Tap</a></li>
+      <li><a href="http://localhost:1313/tags/vpn/">VPN</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">hujm2023&#39;s blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

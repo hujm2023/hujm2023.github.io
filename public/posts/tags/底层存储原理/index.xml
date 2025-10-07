@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>底层存储原理 on hujm2023&#39;s blog</title>
+    <link>http://localhost:1313/tags/%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%E5%8E%9F%E7%90%86/</link>
+    <description>Recent content in 底层存储原理 on hujm2023&#39;s blog</description>
+    <generator>Hugo -- 0.151.0</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 05 May 2021 16:53:51 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/tags/%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%E5%8E%9F%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MySQL中InnoDB底层存储原理</title>
+      <link>http://localhost:1313/posts/mysql%E4%B8%ADinnodb%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Wed, 05 May 2021 16:53:51 +0800</pubDate>
+      <guid>http://localhost:1313/posts/mysql%E4%B8%ADinnodb%E5%BA%95%E5%B1%82%E5%AD%98%E5%82%A8%E5%8E%9F%E7%90%86/</guid>
+      <description>&lt;h2 id=&#34;一简述&#34;&gt;一、简述&lt;/h2&gt;
+&lt;p&gt;下图大致描述了 &lt;code&gt;InnoDB&lt;/code&gt; 的存储结构：&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;InnoDB 底层存储结构&#34; loading=&#34;lazy&#34; src=&#34;https://image.hujm.net/blog/images/20210829175155.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;从上图来看，所有的数据都被逻辑地存放到 &lt;strong&gt;表空间(Tablespace)&lt;/strong&gt; 中，表空间由 &lt;code&gt;Segment(段)&lt;/code&gt;、&lt;code&gt;Block(块)&lt;/code&gt; 和 &lt;code&gt;Page(页)&lt;/code&gt; 等组成。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
