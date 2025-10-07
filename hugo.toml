@@ -2,3 +2,9 @@ baseURL = 'https://hujm2023.github.io/'
 languageCode = 'zh-cn'
 title = "hujm2023's blog"
 theme = 'PaperMod'
+
+
+# change the location of the image cache
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
